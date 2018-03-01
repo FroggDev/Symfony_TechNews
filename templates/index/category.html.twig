@@ -1,40 +1,52 @@
 {% extends "layout.html.twig" %}
 
+{% block page_title category %}
+
+{% set active = category %}
+
 {# from layout.html.twig #}
 {% block content %}
     <div class="row">
+
         <!--colleft-->
         <div class="col-md-8 col-sm-12">
+
+            {% if articles is  empty %}
+                <div class="alert alert-danger">
+                    <strong>Aucune publication pour le moment</strong>
+                </div>
+            {% else %}
+
             <div class="box-caption">
-                <span>Computing</span>
+                <span>{{ category }}</span>
             </div>
+            {# app.request.get(label) #}
             <!--list-news-cate-->
+
             <div class="list-news-cate">
                 <article class="news-cate-item">
+                    {% for article in articles %}
                     <div class="row">
                         <div class="col-md-5 col-sm-5 col-xs-12">
-                            <a href="#">
-                                <img alt="" src="images/product/2.jpg">
+                            <a href="{{ path('index_article',{
+                                "category"  : category,
+                                "slug"      : article.getSlugyfiedTitle,
+                                "id"        : article.id
+                            }) }}"></a>
+                                <img alt="{{ article.title }}" src="{{ asset('images/product/'~article.featuredImage()) }}" />
                             </a>
                         </div>
                         <div class="col-md-7 col-sm-7 col-xs-12">
-                            <h3><a href="{{ path('index_article',{
-                                    "category"  : "business",
-                                    "slug"      : "un-exemple-de-slug",
-                                    "id"        : 11
-                                }) }}">Tip Aligning Digital Marketing with Business Goals and Objectives</a></h3>
+                            <h3>{{ article | articleLink(47) | raw }}</h3>
                             <div class="meta-post">
-                                <a href="#">
-                                    Hugo LIEGEARD
-                                </a>
+                                {{ article.author | authorLink | raw }}
                                 <em></em>
-                                <span>
-                                        2017-02-26 09:37:18
-                                    </span>
+                                <span>{{ article.dateCreation }}</span>
                             </div>
-                            Nulla quis lorem ut libero malesuada feugiat. Cras ultricies ligula sed magna dictum porta. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere...
+                            {{  article.content |  maxLen(250) | raw }}
                         </div>
                     </div>
+                    {% endfor %}
                 </article>
             </div>
 
@@ -48,10 +60,14 @@
                 <a href="#">Next</a>
             </div>
 
+            {% endif %}
+
         </div>
 
-        {# Sidebar #}
-        {% include 'components/_sidebar_html.twig' %}
+        {# Side bar #}
+        {#% include 'components/_sidebar_html.twig' %#}
+        {{ render(controller('App\\Controller\\TechNews\\IndexController::sideBar')) }}
+
 
     </div>
 

@@ -21,20 +21,119 @@ class ArticleController extends Controller
 {
 
     /**
+     * @Route("/{category}/{slug}_{id}.html",
+     *      name="index_article",
+     *      methods={"GET"},
+     *      requirements={"id" : "\d+"}),
+     *      requirements={"category" : "^!author$"}),
+     *      defaults={"label" : "All"})
+     *
+     * @param Article $article
+     * @param $category
+     * @param $slug
+     * @param $id
+     * @return Response
+     * @TODO ADD SLUG getSlugyfiedTitle
+     */
+    # Automaticaly fecthing param converter
+    # https://symfony.com/doc/current/doctrine.html#automatically-fetching-objects-paramconverter
+    # manual :
+    # https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html
+    public function article(Article $article,$category,$slug,$id): Response
+    {
+        # check if article exist
+        if (!$article){
+            return $this->redirectToRoute('index',Response::HTTP_MOVED_PERMANENTLY);
+        }
+
+        $currentCategory    = $article->getCategory()->getLabel();
+        $slugyfiedTitle     = $article->getSlugyfiedTitle();
+
+        # check url format
+        if ( $category != $article->getCategory()->getLabel()  ){ //|| $slug != $slugyfiedTitle
+            $this->redirect("/$currentCategory/${slugyfiedTitle}_${id}");
+        }
+
+        # Get suggestions
+        $suggestions = $this->getDoctrine()
+            ->getRepository(Article::class)
+            ->findArticleSuggestions($id,$article->getCategory()->getId());
+
+        # Get spotlights
+        $spotlight = $this->getDoctrine()
+            ->getRepository(Article::class)
+            ->findSpotLightArticles();
+
+        #render display
+        return $this->render('index/article.html.twig', [
+            'article'       => $article,
+            'suggestions'   => $suggestions,
+            'spotlights'    => $spotlight
+        ]);
+    }
+
+
+    /**
+     * @Route("/long/{category}/{slug}_{id}.html",
+     *      name="index_article_long",
+     *      methods={"GET"},
+     *      requirements={"id" : "\d+"}),
+     *      defaults={"label" : "All"})
+     *
+     * @param string $category
+     * @param string $slug
+     * @param string $id
+     * @return Response
+     * @TODO ADD SLUG getSlugyfiedTitle
+     */
+    public function articleLong(string $category, string $slug, string $id): Response
+    {
+        $article = $this->getDoctrine()
+            ->getRepository(Article::class)
+            ->find($id);
+
+        if (!$article){
+            //throw $this->createNotFoundException("Article not found ${slug}_${id}");
+            return $this->redirectToRoute('index',Response::HTTP_MOVED_PERMANENTLY);
+        }
+
+        $currentCategory    = $article->getCategory()->getLabel();
+        $slugyfiedTitle     = $article->getSlugyfiedTitle();
+
+        if ( $category != $article->getCategory()->getLabel()  ){ //|| $slug != $slugyfiedTitle
+            $this->redirect("/$currentCategory/${slugyfiedTitle}_${id}");
+        }
+
+        /**
+         * Lazy Loading et le Chargement des Related Objects
+         * Il est important de comprendre que nous avons accès à l'objet catégorie
+         * de l'article de façon AUTOMATIQUE ! Cependant, les données de la catégorie
+         * ne sont récupérés par doctrine que lorsque nous faisons la demande, et pas avant !
+         * Ceci pour alléger le chargement de votre page !
+         */
+        # $categorie = $article->getCategorie()->getLibelle();
+
+        return $this->render('index/article.html.twig', [
+            'article' => $article
+        ]);
+
+    }
+
+    /**
      * @Route("/insert_article.html",
      *      name="insert_article",
      *      methods={"GET"})
      * @return Response
      */
-    public function index(): Response
+    public function create(): Response
     {
         # create a Category
         $category = new Category();
-        $category->setLabel('Technology');
+        $category->setLabel('Other');
 
         # create an Author
         $author = new Author();
-        $author->setEmail('test@frogg.fr')
+        $author->setEmail('test1@frogg.fr')
             ->setFirstName('Frogg')
             ->setLastName('Froggiz')
             ->setPassword('This is a pass')

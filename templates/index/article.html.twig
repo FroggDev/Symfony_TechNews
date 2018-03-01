@@ -1,6 +1,8 @@
 {% extends "layout.html.twig" %}
 
-{% block page_title article.title %}
+{% block page_title article.title | title %}
+
+{% set active = article.category.label %}
 
 {% block content %}
 <div class="row">
@@ -10,12 +12,12 @@
         <article class="post-detail">
             <h1>{{ article.title }}</h1>
             <div class="meta-post">
-                <a href="#">{{ article.author.lastname }} {{ article.author.firstname }}</a>
+                {{ article.author | authorLink | raw }}
                 <em></em>
                 <span>{{ article.dateCreation }}</span>
             </div>
 
-            {{ article.content }}
+            {{ article.content | raw }}
 
             <h5 class="text-right font-heading"><strong>{{ article.author.lastname }} {{ article.author.firstname }}</strong> </h5>
 
@@ -64,71 +66,42 @@
             <span>  RELATED POST</span>
         </div>
         <section class="spotlight-thumbs spotlight-thumbs-related">
+
             <div class="row">
+
+                {% for article in suggestions %}
+
                 <div class="col-md-4 col-sm-4 col-xs-12">
                     <div class="spotlight-item-thumb">
                         <div class="spotlight-item-thumb-img">
-                            <a href="#">
-                                <img alt="" src="images/product/3.jpg">
+                            <a href="{{ path('index_article',{
+                                "category"  : article.category.label,
+                                "slug"      : article.getSlugyfiedTitle,
+                                "id"        : article.id
+                            }) }}">
+                                <img alt="{{ article.title }}" src="{{ asset('images/product/'~article.featuredImage()) }}" />
                             </a>
-                            <a href="#" class="cate-tag">business</a>
+                            <a href="{{ path('index_category', {'label':article.category.label}) }}" class="cate-tag">{{ article.category.label }}</a>
                         </div>
-                        <h3><a href="#">Donald Trump suggests the DNC was hacked by 'someone sitting on their bed that weighs 400 lbs'</a></h3>
+                        <h3>{{ article | articleLink(47) | raw }}</h3>
                         <div class="meta-post">
-                            <a href="#">
-                                Sue	Benson
-                            </a>
+                            {{ article.author | authorLink | raw }}
                             <em></em>
-                            <span>
-                                            22 Sep 2016
-                                        </span>
+                            <span>{{ article.dateCreation }}</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-4 col-xs-12">
-                    <div class="spotlight-item-thumb">
-                        <div class="spotlight-item-thumb-img">
-                            <a href="#">
-                                <img alt="" src="images/product/4.jpg">
-                            </a>
-                            <a href="#" class="cate-tag">Computing</a>
-                        </div>
-                        <h3><a href="#">Six big ways MacOS Sierra is going to change your Apple experience</a></h3>
-                        <div class="meta-post">
-                            <a href="#">
-                                Marion	Craig
-                            </a>
-                            <em></em>
-                            <span>
-                                            21 Sep 2016
-                                        </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-4 col-xs-12">
-                    <div class="spotlight-item-thumb">
-                        <div class="spotlight-item-thumb-img">
-                            <a href="#">
-                                <img alt="" src="images/product/5.jpg">
-                            </a>
-                            <a href="#" class="cate-tag">Tech</a>
-                        </div>
-                        <h3><a href="#">Messenger Bots Are Overhyped, Underpowered—and Growing like Crazy</a></h3>
-                        <div class="meta-post">
-                            <a href="#">
-                                Super User
-                            </a>
-                            <em></em>
-                            <span>26 Sep 2016</span>
-                        </div>
-                    </div>
-                </div>
+
+                {% endfor %}
+
             </div>
         </section>
     </div>
 
 
-    {# Sidebar #}
-    {% include 'components/_sidebar_html.twig' %}
+    {# Side bar #}
+    {#% include 'components/_sidebar_html.twig' %#}
+    {{ render(controller('App\\Controller\\TechNews\\IndexController::sideBar')) }}
+
 </div>
 {% endblock %}

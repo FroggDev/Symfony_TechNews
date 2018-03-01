@@ -15,10 +15,9 @@
             <div class="col-md-3 col-md-offset-1 col-sm-4 col-xs-12">
                 <h3>NOS CATEGORIES</h3>
                 <ul class="list-category">
-                    <li><a href="index.html">Accueil</a></li>
-                    <li><a href="business.html">Business</a></li>
-                    <li><a href="computing.html">Computing</a></li>
-                    <li><a href="tech.html">Tech</a></li>=
+                    {% for category in categories %}
+                        <li>{{ category.label | categoryLink("cate-tag") | raw  }}</li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="col-md-3 col-md-offset-1 col-sm-4 col-xs-12">
@@ -43,7 +42,7 @@
         <div class="allright">
             <div class="row">
                 <div class="col-sm-6 col-xs-12">
-                    <p> © 2017 <a href="#">TECH NEWS</a>. All rights reserved.</p>
+                    <p> © 2018 <a href="#">TECH NEWS</a>. All rights reserved.</p>
                 </div>
 
                 <div class="col-sm-6 col-xs-12">

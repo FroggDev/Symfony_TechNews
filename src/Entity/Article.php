@@ -229,7 +229,8 @@ class Article
 
     public function getSlugyfiedTitle()
     {
-        return $this->title;
+        return "temp-slug-title";
+        //return $this->title;
     }
 
 

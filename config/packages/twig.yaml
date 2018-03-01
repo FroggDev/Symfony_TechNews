@@ -2,3 +2,7 @@ twig:
     paths: ['%kernel.project_dir%/templates']
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    globals:
+        category_service: '@App\Repository\CategoryRepository'
+        article_service:  '@App\Repository\ArticleRepository'
+        author_service:   '@App\Repository\AuthorRepository'

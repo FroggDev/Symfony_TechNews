@@ -2,10 +2,9 @@
 <nav class="menu-res hidden-lg hidden-md ">
     <div class="menu-res-inner">
         <ul>
-            <li><a href="{{ path('index') }}">HOME</a></li>
-            <li><a href="{{ path('index_category', {'label':'business'}) }}">BUSINESS</a></li>
-            <li><a href="{{ path('index_category', {'label':'computing'}) }}"> COMPUTING</a></li>
-            <li><a href="{{ path('index_category', {'label':'tech'}) }}">TECH</a></li>
+            {% for category in categories %}
+                <li>{{ category.label | categoryLink | raw  }}</li>
+            {% endfor %}
         </ul>
     </div>
 </nav>
@@ -15,7 +14,7 @@
         <header class="header">
             <div class="row">
                 <div class="col-md-3 col-sm-4 col-xs-12">
-                    <a href="#" class="logo">
+                    <a href="{{ path('index') }}" class="logo">
                         <img alt="Logo" src="{{ asset('images/logo.png') }}" />
                     </a>
                 </div>
@@ -27,20 +26,14 @@
                 <i class="fa fa-navicon"></i>
                 <span>MENU</span>
             </div>
+
             <ul class="hidden-sm hidden-xs">
-                <li>
-                    <a href="{{ path('index') }}">Accueil </a>
-                </li>
-                <li>
-                    <a href="{{ path('index_category', {'label':'business'}) }}">Business</a>
-                </li>
-                <li>
-                    <a href="{{ path('index_category', {'label':'computing'}) }}">Computing</a>
-                </li>
-                <li>
-                    <a href="{{ path('index_category', {'label':'tech'}) }}">Tech </a>
-                </li>
+                <li {% if active == 'index' %}class="current"{% endif %}><a href="{{ path('index') }}">Accueil</a></li>
+                {% for category in categories %}
+                <li {% if active == category.label %}class="current"{% endif %}>{{ category.label | categoryLink | raw  }}</li>
+                {% endfor %}
             </ul>
+
             <div class="search-icon">
                 <div class="search-icon-inner">
                     <i class="fa fa-search"></i>

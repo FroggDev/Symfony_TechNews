@@ -19,6 +19,47 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    public function findLastFiveArticle()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findArticleSuggestions($idArticle, $idCategory)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.category = :category_id')->setParameter('category_id', $idCategory)
+            ->andWhere('a.id != :article_id')->setParameter('article_id', $idCategory)
+            ->orderBy('a.id', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findSpotLightArticles()
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.spotlight = true')
+            ->orderBy('a.id', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findSpecialArticles()
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.special = true')
+            ->orderBy('a.id', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
+
     /*
     public function findBySomething($value)
     {

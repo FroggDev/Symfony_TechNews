@@ -9,10 +9,10 @@
 namespace App\Controller\TechNews;
 
 use App\Entity\Article;
+
 use App\Service\Article\ArticleProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends Controller
 {
@@ -28,109 +28,45 @@ class IndexController extends Controller
         # if( instance n extiste pas ) create new Instance ArticleProvider $articleProvider;
         # else return instanciated instance
 
-        # get Articles from ArticlesProvider
-        $articles = $articleProvider->getArticles();
+        ###########
+        # ARTICLE #
+        ###########
+
+        # get repo article
+        $reposirotyArticle = $this->getDoctrine()->getRepository(Article::class);
+
+        # Get specialArticles
+        $specialArticles = $reposirotyArticle->findSpecialArticles();
+
+        # Get spotlights
+        $spotlights = $reposirotyArticle->findSpotLightArticles();
+
+        //VarDumper::dump($lastFiveArticles);
+        //exit();
+
         return $this->render('index/index.html.twig', [
-            'articles' => $articles
+            'spotlights' => $spotlights
         ]);
+
     }
 
-    /**
-     * @Route("/category/{label}",
-     *      name="index_category",
-     *      methods={"GET"},
-     *      requirements={"label" : "\w+"}),
-     *      defaults={"label" : "All"})
-     *
-     * @param string $label
-     * @return Response
-     */
-    public function category(string $label): Response
+    public function sideBar()
     {
-        return $this->render('index/category.html.twig', [
-            'label' => $label
-        ]);
-    }
+        # get repo article
+        $reposirotyArticle = $this->getDoctrine()->getRepository(Article::class);
 
-    /**
-     * @Route("/long/{category}/{slug}_{id}.html",
-     *      name="index_article_long",
-     *      methods={"GET"},
-     *      requirements={"id" : "\d+"}),
-     *      defaults={"label" : "All"})
-     *
-     * @param string $category
-     * @param string $slug
-     * @param string $id
-     * @return Response
-     * @TODO ADD SLUG getSlugyfiedTitle
-     */
-    public function articleLong(string $category, string $slug, string $id): Response
-    {
-        $article = $this->getDoctrine()
-            ->getRepository(Article::class)
-            ->find($id);
+        # Get specialArticles
+        $specialArticles = $reposirotyArticle->findSpecialArticles();
 
-        if (!$article){
-            //throw $this->createNotFoundException("Article not found ${slug}_${id}");
-            return $this->redirectToRoute('index',Response::HTTP_MOVED_PERMANENTLY);
-        }
+        # Get specialArticles
+        $lastFiveArticles = $reposirotyArticle->findLastFiveArticle();
 
-        $currentCategory    = $article->getCategory()->getLabel();
-        $slugyfiedTitle     = $article->getSlugyfiedTitle();
-
-        if ( $category != $article->getCategory()->getLabel()  ){ //|| $slug != $slugyfiedTitle
-            $this->redirect("/$currentCategory/${slugyfiedTitle}_${id}");
-        }
-
-        /**
-         * Lazy Loading et le Chargement des Related Objects
-         * Il est important de comprendre que nous avons accès à l'objet catégorie
-         * de l'article de façon AUTOMATIQUE ! Cependant, les données de la catégorie
-         * ne sont récupérés par doctrine que lorsque nous faisons la demande, et pas avant !
-         * Ceci pour alléger le chargement de votre page !
-         */
-        # $categorie = $article->getCategorie()->getLibelle();
-
-        return $this->render('index/article.html.twig', [
-            'article' => $article
-        ]);
+        return $this->render('components/_sidebar_html.twig',
+            [
+                'specialArticles' => $specialArticles,
+                'lastFiveArticles' => $lastFiveArticles
+            ]);
 
     }
 
-    /**
-     * @Route("/{category}/{slug}_{id}.html",
-     *      name="index_article",
-     *      methods={"GET"},
-     *      requirements={"id" : "\d+"}),
-     *      defaults={"label" : "All"})
-     *
-     * @param Article $article
-     * @param $category
-     * @param $slug
-     * @param $id
-     * @return Response
-     * @TODO ADD SLUG getSlugyfiedTitle
-     */
-    # Automaticaly fecthing param converter
-    # https://symfony.com/doc/current/doctrine.html#automatically-fetching-objects-paramconverter
-    # manual :
-    # https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html
-    public function article(Article $article,$category,$slug,$id): Response
-    {
-        if (!$article){
-            return $this->redirectToRoute('index',Response::HTTP_MOVED_PERMANENTLY);
-        }
-
-        $currentCategory    = $article->getCategory()->getLabel();
-        $slugyfiedTitle     = $article->getSlugyfiedTitle();
-
-        if ( $category != $article->getCategory()->getLabel()  ){ //|| $slug != $slugyfiedTitle
-            $this->redirect("/$currentCategory/${slugyfiedTitle}_${id}");
-        }
-
-        return $this->render('index/article.html.twig', [
-            'article' => $article
-        ]);
-    }
 }
