@@ -1,0 +1,49 @@
+data:
+  article1 :
+    id : 1
+    title : '[1] Tip Aligning Digital Marketing with Business Goals and Objectives'
+    content    : '<p>CONTENU</p>'
+    featuredimage : '1.jpg'
+    special : false
+    spotlight : true
+    datecreation : 2017-02-26 09:37:18
+    category:
+      id : 2
+      label : 'Business'
+    author:
+      id : 1
+      firstname : 'Hugo'
+      lastname : 'LIEGEARD'
+      email : 'wf3@hl-media.fr'
+  article2 :
+    id : 2
+    title : '[2] Tip Aligning Digital Marketing with Business Goals and Objectives'
+    content    : '<p>CONTENU</p>'
+    featuredimage : '2.jpg'
+    special : false
+    spotlight : true
+    datecreation : 2017-02-26 09:37:18
+    category:
+      id : 2
+      label : 'Business'
+    author:
+      id : 1
+      firstname : 'Hugo'
+      lastname : 'LIEGEARD'
+      email : 'wf3@hl-media.fr'
+  article3 :
+    id : 3
+    title : '[3] Tip Aligning Digital Marketing with Business Goals and Objectives'
+    content    : '<p>CONTENU</p>'
+    featuredimage : '3.jpg'
+    special : false
+    spotlight : true
+    datecreation : 2017-02-26 09:37:18
+    category:
+      id : 2
+      label : 'Business'
+    author:
+      id : 1
+      firstname : 'Hugo'
+      lastname : 'LIEGEARD'
+      email : 'wf3@hl-media.fr'
