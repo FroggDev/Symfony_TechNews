@@ -36,7 +36,9 @@ services:
     app.twig_runtime:
         class: App\Service\Twig\AppRuntime
         public: true
-        arguments: ["@router"]
+        arguments:
+            - "@router"
+            - "@assets.packages"
         tags:
             - { name: twig.runtime }
 
