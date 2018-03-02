@@ -18,7 +18,6 @@ use Symfony\Component\VarDumper\VarDumper;
 class IndexController extends Controller
 {
     /**
-     * @param ArticleProvider $articleProvider
      * @return Response
      */
     public function index(): Response

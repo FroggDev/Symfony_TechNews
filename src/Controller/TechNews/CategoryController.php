@@ -20,11 +20,11 @@ class CategoryController extends Controller
     use SpaceModifierTrait;
 
     /**
-     * @Route("/{label}/{currentPage}",
+     * @Route("/{label}/{currentPage}.{format}",
      *      name="index_category",
      *      methods={"GET"},
      *      requirements={"label" : "[\w-]+"},
-     *      defaults={"currentPage"="1"})
+     *      defaults={"currentPage"="1", "format"="html"})
      *
      * @param string $label
      * @param string $currentPage

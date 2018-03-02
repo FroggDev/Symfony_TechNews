@@ -13,17 +13,21 @@ use App\Entity\Article;
 use App\Entity\Author;
 
 use App\Entity\Category;
+use Symfony\Component\Asset\Packages;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Dump\Container;
 use Symfony\Component\Routing\RouterInterface;
 
 class AppRuntime
 {
 
     private $router;
+    public $asset;
 
-    public function __construct(RouterInterface $router)
+    public function __construct(RouterInterface $router, Packages $asset)
     {
         $this->router = $router;
+        $this->asset = $asset;
     }
 
     public function maxLen($text, $size)
@@ -61,9 +65,7 @@ class AppRuntime
 
     public function articleImage(Article $article, string $class='')
     {
-        //$this->container->get('assets.packages')->getUrl('images/product/' . $article->getFeaturedImage())
-
-        return '<img alt="'.$article->getTitle().'" src="/images/product/' . $article->getFeaturedImage().'" class="'.$class.'" />';
+         return '<img alt="'.$article->getTitle().'" src="' . $this->asset->getUrl('images/product/' . $article->getFeaturedImage()).'" class="'.$class.'" />';
     }
 
     private function getArticleHref(Article $article)
