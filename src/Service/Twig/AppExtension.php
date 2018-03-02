@@ -19,7 +19,8 @@ class AppExtension extends \Twig_Extension
             new \Twig_Filter('articleImageLink', [AppRuntime::class, 'articleImageLink']),
             new \Twig_Filter('categoryLink', [AppRuntime::class, 'categoryLink']),
             new \Twig_Filter('categoryPaginationLink', [AppRuntime::class, 'categoryPaginationLink']),
-            new \Twig_Filter('authorLink', [AppRuntime::class, 'authorLink'])
+            new \Twig_Filter('authorLink', [AppRuntime::class, 'authorLink']),
+            new \Twig_Filter('authorPaginationLink', [AppRuntime::class, 'authorPaginationLink'])
         ];
     }
 }

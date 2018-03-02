@@ -1,5 +1,59 @@
 {% extends "layout.html.twig" %}
 
-{{ form_start(form) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}
+{% set active = 'addArticle' %}
+{% block page_title 'Add an article' %}
+
+{% block css %}
+    {{ parent() }}
+    <link href="{{ asset('lib/dropify/css/dropify.min.css') }}" rel="stylesheet"/>
+    <style>.ck-editor__editable {
+            min-height: 200px;
+        }</style>
+{% endblock %}
+
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('lib/ckeditor5/ckeditor.js') }}"></script>
+    <script src="{{ asset('lib/dropify/js/dropify.min.js') }}"></script>
+    <script>
+
+        ClassicEditor
+            .create(document.querySelector('#article_content'));
+
+
+        $('.dropify').dropify({
+            messages: {
+                'default': 'Drag and drop a file here or click',
+                'replace': 'Drag and drop or click to replace',
+                'remove': 'Remove',
+                'error': 'Sorry, an error occured, please retry',
+                'fileSize': 'The file size is too big ({ { value } } max).',
+                'imageFormat': 'The image format is not allowed ({ { value } } only).'
+            }
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+
+    {#% form_theme form 'bootstrap_4_layout.html.twig' %#}
+
+    {#% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %#}
+
+    {#% form_theme form 'foundation_5_layout.html.twig' %#}
+
+    {% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
+
+
+
+    {{ form(form) }}
+
+    {# Display the Form #}
+    {#{ form(form) }#}
+    {# SAME AS#}
+    {#{ form_start(form) }#}
+    {#{ form_widget(form) }#}
+    {#{ form_end(form) }#}
+
+{% endblock %}

@@ -13,10 +13,37 @@ use App\Entity\Article;
 use App\Service\Article\ArticleProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\VarDumper\VarDumper;
+
+
+/**
+ * @TODO : @Entity("label", expr="repository.findOneByLabel(label)")
+ * Class IndexController
+ * @package App\Controller\TechNews
+ *
+ * /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
+ *
+ * http://symfony.com/doc/master/bundles/SensioFrameworkExtraBundle/annotations/converters.html
+ *
+ *!\/!\/!\/!\/!\ paramconverters V5 /!\/!\/!\/!\/!\
+ *composer require symfony/expression-language
+ */
 
 class IndexController extends Controller
 {
+
+    /**
+     * @Route("/test/test/test")
+     *
+     * @return Response
+     */
+    public function test1(): Response
+    {
+        return new Response("<html><body><h1>PAGE D'ACCUEIL</h1></body></html>");
+
+    }
+
     /**
      * @return Response
      */

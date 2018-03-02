@@ -78,6 +78,22 @@ class AppRuntime
             ]);
     }
 
+
+    public function authorPaginationLink( Author $author, $text , $currentPage, string $class = "")
+    {
+        $url = $this->router->generate(
+            'index_author',
+            [
+                'firstname' => $author->getFirstName(),
+                'lastname' => $author->getLastName(),
+                'id' => $author->getId(),
+                'currentPage' => $currentPage
+            ]);
+
+        return '<a href="' . $url . '" class="' . $class . '">' . $text . '</a>';
+    }
+
+
     public function categoryLink(Category $category, string $class = "")
     {
         $url = $this->router->generate('index_category', ['label' => $category->getLabelUrlified() ]);
@@ -87,8 +103,14 @@ class AppRuntime
 
     public function categoryPaginationLink( Category $category, $text , $currentPage, string $class = "")
     {
-        $url = $this->router->generate('index_category', ['label' => $category->getLabelUrlified() ,'currentPage' => $currentPage]);
-
+        $url = $this->router->generate(
+            'index_category',
+            [
+                'label' => $category->getLabelUrlified() ,
+                'currentPage' => $currentPage,
+                'format' => 'html'
+            ]);
+dump($url);
         return '<a href="' . $url . '" class="' . $class . '">' . $text . '</a>';
     }
 

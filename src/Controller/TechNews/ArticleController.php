@@ -10,21 +10,18 @@ namespace App\Controller\TechNews;
 
 use App\Entity\Article;
 use App\Entity\Author;
-use App\Entity\Category;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ArticleController extends Controller
 {
 
+    /**
+     * TODO ADD /article after testing
+     */
     /**
      * @Route("/article/{category}/{slug}_{id}.html",
      *      name="index_article",
@@ -95,8 +92,10 @@ class ArticleController extends Controller
 
     /**
      * @route("/creer_un_article.html")
+     * @param Request $request
+     * @return Response
      */
-    public function addArticle()
+    public function addArticle(Request $request) : Response
     {
         # init new article object
         $article = new Article();
@@ -111,73 +110,44 @@ class ArticleController extends Controller
         $article->setAuthor($author);
 
         # https://symfony.com/doc/current/reference/forms/types.html
-        $form = $this
-            ->createFormBuilder($article)
-            ->add(
-                'title',
-                TextType::class,
+        $form = $this->createForm(ArticleType::class , $article);
+
+        # Form posted data management
+        $form->handleRequest($request);
+
+        # Check the form (order is important)
+        if($form->isSubmitted() && $form->isValid()){
+
+            # get datas
+            $article = $form->getData();
+
+            # get the image file
+            $featuredImage = $article->getFeaturedImage();
+
+            # get file name
+            $fileName = $article->getSlugified() .'.'. $featuredImage->guessExtension();
+
+            # move uploaded file
+            $featuredImage->move(
+                $this->getParameter('app.articles.assets.dir'),
+                $fileName
+            );
+
+            # insert Into database
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($article);
+            $em->flush();
+
+            # redirect on the created article
+            return $this->redirectToRoute(
+                'index_article',
                 [
-                    'required' => true,
-                    'placeholder' => 'Article title...',
-                    'attr' => [
-                        'class' => 'form-control'
-                    ]
-                ]
-            )->add(
-                'category',
-                EntityType::class,
-                [
-                    'class' => Category::class,
-                    'choice_label' => 'label',
-                    'multiple' => false,
-                    'expanded' => false,
-                    'label' => false,
-                    'attr' => [
-                        'class' => 'form-control'
-                    ]
-                ]
-            )->add(
-                'content',
-                TextareaType::class,
-                [
-                    'required' => true,
-                    'label' => false,
-                    'placeholder' => 'Article content...',
-                    'attr' => [
-                        'class' => 'form-control'
-                    ]
-                ]
-            )->add(
-                'featured_image',
-                FileType::class,
-                [
-                    'required' => false,
-                    'label' => false,
-                    'attr' => [
-                        'class' => 'dropify'
-                    ]
-                ]
-            )->add(
-                'special',
-                CheckboxType::class,
-                [
-                    'required' => false,
-                    'label' => false,
-                ]
-            )->add(
-                'spotlight',
-                CheckboxType::class,
-                [
-                    'required' => false,
-                    'label' => false,
-                ]
-            )->add(
-                'submit', SubmitType::class,
-                [
-                    'label' => 'Publish',
-                    'attr' => array('class' => 'btn btn-primary')
-                ]
-            )->getForm();
+                    'category' => $article->getCategorie()->getLabelUrlified(),
+                    'slug' => $article->getSlugyfiedTitle(),
+                    'id' => $article->getId()
+                ]);
+        }
+
 
         return $this->render('form/article/addArticle.html.twig', array(
             'form' => $form->createView(),
