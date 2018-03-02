@@ -1,35 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="53ab16d8-631a-4845-8943-431bbe2939f7" name="Default" comment="App test">
-      <change beforePath="" afterPath="$PROJECT_DIR$/README_HELP_INSTALLER.txt" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/Command/CreateDatabaseEntry.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/Common/Util/SlugifyTrait.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/Common/Util/SpaceModifierTrait.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/Service/Twig/AppRuntime.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/tests/ContenuDeDemo.sql" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a45a10d2-9e0a-433e-8975-c5dc12aedf07.xml" afterPath="$PROJECT_DIR$/.idea/dataSources/a45a10d2-9e0a-433e-8975-c5dc12aedf07.xml" />
+    <list default="true" id="53ab16d8-631a-4845-8943-431bbe2939f7" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/config/routes.yaml" afterPath="$PROJECT_DIR$/config/routes.yaml" />
-      <change beforePath="$PROJECT_DIR$/config/services.yaml" afterPath="$PROJECT_DIR$/config/services.yaml" />
       <change beforePath="$PROJECT_DIR$/src/Controller/TechNews/ArticleController.php" afterPath="$PROJECT_DIR$/src/Controller/TechNews/ArticleController.php" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TechNews/CategoryController.php" afterPath="$PROJECT_DIR$/src/Controller/TechNews/CategoryController.php" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TechNews/IndexController.php" afterPath="$PROJECT_DIR$/src/Controller/TechNews/IndexController.php" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Article.php" afterPath="$PROJECT_DIR$/src/Entity/Article.php" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Category.php" afterPath="$PROJECT_DIR$/src/Entity/Category.php" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/ArticleRepository.php" afterPath="$PROJECT_DIR$/src/Repository/ArticleRepository.php" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/CategoryRepository.php" afterPath="$PROJECT_DIR$/src/Repository/CategoryRepository.php" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Article/ArticleProvider.php" afterPath="$PROJECT_DIR$/src/Service/Article/ArticleProvider.php" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Twig/AppExtension.php" afterPath="$PROJECT_DIR$/src/Service/Twig/AppExtension.php" />
-      <change beforePath="$PROJECT_DIR$/src/Service/articles.yaml" afterPath="$PROJECT_DIR$/tests/articles.yaml" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" afterPath="$PROJECT_DIR$/symfony.lock" />
-      <change beforePath="$PROJECT_DIR$/templates/components/_footer.html.twig" afterPath="$PROJECT_DIR$/templates/components/_footer.html.twig" />
-      <change beforePath="$PROJECT_DIR$/templates/components/_nav.html.twig" afterPath="$PROJECT_DIR$/templates/components/_nav.html.twig" />
-      <change beforePath="$PROJECT_DIR$/templates/components/_sidebar_html.twig" afterPath="$PROJECT_DIR$/templates/components/_sidebar_html.twig" />
-      <change beforePath="$PROJECT_DIR$/templates/index/article.html.twig" afterPath="$PROJECT_DIR$/templates/index/article.html.twig" />
-      <change beforePath="$PROJECT_DIR$/templates/index/category.html.twig" afterPath="$PROJECT_DIR$/templates/index/category.html.twig" />
-      <change beforePath="$PROJECT_DIR$/templates/index/index.html.twig" afterPath="$PROJECT_DIR$/templates/index/index.html.twig" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -92,7 +66,7 @@
     <splitter split-orientation="horizontal" split-proportion="0.4967509">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="CategoryController.php" pinned="false" current-in-tab="true">
+          <file leaf-file-name="CategoryController.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Controller/TechNews/CategoryController.php">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="357">
@@ -134,10 +108,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="AppRuntime.php" pinned="false" current-in-tab="false">
+          <file leaf-file-name="AppRuntime.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Service/Twig/AppRuntime.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="571">
+                <state relative-caret-position="935">
                   <caret line="65" column="58" lean-forward="false" selection-start-line="65" selection-start-column="58" selection-end-line="65" selection-end-column="58" />
                   <folding>
                     <marker date="1519968793883" expanded="true" signature="3093:3207" ph="..." />
@@ -174,7 +148,7 @@
             <entry file="file://$PROJECT_DIR$/src/Controller/TechNews/ArticleController.php">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="234">
-                  <caret line="23" column="35" lean-forward="false" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="35" />
+                  <caret line="23" column="55" lean-forward="false" selection-start-line="23" selection-start-column="55" selection-end-line="23" selection-end-column="55" />
                   <folding />
                 </state>
               </provider>
@@ -595,7 +569,7 @@
       <workItem from="1519722673248" duration="27733000" />
       <workItem from="1519822147602" duration="13588000" />
       <workItem from="1519894160833" duration="27707000" />
-      <workItem from="1519931959890" duration="34855000" />
+      <workItem from="1519931959890" duration="36272000" />
     </task>
     <task id="LOCAL-00001" summary="App test">
       <created>1519835733643</created>
@@ -604,11 +578,18 @@
       <option name="project" value="LOCAL" />
       <updated>1519835733644</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Big update">
+      <created>1519971364720</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1519971364720</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="117315000" />
+    <option name="totallyTimeSpent" value="118732000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -666,7 +647,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="App test" />
-    <option name="LAST_COMMIT_MESSAGE" value="App test" />
+    <MESSAGE value="Big update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Big update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1008,16 +990,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Service/Twig/AppRuntime.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="571">
-          <caret line="65" column="58" lean-forward="false" selection-start-line="65" selection-start-column="58" selection-end-line="65" selection-end-column="58" />
-          <folding>
-            <marker date="1519968793883" expanded="true" signature="3093:3207" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/index/category.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -1044,10 +1016,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Service/Twig/AppRuntime.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="935">
+          <caret line="65" column="58" lean-forward="false" selection-start-line="65" selection-start-column="58" selection-end-line="65" selection-end-column="58" />
+          <folding>
+            <marker date="1519968793883" expanded="true" signature="3093:3207" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/TechNews/ArticleController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
-          <caret line="23" column="35" lean-forward="false" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="35" />
+          <caret line="23" column="55" lean-forward="false" selection-start-line="23" selection-start-column="55" selection-end-line="23" selection-end-column="55" />
           <folding />
         </state>
       </provider>

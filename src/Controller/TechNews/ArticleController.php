@@ -20,8 +20,8 @@ class ArticleController extends Controller
      * @Route("/{category}/{slug}_{id}.html",
      *      name="index_article",
      *      methods={"GET"},
-     *      requirements={"id" : "\d+"}),
-     *      requirements={"category" : "^(?!author$)"}),
+     *      requirements={"id" : "\d+"},
+     *      requirements={"category" : "^(?!author$).*$"})
      *
      * @param Article $article
      * @param $category
