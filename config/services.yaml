@@ -26,7 +26,21 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    #app_extension:
-    #    class: 'App\Service\Twig\AppExtension'
-    #   arguments:
-    #       router : '@router'
+    # enable Twig dump
+    twig.extension.debug:
+        class:        Twig_Extension_Debug
+        tags:
+             - { name: 'twig.extension' }
+
+    # Custom Twig Filter @router injection
+    app.twig_runtime:
+        class: App\Service\Twig\AppRuntime
+        public: true
+        arguments: ["@router"]
+        tags:
+            - { name: twig.runtime }
+
+    # create a new database entry
+    app.command_createDatabaseEntry:
+        class: App\Command\CreateDatabaseEntry
+        arguments: [doctrine.orm.entity_manager]

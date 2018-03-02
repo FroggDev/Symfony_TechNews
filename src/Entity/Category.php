@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Common\Util\SpaceModifierTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,6 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Category
 {
+
+    use SpaceModifierTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -59,6 +63,14 @@ class Category
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLabelUrlified()
+    {
+        return $this->spaceTotrait($this->label);
     }
 
     /**

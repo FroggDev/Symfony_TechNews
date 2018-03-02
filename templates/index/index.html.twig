@@ -18,11 +18,11 @@
             <div>
                 <article class="spotlight-item">
                     <div class="spotlight-img">
-                        <img alt="" src="{{ asset('images/product/'~article.featuredImage) }}" class="img-responsive" />
-                        {{ article.category.label | categoryLink("cate-tag") | raw   }}
+                        {{ article | articleImage("img-responsive") | raw }}
+                        {{ article.category | categoryLink("cate-tag") | raw   }}
                     </div>
                     <div class="spotlight-item-caption">
-                        <h2 class="font-heading">{{ article | articleLink(47) | raw }}</h2>
+                        <h2 class="font-heading">{{ article | articleLink | raw }}</h2>
                         <div class="meta-post">
                             {{ article.author | authorLink | raw }}
                             <em></em>
@@ -33,7 +33,6 @@
                 </article>
             </div>
             {% endfor %}
-
         </section>
 
         <!--spotlight-thumbs-->
@@ -43,14 +42,8 @@
                 <div class="col-md-4 col-sm-4 col-xs-12">
                     <div class="spotlight-item-thumb">
                         <div class="spotlight-item-thumb-img">
-                            <a href="{{ path('index_article',{
-                                "category"  : article.category.label,
-                                "slug"      : article.getSlugyfiedTitle,
-                                "id"        : article.id
-                            }) }}">
-                                <img alt="{{ article.title }}" src="{{ asset('images/product/'~article.featuredImage()) }}" />
-                            </a>
-                            {{ article.category.label | categoryLink("cate-tag") | raw   }}
+                            {{ article | articleImageLink | raw }}
+                            {{ article.category | categoryLink("cate-tag") | raw   }}
                         </div>
                         <h3>{{ article | articleLink(47) | raw }}</h3>
                         <div class="meta-post">

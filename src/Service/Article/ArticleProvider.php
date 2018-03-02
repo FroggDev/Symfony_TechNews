@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
-class ArticleProvider extends Controller
+class ArticleProvider
 {
     /**
      * @return array
@@ -29,7 +29,5 @@ class ArticleProvider extends Controller
         }
         return [];
     }
-
-
 
 }

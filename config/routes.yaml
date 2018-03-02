@@ -2,8 +2,12 @@ index:
     path: /
     controller: App\Controller\TechNews\IndexController::index
 
+test:
+    path: /test.html
+    controller: App\Controller\TechNews\IndexController::test
+
 #route redirection
-accueil:
+home:
     path: /home
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
     defaults:
@@ -11,7 +15,7 @@ accueil:
       permanent: true
 
 #static redirection
-mentions_legales:
+privacy:
     path:         /privacy
     controller:   Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
     defaults:

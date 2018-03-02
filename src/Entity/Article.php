@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Common\Util\SlugifyTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,6 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Article
 {
+
+    use SlugifyTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -229,10 +232,7 @@ class Article
 
     public function getSlugyfiedTitle()
     {
-        return "temp-slug-title";
-        //return $this->title;
+        return $this->slugify($this->title);
     }
-
-
 
 }

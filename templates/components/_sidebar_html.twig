@@ -15,15 +15,8 @@
             <ul class="list-news-popular">
 
                 {% for article in lastFiveArticles %}
-
                 <li>
-                    <a href="{{ path('index_article',{
-                        "category"  : article.category.label,
-                        "slug"      : article.getSlugyfiedTitle,
-                        "id"        : article.id
-                    }) }}">
-                        <img alt="{{ article.title }}" src="{{ asset('images/product/'~article.featuredImage()) }}" />
-                    </a>
+                    {{ article | articleImageLink | raw }}
                     <h3>{{ article | articleLink(47) | raw }}</h3>
                     <div class="meta-post">
                         {{ article.author | authorLink | raw }}
@@ -31,7 +24,6 @@
                         <span>{{  article.dateCreation }}</span>
                     </div>
                 </li>
-
                 {% endfor %}
 
             </ul>
@@ -98,13 +90,7 @@
 
             {% for article in specialArticles %}
             <article class="news-two-large">
-                <a href="{{ path('index_article',{
-                    "category"  : article.category.label,
-                    "slug"      : article.getSlugyfiedTitle,
-                    "id"        : article.id
-                }) }}">
-                    <img alt="{{ article.title }}" src="{{ asset('images/product/'~article.featuredImage()) }}" />
-                </a>
+                {{ article | articleImageLink | raw }}
                 <h3>{{ article | articleLink(47) | raw }}</h3>
                 <div class="meta-post">
                     {{ article.author | authorLink | raw }}

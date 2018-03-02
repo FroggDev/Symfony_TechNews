@@ -16,7 +16,7 @@
                 <h3>NOS CATEGORIES</h3>
                 <ul class="list-category">
                     {% for category in categories %}
-                        <li>{{ category.label | categoryLink("cate-tag") | raw  }}</li>
+                        <li>{{ category | categoryLink | raw  }}</li>
                     {% endfor %}
                 </ul>
             </div>

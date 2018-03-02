@@ -8,43 +8,32 @@
 
 namespace App\Controller\TechNews;
 
-
-use App\Entity\Article;
+use App\Common\Util\SpaceModifierTrait;
 use App\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\VarDumper\VarDumper;
 
 class CategoryController extends Controller
 {
+
+    use SpaceModifierTrait;
+
     /**
-     * @Route("/{label}",
+     * @Route("/{label}/{currentPage}",
      *      name="index_category",
      *      methods={"GET"},
-     *      requirements={"label" : "\w+"}),
-     *      defaults={"label" : "All"})
+     *      requirements={"label" : "[\w-]+"},
+     *      defaults={"currentPage"="1"})
      *
      * @param string $label
+     * @param string $currentPage
      * @return Response
      */
-    public function category(string $label): Response
+    public function category(string $label, string $currentPage): Response
     {
-        ###########
-        # ARTICLE #
-        ###########
 
-        # get repo article
-        $reposirotyArticle = $this->getDoctrine()->getRepository(Article::class);
-
-        # Get specialArticles
-        $specialArticles = $reposirotyArticle->findSpecialArticles();
-
-        # Get spotlights
-        $spotlights = $reposirotyArticle->findSpotLightArticles();
-
-        # Get spotlights
-        $lastFiveArticles = $reposirotyArticle->findLastFiveArticle();
+        $label = $this->traitToSpace($label);
 
         ############
         # CATEGORY #
@@ -54,18 +43,20 @@ class CategoryController extends Controller
         $reposirotyCategory = $this->getDoctrine()->getRepository(Category::class);
 
         # get article from category
-        $articles=$reposirotyCategory->getArticleFromCategory($label)->getArticles();
+        $category=$reposirotyCategory->getArticleFromCategory($label);
+
+        # check if category exist
+        if (!$category){
+            return $this->redirectToRoute('index',[],Response::HTTP_MOVED_PERMANENTLY);
+        }
 
         //VarDumper::dump($articles);
         //exit();
 
-
         return $this->render('index/category.html.twig', [
-            'articles'          => $articles,
-            'category'          => $label,
-            'spotlights'        => $spotlights
+            'articles'          => $category->getArticles(),
+            'category'          => $category,
+            'currentPage'       => $currentPage
         ]);
     }
-
-
 }

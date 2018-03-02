@@ -3,7 +3,7 @@
     <div class="menu-res-inner">
         <ul>
             {% for category in categories %}
-                <li>{{ category.label | categoryLink | raw  }}</li>
+                <li>{{ category | categoryLink | raw  }}</li>
             {% endfor %}
         </ul>
     </div>
@@ -30,7 +30,7 @@
             <ul class="hidden-sm hidden-xs">
                 <li {% if active == 'index' %}class="current"{% endif %}><a href="{{ path('index') }}">Accueil</a></li>
                 {% for category in categories %}
-                <li {% if active == category.label %}class="current"{% endif %}>{{ category.label | categoryLink | raw  }}</li>
+                <li {% if active == category.label %}class="current"{% endif %}>{{ category | categoryLink | raw  }}</li>
                 {% endfor %}
             </ul>
 

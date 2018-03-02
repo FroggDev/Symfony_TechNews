@@ -34,7 +34,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->where('a.category = :category_id')->setParameter('category_id', $idCategory)
             ->andWhere('a.id != :article_id')->setParameter('article_id', $idCategory)
             ->orderBy('a.id', 'DESC')
-            ->setMaxResults(10)
+            ->setMaxResults(5)
             ->getQuery()
             ->getResult();
     }
@@ -44,7 +44,7 @@ class ArticleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->where('a.spotlight = true')
             ->orderBy('a.id', 'DESC')
-            ->setMaxResults(10)
+            ->setMaxResults(9)
             ->getQuery()
             ->getResult();
     }

@@ -13,6 +13,7 @@ use App\Entity\Article;
 use App\Service\Article\ArticleProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\VarDumper\VarDumper;
 
 class IndexController extends Controller
 {
@@ -20,14 +21,8 @@ class IndexController extends Controller
      * @param ArticleProvider $articleProvider
      * @return Response
      */
-    public function index(ArticleProvider $articleProvider): Response
+    public function index(): Response
     {
-        # same as :
-        # $this->container->get('article_provider');
-        # like :
-        # if( instance n extiste pas ) create new Instance ArticleProvider $articleProvider;
-        # else return instanciated instance
-
         ###########
         # ARTICLE #
         ###########
@@ -35,14 +30,8 @@ class IndexController extends Controller
         # get repo article
         $reposirotyArticle = $this->getDoctrine()->getRepository(Article::class);
 
-        # Get specialArticles
-        $specialArticles = $reposirotyArticle->findSpecialArticles();
-
         # Get spotlights
         $spotlights = $reposirotyArticle->findSpotLightArticles();
-
-        //VarDumper::dump($lastFiveArticles);
-        //exit();
 
         return $this->render('index/index.html.twig', [
             'spotlights' => $spotlights
@@ -67,6 +56,18 @@ class IndexController extends Controller
                 'lastFiveArticles' => $lastFiveArticles
             ]);
 
+    }
+
+    public function test(ArticleProvider $articleProvider)
+    {
+        # same as :
+        # $this->container->get('article_provider');
+        # like :
+        # if( instance n extiste pas ) create new Instance ArticleProvider $articleProvider;
+        # else return instanciated instance
+
+        VarDumper::dump($articleProvider);
+        exit();
     }
 
 }

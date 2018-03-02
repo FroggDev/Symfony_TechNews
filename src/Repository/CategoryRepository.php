@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-
+use Symfony\Component\VarDumper\VarDumper;
 
 
 /**
@@ -20,7 +20,6 @@ class CategoryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Category::class);
     }
-
 
     public function getCategories()
     {
