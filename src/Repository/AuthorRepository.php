@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Repository;
 
 use App\Entity\Author;
@@ -14,13 +13,21 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class AuthorRepository extends ServiceEntityRepository
 {
+    /**
+     * AuthorRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Author::class);
     }
 
-    public function getArticleFromAuthor($id) : Author
+    /**
+     * @param string $nameSlugified
+     * @return Author
+     */
+    public function getAuthorFromName(string $nameSlugified) : Author
     {
-        return $this->findOneBy(['id' => $id]);
+        return $this->findOneBy(['nameSlugified' => $nameSlugified]);
     }
 }

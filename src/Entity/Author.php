@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use App\Common\Util\String\SlugifyTrait;
@@ -32,6 +33,11 @@ class Author
     /**
      * @ORM\Column(type="string", length=100, unique=true)
      */
+    private $nameSlugified;
+
+    /**
+     * @ORM\Column(type="string", length=100, unique=true)
+     */
     private $email;
 
     /**
@@ -60,177 +66,177 @@ class Author
      */
     private $articles;
 
+    /**
+     * Author constructor.
+     */
     public function __construct()
     {
         # initialize date creation on Author creation
         $this->dateInscription = new \DateTime();
 
         # Initialize a news array collection
-        $this->articles=new ArrayCollection();
+        $this->articles = new ArrayCollection();
     }
 
+
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      * @return Author
      */
-    public function setId($id)
+    public function setId(int $id): Author
     {
         $this->id = $id;
         return $this;
     }
 
+
     /**
-     * @return mixed
+     * @return string
      */
-    public function getFirstName()
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFirstNameSlugified()
-    {
-        return $this->slugify($this->firstName);
-    }
 
     /**
-     * @param mixed $firstName
-     * @return Author
+     * @param string $firstName
+     * @return $this
      */
-    public function setFirstName($firstName)
+    public function setFirstName(string $firstName)
     {
         $this->firstName = $firstName;
-        return $this;
+        return $this->setManualyNameSlugified();
     }
 
+
     /**
-     * @return mixed
+     * @return string
      */
-    public function getLastName()
+    public function getLastName(): string
     {
         return $this->lastName;
     }
 
     /**
-     * @param mixed $lastName
+     * @param string $lastName
      * @return Author
      */
-    public function setLastName($lastName)
+    public function setLastName(string $lastName): Author
     {
         $this->lastName = $lastName;
-        return $this;
+        return $this->setManualyNameSlugified();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLastNameSlugified()
-    {
-        return $this->slugify($this->lastName);
-    }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
     /**
-     * @param mixed $email
+     * @param string $email
      * @return Author
      */
-    public function setEmail($email)
+    public function setEmail(string $email): Author
     {
         $this->email = $email;
         return $this;
     }
 
+
     /**
-     * @return mixed
+     * @return string
      */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
 
+
     /**
-     * @param mixed $password
+     * @param string $password
      * @return Author
      */
-    public function setPassword($password)
+    public function setPassword(string $password): Author
     {
         $this->password = base64_encode($password);
         return $this;
     }
 
+
     /**
-     * @return mixed
+     * @return \DateTime
      */
-    public function getDateInscription()
+    public function getDateInscription(): \DateTime
     {
         return $this->dateInscription;
     }
 
+
     /**
-     * @param mixed $dateInscription
+     * @param \DateTime $dateInscription
      * @return Author
      */
-    public function setDateInscription($dateInscription)
+    public function setDateInscription(\DateTime $dateInscription): Author
     {
         $this->dateInscription = $dateInscription;
         return $this;
     }
 
+
     /**
-     * @return mixed
+     * @return array
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         return $this->roles;
     }
 
     /**
-     * @param mixed $roles
+     * @param array $roles
      * @return Author
      */
-    public function setRoles($roles)
+    public function setRoles(array $roles): Author
     {
         $this->roles = $roles;
         return $this;
     }
 
+
     /**
-     * @return mixed
+     * @return \DateTime
      */
-    public function getLastConnexion()
+    public function getLastConnexion(): \DateTime
     {
         return $this->lastConnexion;
     }
 
+
     /**
-     * @param mixed $lastConnexion
-     * @return Author
+     * @param \DateTime $lastConnexion
+     * @return $this
      */
-    public function setLastConnexion($lastConnexion)
+    public function setLastConnexion(\DateTime $lastConnexion)
     {
         $this->lastConnexion = $lastConnexion;
         return $this;
     }
 
+
     /**
-     * @return mixed
+     * return \Doctrine\ORM\PersistentCollection but init as ArrayCollection
      */
     public function getArticles()
     {
@@ -238,12 +244,42 @@ class Author
     }
 
     /**
-     * @param mixed $articles
+     * @param ArrayCollection $articles
      * @return Author
      */
-    public function setArticles($articles)
+    public function setArticles(ArrayCollection $articles): Author
     {
         $this->articles = $articles;
         return $this;
     }
+
+
+    /**
+     * @return string
+     */
+    public function getNameSlugified(): string
+    {
+        return $this->nameSlugified;
+    }
+
+
+    /**
+     * @param string $nameSlugified
+     * @return Author
+     */
+    public function setNameSlugified(string $nameSlugified): Author
+    {
+        $this->nameSlugified = $nameSlugified;
+        return $this;
+    }
+
+    /**
+     * @return Author
+     */
+    public function setManualyNameSlugified(): Author
+    {
+        $this->nameSlugified = $this->lastName . ' ' . $this->firstName;
+        return $this;
+    }
+
 }

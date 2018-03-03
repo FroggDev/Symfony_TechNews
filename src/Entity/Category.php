@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use App\Common\Util\String\SlugifyTrait;
@@ -26,6 +27,11 @@ class Category
     private $label;
 
     /**
+     * @ORM\Column(type="string",length=50, unique=true)
+     */
+    private $labelSlugified;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="category")
      */
     private $articles;
@@ -35,66 +41,83 @@ class Category
      */
     public function __construct()
     {
-        $this->articles=new ArrayCollection();
+        $this->articles = new ArrayCollection();
     }
 
+
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
+
     /**
-     * @param mixed $id
+     * @param $id
      * @return Category
      */
-    public function setId($id)
+    public function setId($id): Category
     {
         $this->id = $id;
         return $this;
     }
 
+
     /**
-     * @return mixed
+     * @return string
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLabelSlugified()
-    {
-        return $this->slugify($this->label);
-    }
 
     /**
-     * @param mixed $label
+     * @param string $label
      * @return Category
      */
-    public function setLabel($label)
+    public function setLabel(string $label): Category
     {
         $this->label = $label;
+        $this->labelSlugified = $this->slugify($this->label);
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string
+     */
+    public function getLabelSlugified(): string
+    {
+        return $this->labelSlugified;
+    }
+
+
+    /**
+     * @param string $labelSlugified
+     * @return Category
+     */
+    public function setLabelSlugified(string $labelSlugified): Category
+    {
+        $this->labelSlugified = $labelSlugified;
+        return $this;
+    }
+
+    /**
+     * return \Doctrine\ORM\PersistentCollection but init as ArrayCollection
      */
     public function getArticles()
     {
         return $this->articles;
     }
 
+
     /**
-     * @param mixed $articles
+     * @param ArrayCollection $articles
      * @return Category
      */
-    public function setArticles($articles)
+    public function setArticles(ArrayCollection $articles): Category
     {
         $this->articles = $articles;
         return $this;

@@ -66,8 +66,7 @@ class CategoryAppRuntime
     private function getCategoryHref(Category $category, string $currentPage = null): string
     {
         $routeParams = [
-            'label' => $category->getLabel(),
-            'format' => 'html'
+            'label' => $category->getLabelSlugified()
         ];
 
         if ($currentPage) {

@@ -68,10 +68,7 @@ class AuthorAppRuntime
     {
 
         $routeParams = [
-            'firstname' => $author->getFirstNameSlugified(),
-            'lastname' => $author->getLastNameSlugified(),
-            'id' => $author->getId(),
-            'format' => 'html'
+            'name' => $author->getNameSlugified()
         ];
 
         if ($currentPage) {

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use App\Common\Util\String\SlugifyTrait;
@@ -22,6 +23,12 @@ class Article
      * @ORM\Column(type="string", length=150)
      */
     private $title;
+
+    /**
+     * @ORM\Column(type="string", length=150, unique=true)
+     */
+    private $titleSlugified;
+
 
     /**
      * @ORM\Column(type="text")
@@ -60,68 +67,78 @@ class Article
      */
     private $author;
 
+    /**
+     * Article constructor.
+     */
     public function __construct()
     {
         # initialize date creation on Entity creation
         $this->dateCreation = new \DateTime();
     }
 
+
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
+
     /**
-     * @param mixed $id
+     * @param int $id
      * @return Article
      */
-    public function setId($id)
+    public function setId(int $id): Article
     {
         $this->id = $id;
         return $this;
     }
 
+
     /**
-     * @return mixed
+     * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
+
     /**
-     * @param mixed $title
+     * @param $title
      * @return Article
      */
-    public function setTitle($title)
+    public function setTitle($title): Article
     {
         $this->title = $title;
+        $this->titleSlugified = $this->slugify($this->title);
         return $this;
     }
 
+
     /**
-     * @return mixed
+     * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
 
+
     /**
-     * @param mixed $content
+     * @param string $content
      * @return Article
      */
-    public function setContent($content)
+    public function setContent(string $content): Article
     {
         $this->content = $content;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return mixed (due to Symfony image upload)
      */
     public function getFeaturedImage()
     {
@@ -129,73 +146,80 @@ class Article
     }
 
     /**
-     * @param mixed $featuredImage
+     * @param mixed $featuredImage (due to Symfony image upload)
      * @return Article
      */
-    public function setFeaturedImage($featuredImage)
+    public function setFeaturedImage($featuredImage): Article
     {
         $this->featuredImage = $featuredImage;
         return $this;
     }
 
+
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getSpecial()
+    public function getSpecial(): bool
     {
         return $this->special;
     }
 
+
     /**
-     * @param mixed $special
+     * @param bool $special
      * @return Article
      */
-    public function setSpecial($special)
+    public function setSpecial(bool $special): Article
     {
         $this->special = $special;
         return $this;
     }
 
+
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getSpotlight()
+    public function getSpotlight(): bool
     {
         return $this->spotlight;
     }
 
+
     /**
-     * @param mixed $spotlight
+     * @param bool $spotlight
      * @return Article
      */
-    public function setSpotlight($spotlight)
+    public function setSpotlight(bool $spotlight): Article
     {
         $this->spotlight = $spotlight;
         return $this;
     }
 
+
     /**
-     * @return mixed
+     * @return string
      */
-    public function getDateCreation()
+    public function getDateCreation(): string
     {
         return $this->dateCreation->format('d/m/Y');
     }
 
+
     /**
-     * @param mixed $dateCreation
+     * @param \DateTime $dateCreation
      * @return Article
      */
-    public function setDateCreation($dateCreation)
+    public function setDateCreation(\DateTime $dateCreation): Article
     {
         $this->dateCreation = $dateCreation;
         return $this;
     }
 
+
     /**
-     * @return mixed
+     * @return Category
      */
-    public function getCategory()
+    public function getCategory(): Category
     {
         return $this->category;
     }
@@ -204,16 +228,17 @@ class Article
      * @param Category $category
      * @return Article
      */
-    public function setCategory(Category $category)
+    public function setCategory(Category $category): Article
     {
         $this->category = $category;
         return $this;
     }
 
+
     /**
-     * @return mixed
+     * @return Author
      */
-    public function getAuthor()
+    public function getAuthor(): Author
     {
         return $this->author;
     }
@@ -222,14 +247,28 @@ class Article
      * @param Author $author
      * @return Article
      */
-    public function setAuthor(Author $author)
+    public function setAuthor(Author $author): Article
     {
         $this->author = $author;
         return $this;
     }
 
-    public function getTitleSlugified()
+    /**
+     * @return string
+     */
+    public function getTitleSlugified(): string
     {
-        return $this->slugify($this->title);
+        return $this->titleSlugified;
+    }
+
+
+    /**
+     * @param string $titleSlugified
+     * @return Article
+     */
+    public function setTitleSlugified($titleSlugified): Article
+    {
+        $this->titleSlugified = $titleSlugified;
+        return $this;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -14,12 +15,19 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ArticleRepository extends ServiceEntityRepository
 {
+    /**
+     * ArticleRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Article::class);
     }
 
-    public function findLastFiveArticle()
+    /**
+     * @return array
+     */
+    public function findLastFiveArticle() : array
     {
         return $this->createQueryBuilder('a')
             ->orderBy('a.id', 'DESC')
@@ -28,7 +36,11 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findArticleSuggestions($idCategory)
+    /**
+     * @param int $idCategory
+     * @return array
+     */
+    public function findArticleSuggestions(int $idCategory) : array
     {
         return $this->createQueryBuilder('a')
             ->where('a.category = :category_id')->setParameter('category_id', $idCategory)
@@ -39,7 +51,10 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findSpotLightArticles()
+    /**
+     * @return array
+     */
+    public function findSpotLightArticles() : array
     {
         return $this->createQueryBuilder('a')
             ->where('a.spotlight = true')
@@ -49,7 +64,10 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findSpecialArticles()
+    /**
+     * @return array
+     */
+    public function findSpecialArticles() : array
     {
         return $this->createQueryBuilder('a')
             ->where('a.special = true')

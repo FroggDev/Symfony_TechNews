@@ -1,9 +1,9 @@
 <?php
-
 namespace App\Repository;
 
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -14,12 +14,19 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class CategoryRepository extends ServiceEntityRepository
 {
+    /**
+     * CategoryRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Category::class);
     }
 
-    public function getCategories()
+    /**
+     * @return ArrayCollection
+     */
+    public function getCategories() : ArrayCollection
     {
         return $this->createQueryBuilder('c')
             ->orderBy('c.id', 'ASC')
@@ -27,8 +34,12 @@ class CategoryRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getArticleFromCategory(string $label)
+    /**
+     * @param string $labelSlugified
+     * @return Category
+     */
+    public function getCategoryFromName(string $labelSlugified) : Category
     {
-        return $this->findOneBy(['label' => $label]);
+        return $this->findOneBy(['labelSlugified' => $labelSlugified]);
     }
 }

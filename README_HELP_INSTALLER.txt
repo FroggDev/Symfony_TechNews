@@ -36,6 +36,9 @@ IV ] 4eme Etape : Creation de la structure de la base de données
 ================================================================
 
 - dans le project lancer dans une console la commande afin de verifier que tout soit ok
+php bin/console doctrine:schema:validate
+
+- dans le project lancer dans une console la commande afin de creer les operation a effectuer
 php bin/console doctrine:migrations:diff
 
 - Puis pour exécuter les requètes de creation de la structure :

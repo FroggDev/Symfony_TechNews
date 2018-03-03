@@ -1,50 +1,52 @@
 <?php
+
 namespace App\Controller;
 
+use App\Common\Util\String\SlugifyTrait;
 use App\Entity\Author;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\VarDumper\VarDumper;
 
 class AuthorController extends Controller
 {
+
+    use SlugifyTrait;
+
     /**
-     * @Route("/author/{firstname}_{lastname}_{id}/{currentPage}.{format}",
+     * @Route("/author/{name}/{currentPage}.html",
      *      name="index_author",
      *      methods={"GET"},
-     *      requirements={"firstname" : "[\w-]+"},
-     *      requirements={"lastname" : "[\w-]+"},
-     *      requirements={"id" : "[\d-]+"},
-     *      defaults={"currentPage"="1", "format"=""})
+     *      requirements={"name" : "[a-z0-9-]+"},
+     *      requirements={"currentPage" : "[\d-]+"},
+     *      defaults={"currentPage" : 1}
      *      )
      *
-     * @param string $firstname
-     * @param string $lastname
+     * @param string $name
      * @param string $currentPage
      * @return Response
      */
-    public function index(string $firstname, string $lastname, $id, string $currentPage): Response
+    public function index(string $name, string $currentPage): Response
     {
-        # get repo article
+        $currentNameSlugified = $this->slugify($name);
+
+        # get repo author
         $reposirotyAuthor = $this->getDoctrine()->getRepository(Author::class);
 
-        # get article from category
-        $author = $reposirotyAuthor->getArticleFromAuthor($id);
+        # get author from name
+        $author = $reposirotyAuthor->getAuthorFromName($this->slugify($currentNameSlugified));
 
-        # check if category exist
+        # check if author exist
         if (!$author) {
             return $this->redirectToRoute('index', [], Response::HTTP_MOVED_PERMANENTLY);
         }
 
         # check url format else redirect to formated url
-        if ($firstname != $author->getFirstNameSlugified() || $lastname != $author->getLastNameSlugified()) {
+        if ($name != $author->getNameSlugified()) {
             return $this->redirectToRoute(
                 'index_author',
                 [
-                    'firstname' => $author->getFirstNameSlugified(),
-                    'lastname' => $author->getLastNameSlugified(),
-                    'id' => $id
+                    'name' => $author->getNameSlugified(),
                 ],
                 Response::HTTP_MOVED_PERMANENTLY
             );

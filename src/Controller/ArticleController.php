@@ -24,7 +24,7 @@ class ArticleController extends Controller
      * @param string $id
      * @return Response
      */
-    public function article(Article $article, string $category, string $slug,string $id): Response
+    public function article(Article $article, string $category, string $slug, string $id): Response
     {
         # check if article exist
         if (!$article) {
