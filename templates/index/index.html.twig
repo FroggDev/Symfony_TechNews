@@ -51,6 +51,7 @@
                             <em></em>
                             <span>{{ article.dateCreation }}</span>
                         </div>
+                        <p>{{ article.content  | maxLen(100) | raw  }}</p>
                     </div>
                 </div>
                 {% endfor %}

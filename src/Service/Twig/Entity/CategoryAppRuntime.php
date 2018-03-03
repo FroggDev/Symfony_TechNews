@@ -51,7 +51,6 @@ class CategoryAppRuntime
         string $text = null,
         string $currentPage = null
     ): string {
-
         return $this->getATag(
             $this->getCategoryHref($category, $currentPage),
             $text ?? $category->getLabel(),

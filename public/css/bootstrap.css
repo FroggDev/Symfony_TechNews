@@ -5288,6 +5288,9 @@ a.thumbnail.active {
   padding-left: 0;
   list-style: none;
 }
+
+.list-special P{color:#fff;}
+
 .list-group {
   padding-left: 0;
   margin-bottom: 20px;
