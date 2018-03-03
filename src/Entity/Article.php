@@ -1,8 +1,7 @@
 <?php
-
 namespace App\Entity;
 
-use App\Common\Util\SlugifyTrait;
+use App\Common\Util\String\SlugifyTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Article
 {
-
     use SlugifyTrait;
 
     /**
@@ -31,7 +29,7 @@ class Article
     private $content;
 
     /**
-     * @ORM\Column(type="string", length=150)
+     * @ORM\Column(type="string", length=150,nullable=true)
      */
     private $featuredImage;
 
@@ -64,7 +62,7 @@ class Article
 
     public function __construct()
     {
-        # initialize date creation on Article creation
+        # initialize date creation on Entity creation
         $this->dateCreation = new \DateTime();
     }
 
@@ -230,9 +228,8 @@ class Article
         return $this;
     }
 
-    public function getSlugyfiedTitle()
+    public function getTitleSlugified()
     {
         return $this->slugify($this->title);
     }
-
 }

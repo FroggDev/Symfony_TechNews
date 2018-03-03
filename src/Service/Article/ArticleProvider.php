@@ -8,8 +8,6 @@
 
 namespace App\Service\Article;
 
-use App\Entity\Article;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -18,16 +16,14 @@ class ArticleProvider
     /**
      * @return array
      */
-    public function getArticles() : array
+    public function getArticles(): array
     {
-        try{
+        try {
             $articles = Yaml::parseFile(__DIR__ . '/../../Service/articles.yaml');
             return $articles['data'];
-        }
-        catch(ParseException $e){
+        } catch (ParseException $e) {
             printf('Unable to parse the YAML string: %s', $e->getMessage());
         }
         return [];
     }
-
 }

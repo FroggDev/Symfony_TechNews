@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Entity;
 
+use App\Common\Util\String\SlugifyTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Author
 {
+    use SlugifyTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -94,6 +96,14 @@ class Author
     }
 
     /**
+     * @return mixed
+     */
+    public function getFirstNameSlugified()
+    {
+        return $this->slugify($this->firstName);
+    }
+
+    /**
      * @param mixed $firstName
      * @return Author
      */
@@ -119,6 +129,14 @@ class Author
     {
         $this->lastName = $lastName;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastNameSlugified()
+    {
+        return $this->slugify($this->lastName);
     }
 
     /**
@@ -228,7 +246,4 @@ class Author
         $this->articles = $articles;
         return $this;
     }
-
-
-
 }

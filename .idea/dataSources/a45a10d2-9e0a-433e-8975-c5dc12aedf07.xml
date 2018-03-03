@@ -955,7 +955,6 @@
     <column id="237" parent="229" name="featured_image">
       <Position>6</Position>
       <DataType>varchar(150)|0</DataType>
-      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="238" parent="229" name="special">

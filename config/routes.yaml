@@ -1,10 +1,6 @@
 index:
     path: /
-    controller: App\Controller\TechNews\IndexController::index
-
-test:
-    path: /test.html
-    controller: App\Controller\TechNews\IndexController::test
+    controller: App\Controller\IndexController::index
 
 #route redirection
 home:

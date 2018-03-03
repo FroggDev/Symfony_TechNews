@@ -6,20 +6,24 @@
 {% block css %}
     {{ parent() }}
     <link href="{{ asset('lib/dropify/css/dropify.min.css') }}" rel="stylesheet"/>
-    <style>.ck-editor__editable {
-            min-height: 200px;
-        }</style>
+
 {% endblock %}
 
 
 {% block js %}
     {{ parent() }}
-    <script src="{{ asset('lib/ckeditor5/ckeditor.js') }}"></script>
+    <!--script src="{{ asset('lib/ckeditor5/ckeditor.js') }}"></script-->
+
+    <script src="//cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
+
     <script src="{{ asset('lib/dropify/js/dropify.min.js') }}"></script>
     <script>
 
-        ClassicEditor
-            .create(document.querySelector('#article_content'));
+        CKEDITOR.replace( 'article_content' );
+
+
+        //ClassicEditor
+         //   .create(document.querySelector('#article_content'));
 
 
         $('.dropify').dropify({

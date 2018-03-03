@@ -5,8 +5,6 @@ namespace App\Repository;
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use Symfony\Component\VarDumper\VarDumper;
-
 
 /**
  * @method Category|null find($id, $lockMode = null, $lockVersion = null)
@@ -33,5 +31,4 @@ class CategoryRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(['label' => $label]);
     }
-
 }

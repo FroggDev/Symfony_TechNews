@@ -8,7 +8,6 @@
 
 namespace App\Command;
 
-
 use App\Entity\Article;
 use App\Entity\Author;
 use App\Entity\Category;
@@ -28,8 +27,10 @@ class CreateDatabaseEntry extends command
         $this->em = $em;
     }
 
-
-    protected function configure()
+    /**
+     * @return void
+     */
+    protected function configure() : void
     {
         $this
             // the name of the command (the part after "bin/console")
@@ -41,7 +42,12 @@ class CreateDatabaseEntry extends command
             ->setHelp('This command allows you to create a new database entry...');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return void
+     */
+    protected function execute(InputInterface $input, OutputInterface $output) : void
     {
         // outputs multiple lines to the console (adding "\n" at the end of each line)
         $output->writeln([
@@ -93,7 +99,7 @@ class CreateDatabaseEntry extends command
             $author = $checkNewAuthor;
         }
 
-        # create an Article
+        # create an Entity
         #------------------
         $article = new Article();
         $article->setTitle('Test Title')
@@ -113,7 +119,5 @@ class CreateDatabaseEntry extends command
         $this->em->flush();
 
         $output->writeln(['Congratulation, datas are flushed to Database !', '']);
-
     }
-
 }

@@ -1,8 +1,11 @@
 {% extends "layout.html.twig" %}
 
+{############### main page vars ###############}
 {% block page_title article.title | title %}
 
 {% set active = article.category.label %}
+
+{############### MAIN BLOCS ###############}
 
 {% block content %}
 <div class="row">
@@ -68,9 +71,7 @@
         <section class="spotlight-thumbs spotlight-thumbs-related">
 
             <div class="row">
-
                 {% for article in suggestions %}
-
                 <div class="col-md-4 col-sm-4 col-xs-12">
                     <div class="spotlight-item-thumb">
                         <div class="spotlight-item-thumb-img">
@@ -85,17 +86,14 @@
                         </div>
                     </div>
                 </div>
-
                 {% endfor %}
-
             </div>
         </section>
     </div>
 
-
     {# Side bar #}
     {#% include 'components/_sidebar_html.twig' %#}
-    {{ render(controller('App\\Controller\\TechNews\\IndexController::sideBar')) }}
+    {{ render(controller('App\\Controller\\IndexController::sideBar')) }}
 
 </div>
 {% endblock %}

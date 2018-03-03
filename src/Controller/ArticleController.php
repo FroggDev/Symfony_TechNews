@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Etudiant
- * Date: 28/02/2018
- * Time: 15:06
- */
 
-namespace App\Controller\TechNews;
+namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Author;
@@ -18,50 +12,44 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ArticleController extends Controller
 {
-
-    /**
-     * TODO ADD /article after testing
-     */
     /**
      * @Route("/article/{category}/{slug}_{id}.html",
      *      name="index_article",
      *      methods={"GET"},
-     *      requirements={"id" : "\d+"},
-     *      requirements={"category" : "^(?!author).*$"})
+     *      requirements={"id" : "\d+"})
      *
      * @param Article $article
-     * @param $category
-     * @param $slug
-     * @param $id
+     * @param string $category
+     * @param string $slug
+     * @param string $id
      * @return Response
      */
-    # Automaticaly fecthing param converter
-    # https://symfony.com/doc/current/doctrine.html#automatically-fetching-objects-paramconverter
-    # manual :
-    # https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html
-    public function article(Article $article, $category, $slug, $id): Response
+    public function article(Article $article, string $category, string $slug,string $id): Response
     {
         # check if article exist
         if (!$article) {
             return $this->redirectToRoute('index', [], Response::HTTP_MOVED_PERMANENTLY);
         }
 
-        $currentCategory = $article->getCategory()->getLabelUrlified();
-        $slugyfiedTitle = $article->getSlugyfiedTitle();
+        # get slugified datas
+        $currentCategory = $article->getCategory()->getLabelSlugified();
+        $titleSlugyfied = $article->getTitleSlugified();
 
         # check url format
-        if ($category != $currentCategory || $slug != $slugyfiedTitle) {
+        if ($category != $currentCategory || $slug != $titleSlugyfied) {
             return $this->redirectToRoute(
                 'index_article',
                 [
                     'category' => $currentCategory,
-                    'slug' => $slugyfiedTitle,
+                    'slug' => $titleSlugyfied,
                     'id' => $id
                 ],
-                Response::HTTP_MOVED_PERMANENTLY);
+                Response::HTTP_MOVED_PERMANENTLY
+            );
         }
 
         # Get suggestions
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
         $suggestions = $this->getDoctrine()
             ->getRepository(Article::class)
             ->findArticleSuggestions($id, $article->getCategory()->getId());
@@ -78,11 +66,11 @@ class ArticleController extends Controller
          * ne sont récupérés par doctrine que lorsque nous faisons la demande, et pas avant !
          * Ceci pour alléger le chargement de votre page !
          */
-        # $categorie = $article->getCategory()->getLabel();
-        # VarDumper::dump($categorie);
+        # $category = $article->getCategory()->getLabel();
+        # VarDumper::dump($category);
         # exit();
 
-        #render display
+        # display page from twig template
         return $this->render('index/article.html.twig', [
             'article' => $article,
             'suggestions' => $suggestions,
@@ -95,7 +83,7 @@ class ArticleController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function addArticle(Request $request) : Response
+    public function addArticle(Request $request): Response
     {
         # init new article object
         $article = new Article();
@@ -110,28 +98,34 @@ class ArticleController extends Controller
         $article->setAuthor($author);
 
         # https://symfony.com/doc/current/reference/forms/types.html
-        $form = $this->createForm(ArticleType::class , $article);
+        $form = $this->createForm(ArticleType::class, $article);
 
         # Form posted data management
         $form->handleRequest($request);
 
         # Check the form (order is important)
-        if($form->isSubmitted() && $form->isValid()){
-
+        if ($form->isSubmitted() && $form->isValid()) {
             # get datas
             $article = $form->getData();
 
             # get the image file
             $featuredImage = $article->getFeaturedImage();
 
-            # get file name
-            $fileName = $article->getSlugified() .'.'. $featuredImage->guessExtension();
+            # Only if image exist
+            if ($featuredImage) {
+                # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                # get file name DO NOT FORGET TO ENABLE extension=php_fileinfo.dll
+                # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                $fileName = $article->getTitleSlugified() . '.' . $featuredImage->guessExtension();
 
-            # move uploaded file
-            $featuredImage->move(
-                $this->getParameter('app.articles.assets.dir'),
-                $fileName
-            );
+                # move uploaded file
+                $featuredImage->move(
+                    $this->getParameter('app.articles.assets.dir'),
+                    $fileName
+                );
+
+                $article->setFeaturedImage($fileName);
+            }
 
             # insert Into database
             $em = $this->getDoctrine()->getManager();
@@ -142,18 +136,15 @@ class ArticleController extends Controller
             return $this->redirectToRoute(
                 'index_article',
                 [
-                    'category' => $article->getCategorie()->getLabelUrlified(),
-                    'slug' => $article->getSlugyfiedTitle(),
+                    'category' => $article->getCategory()->getLabelSlugified(),
+                    'slug' => $article->getTitleSlugified(),
                     'id' => $article->getId()
-                ]);
+                ]
+            );
         }
-
 
         return $this->render('form/article/addArticle.html.twig', array(
             'form' => $form->createView(),
         ));
-
-
     }
-
 }

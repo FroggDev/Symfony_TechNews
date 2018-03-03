@@ -28,7 +28,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findArticleSuggestions($idArticle, $idCategory)
+    public function findArticleSuggestions($idCategory)
     {
         return $this->createQueryBuilder('a')
             ->where('a.category = :category_id')->setParameter('category_id', $idCategory)
@@ -58,18 +58,4 @@ class ArticleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-
-    /*
-    public function findBySomething($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->where('a.something = :value')->setParameter('value', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 }

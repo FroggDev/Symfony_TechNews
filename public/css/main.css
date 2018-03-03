@@ -1365,7 +1365,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     .list-video .related-video-item:hover .related-video-img a span {
       opacity: 1; }
 
-/*==========Page Article=========*/
+/*==========Page Entity=========*/
 .post-detail h1 {
   font-size: 30px;
   color: #333;

@@ -27,21 +27,52 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    ################
+    # TWIG FILTERS #
+    ################
+
     # enable Twig dump
-    twig.extension.debug:
+    app.twig.extension.debug:
         class:        Twig_Extension_Debug
         tags:
              - { name: 'twig.extension' }
 
-    # Custom Twig Filter @router injection
-    app.twig_runtime:
-        class: App\Service\Twig\AppRuntime
-        public: true
+    # Common String Custom Twig Filter
+    app.twig_runtime_common_string:
+        class: App\Service\Twig\Common\StringAppRuntime
+        tags:
+            - { name: twig.runtime }
+
+    # Article Custom Twig Filter @router & @assets injection
+    app.twig_runtime_article:
+        class: App\Service\Twig\Entity\ArticleAppRuntime
         arguments:
             - "@router"
             - "@assets.packages"
         tags:
             - { name: twig.runtime }
+
+    # Category Custom Twig Filter @router & @assets injection
+    app.twig_runtime_category:
+        class: App\Service\Twig\Entity\CategoryAppRuntime
+        arguments:
+            - "@router"
+            - "@assets.packages"
+        tags:
+            - { name: twig.runtime }
+
+    # Author Custom Twig Filter @router & @assets injection
+    app.twig_runtime_author:
+        class: App\Service\Twig\Entity\AuthorAppRuntime
+        arguments:
+            - "@router"
+            - "@assets.packages"
+        tags:
+            - { name: twig.runtime }
+
+    ####################
+    # CONSOLE COMMANDS #
+    ####################
 
     # create a new database entry
     app.command_createDatabaseEntry:

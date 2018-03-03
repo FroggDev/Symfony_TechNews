@@ -1,19 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Remy
- * Date: 02/03/2018
- * Time: 02:10
- */
+namespace App\Common\Util\String;
 
-namespace App\Common\Util;
-
-
-Trait SlugifyTrait
+trait SlugifyTrait
 {
     /**
      * @param $text
-     * @return null|string|string[]
+     * @return string
      */
     public function slugify(string $text) : string
     {
@@ -40,5 +32,4 @@ Trait SlugifyTrait
         }
         return $text;
     }
-
 }

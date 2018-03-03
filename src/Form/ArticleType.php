@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-
 use App\Entity\Article;
 use App\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -27,7 +26,7 @@ class ArticleType extends AbstractType
                 [
                     'required' => true,
                     'attr' => [
-                        'placeholder' => 'Article title...',
+                        'placeholder' => 'Entity title...',
                         'class' => 'form-control'
                     ]
                 ]
@@ -49,7 +48,7 @@ class ArticleType extends AbstractType
                 [
                     'required' => true,
                     'attr' => [
-                        'placeholder' => 'Article content...',
+                        'placeholder' => 'Entity content...',
                         'class' => 'form-control'
                     ]
                 ]
@@ -77,7 +76,8 @@ class ArticleType extends AbstractType
                     'required' => false
                 ]
             )->add(
-                'submit', SubmitType::class,
+                'submit',
+                SubmitType::class,
                 [
                     'label' => 'Publish',
                     'attr' => array('class' => 'btn btn-primary')
@@ -91,5 +91,4 @@ class ArticleType extends AbstractType
             'data_class' => Article::class,
         ]);
     }
-
 }

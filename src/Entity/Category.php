@@ -1,8 +1,7 @@
 <?php
-
 namespace App\Entity;
 
-use App\Common\Util\SpaceModifierTrait;
+use App\Common\Util\String\SlugifyTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Category
 {
 
-    use SpaceModifierTrait;
+    use SlugifyTrait;
 
     /**
      * @ORM\Id
@@ -68,9 +67,9 @@ class Category
     /**
      * @return mixed
      */
-    public function getLabelUrlified()
+    public function getLabelSlugified()
     {
-        return $this->spaceTotrait($this->label);
+        return $this->slugify($this->label);
     }
 
     /**
@@ -100,5 +99,4 @@ class Category
         $this->articles = $articles;
         return $this;
     }
-
 }

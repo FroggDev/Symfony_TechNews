@@ -19,7 +19,7 @@ class AuthorRepository extends ServiceEntityRepository
         parent::__construct($registry, Author::class);
     }
 
-    public function getArticleFromAuthor($id)
+    public function getArticleFromAuthor($id) : Author
     {
         return $this->findOneBy(['id' => $id]);
     }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+	<title>${PROJECT_NAME}</title>
+	<parser>
+		<target>phpdoc/output</target>
+        <encoding>utf8</encoding>
+		<extensions>
+			<extension>module</extension>
+			<extension>inc</extension>
+			<extension>php</extension>
+		</extensions>
+	</parser>
+	<transformer>
+		<target>phpdoc/docs</target>
+	</transformer>
+	<files>
+        <directory>src</directory>
+	</files>
+    <logging>
+        <level>warn</level>
+        <paths>
+            <default>phpdoc/log/{DATE}.log</default>
+            <errors>phpdoc/log/{DATE}.errors.log</errors>
+        </paths>
+    </logging>
+</phpdoc>
