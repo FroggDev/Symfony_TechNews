@@ -98,9 +98,9 @@ class Article
 
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -113,15 +113,14 @@ class Article
     public function setTitle($title): Article
     {
         $this->title = $title;
-        $this->titleSlugified = $this->slugify($this->title);
-        return $this;
+        return $this->setManualyTitleSlugified();
     }
 
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getContent(): string
+    public function getContent(): ?string
     {
         return $this->content;
     }
@@ -157,9 +156,9 @@ class Article
 
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getSpecial(): bool
+    public function getSpecial(): ?bool
     {
         return $this->special;
     }
@@ -177,9 +176,9 @@ class Article
 
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getSpotlight(): bool
+    public function getSpotlight(): ?bool
     {
         return $this->spotlight;
     }
@@ -217,9 +216,9 @@ class Article
 
 
     /**
-     * @return Category
+     * @return Category|null
      */
-    public function getCategory(): Category
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
@@ -236,9 +235,9 @@ class Article
 
 
     /**
-     * @return Author
+     * @return Author|null
      */
-    public function getAuthor(): Author
+    public function getAuthor(): ?Author
     {
         return $this->author;
     }
@@ -269,6 +268,15 @@ class Article
     public function setTitleSlugified($titleSlugified): Article
     {
         $this->titleSlugified = $titleSlugified;
+        return $this;
+    }
+
+    /**
+     * @return Article
+     */
+    public function setManualyTitleSlugified(): Article
+    {
+        $this->titleSlugified = $this->slugify($this->title);
         return $this;
     }
 }

@@ -25,12 +25,26 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param int $idCategory
      * @return array
      */
-    public function findLastFiveArticle() : array
+    public function findArticleFromLastMonths(int $nbMonth): array
     {
         return $this->createQueryBuilder('a')
-            ->orderBy('a.id', 'DESC')
+            ->where('a.dateCreation > DATE_ADD(NOW(),INTERVAL -'.$nbMonth.' MONTH)')
+            ->orderBy('a.dateCreation', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    /**
+     * @return array
+     */
+    public function findLastFiveArticle(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.dateCreation', 'DESC')
             ->setMaxResults(5)
             ->getQuery()
             ->getResult();
@@ -40,12 +54,12 @@ class ArticleRepository extends ServiceEntityRepository
      * @param int $idCategory
      * @return array
      */
-    public function findArticleSuggestions(int $idCategory) : array
+    public function findArticleSuggestions(int $idCategory): array
     {
         return $this->createQueryBuilder('a')
             ->where('a.category = :category_id')->setParameter('category_id', $idCategory)
             ->andWhere('a.id != :article_id')->setParameter('article_id', $idCategory)
-            ->orderBy('a.id', 'DESC')
+            ->orderBy('a.dateCreation', 'DESC')
             ->setMaxResults(5)
             ->getQuery()
             ->getResult();
@@ -54,11 +68,11 @@ class ArticleRepository extends ServiceEntityRepository
     /**
      * @return array
      */
-    public function findSpotLightArticles() : array
+    public function findSpotLightArticles(): array
     {
         return $this->createQueryBuilder('a')
             ->where('a.spotlight = true')
-            ->orderBy('a.id', 'DESC')
+            ->orderBy('a.dateCreation', 'DESC')
             ->setMaxResults(9)
             ->getQuery()
             ->getResult();
@@ -67,12 +81,12 @@ class ArticleRepository extends ServiceEntityRepository
     /**
      * @return array
      */
-    public function findSpecialArticles() : array
+    public function findSpecialArticles(): array
     {
         return $this->createQueryBuilder('a')
             ->where('a.special = true')
-            ->orderBy('a.id', 'DESC')
-            ->setMaxResults(3)
+            ->orderBy('a.dateCreation', 'DESC')
+            ->setMaxResults(1)
             ->getQuery()
             ->getResult();
     }

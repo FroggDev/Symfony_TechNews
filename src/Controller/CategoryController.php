@@ -28,9 +28,12 @@ class CategoryController extends Controller
     use SlugifyTrait;
 
     /**
-     * @Route("/category/{label}/{currentPage}.html",
+     * @Route(
+     *      "/category/{label}/{currentPage}.html",
      *      name="index_category",
      *      methods={"GET"},
+     *      requirements={"label" : "[a-z0-9-]+"},
+     *      requirements={"currentPage" : "\d+"},
      *      defaults={"currentPage"="1"}
      * )
      *

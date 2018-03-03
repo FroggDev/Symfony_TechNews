@@ -10,13 +10,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class ArticleController
+ * @package App\Controller
+ */
 class ArticleController extends Controller
 {
     /**
-     * @Route("/article/{category}/{slug}_{id}.html",
+     * @Route(
+     *      "/article/{category}/{slug}_{id}.html",
      *      name="index_article",
      *      methods={"GET"},
-     *      requirements={"id" : "\d+"})
+     *      requirements={"id" : "\d+"}
+     *     )
      *
      * @param Article $article
      * @param string $category
@@ -32,16 +38,16 @@ class ArticleController extends Controller
         }
 
         # get slugified datas
-        $currentCategory = $article->getCategory()->getLabelSlugified();
-        $titleSlugyfied = $article->getTitleSlugified();
+        $categorySlugified = $article->getCategory()->getLabelSlugified();
+        $titleSlugified = $article->getTitleSlugified();
 
         # check url format
-        if ($category != $currentCategory || $slug != $titleSlugyfied) {
+        if ($category != $categorySlugified || $slug != $titleSlugified) {
             return $this->redirectToRoute(
                 'index_article',
                 [
-                    'category' => $currentCategory,
-                    'slug' => $titleSlugyfied,
+                    'category' => $categorySlugified,
+                    'slug' => $titleSlugified,
                     'id' => $id
                 ],
                 Response::HTTP_MOVED_PERMANENTLY
@@ -92,7 +98,7 @@ class ArticleController extends Controller
         $author = $this
             ->getDoctrine()
             ->getRepository(Author::class)
-            ->find(1);
+            ->find(3);
 
         # set author to the article
         $article->setAuthor($author);
@@ -126,6 +132,9 @@ class ArticleController extends Controller
 
                 $article->setFeaturedImage($fileName);
             }
+
+            #set slugified title
+            $article->setManualyTitleSlugified();
 
             # insert Into database
             $em = $this->getDoctrine()->getManager();

@@ -278,8 +278,7 @@ class Author
      */
     public function setManualyNameSlugified(): Author
     {
-        $this->nameSlugified = $this->lastName . ' ' . $this->firstName;
+        $this->nameSlugified = $this->slugify($this->lastName . ' ' . $this->firstName);
         return $this;
     }
-
 }

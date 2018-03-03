@@ -8,17 +8,22 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class AuthorController
+ * @package App\Controller
+ */
 class AuthorController extends Controller
 {
 
     use SlugifyTrait;
 
     /**
-     * @Route("/author/{name}/{currentPage}.html",
+     * @Route(
+     *     "/author/{name}/{currentPage}.html",
      *      name="index_author",
      *      methods={"GET"},
      *      requirements={"name" : "[a-z0-9-]+"},
-     *      requirements={"currentPage" : "[\d-]+"},
+     *      requirements={"currentPage" : "\d+"},
      *      defaults={"currentPage" : 1}
      *      )
      *

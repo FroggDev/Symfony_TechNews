@@ -70,6 +70,15 @@ services:
         tags:
             - { name: twig.runtime }
 
+    # Search Custom Twig Filter @router & @assets injection
+    app.twig_runtime_search:
+        class: App\Service\Twig\Entity\SearchAppRuntime
+        arguments:
+            - "@router"
+            - "@assets.packages"
+        tags:
+            - { name: twig.runtime }
+
     ####################
     # CONSOLE COMMANDS #
     ####################
