@@ -831,6 +831,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
           color: #fff;
           background-color: #f26522;
           border: 2px solid #f26522; }
+        .list-social-icon li a.heart:hover{color:#fff;background-color:#f93ccf96;border:2px solid #f93ccf96;}
+        .list-social-icon li a.frogg:hover{color:#fff;background-color:darkgreen;border:2px solid darkgreen;}
 
 .ads {
   margin-top: 30px; }
