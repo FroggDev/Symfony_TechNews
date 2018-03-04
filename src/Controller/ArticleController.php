@@ -85,7 +85,11 @@ class ArticleController extends Controller
     }
 
     /**
-     * @route("/creer_un_article.html")
+     * @route(
+     *     "/addArticle.html",
+     *     name="add_article"
+     * )
+     *
      * @param Request $request
      * @return Response
      */
@@ -132,6 +136,90 @@ class ArticleController extends Controller
 
                 # update image name
                 $article->setFeaturedImage($fileName);
+            }
+
+            #set slugified title
+            $article->setManualyTitleSlugified();
+
+            # insert Into database
+            $eManager = $this->getDoctrine()->getManager();
+            $eManager->persist($article);
+            $eManager->flush();
+
+            # redirect on the created article
+            return $this->redirectToRoute(
+                'index_article',
+                [
+                    'category' => $article->getCategory()->getLabelSlugified(),
+                    'slug' => $article->getTitleSlugified(),
+                    'id' => $article->getId()
+                ]
+            );
+        }
+
+        return $this->render('form/article/addArticle.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @route(
+     *     "/modArticle/{slug}_{id}.html",
+     *     name="mod_article"
+     * )
+     *
+     * @param Article $article
+     * @param Request $request
+     * @param string $slug
+     * @param string $id
+     * @return Response
+     */
+    public function modArticle(Article $article, Request $request, string $slug, string $id): Response
+    {
+        # check if article exist
+        if (!$article) {
+            return $this->redirectToRoute('index', [], Response::HTTP_MOVED_PERMANENTLY);
+        }
+
+        # check article author
+        if ($article->getAuthor()->getId()!=3) {
+            return $this->redirectToRoute('index', [], Response::HTTP_MOVED_PERMANENTLY);
+        }
+
+        $defaultImage = $article->getFeaturedImage();
+
+        # https://symfony.com/doc/current/reference/forms/types.html
+        $form = $this->createForm(ArticleType::class, $article);
+
+        # Form posted data management
+        $form->handleRequest($request);
+
+        # Check the form (order is important)
+        if ($form->isSubmitted() && $form->isValid()) {
+            # get datas
+            $article = $form->getData();
+
+            # get the image file
+            $featuredImage = $article->getFeaturedImage();
+
+            # Only if image exist
+            if ($featuredImage) {
+                # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                # get file name DO NOT FORGET TO ENABLE extension=php_fileinfo.dll
+                # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                $fileName = $article->getTitleSlugified() . '.' . $featuredImage->guessExtension();
+
+                # move uploaded file
+                $featuredImage->move(
+                    $this->getParameter('app.articles.assets.dir'),
+                    $fileName
+                );
+
+                # update image name
+                $article->setFeaturedImage($fileName);
+            } else {
+                # restore original image if not modified
+                $article->setFeaturedImage($defaultImage);
             }
 
             #set slugified title

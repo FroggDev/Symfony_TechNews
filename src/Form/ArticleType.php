@@ -56,6 +56,7 @@ class ArticleType extends AbstractType
                 'featured_image',
                 FileType::class,
                 [
+                    'data_class' => null,
                     'required' => false,
                     'attr' => [
                         'class' => 'dropify',
