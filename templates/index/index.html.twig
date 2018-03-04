@@ -28,7 +28,7 @@
                             <em></em>
                             <span>{{ article.dateCreation }}</span>
                         </div>
-                        <p>{{ article.content | raw }}</p>
+                        <p>{{ article.content  | maxLen(1000) | raw }}</p>
                     </div>
                 </article>
             </div>

@@ -6,6 +6,7 @@ use App\Service\Twig\Common\StringAppRuntime;
 use App\Service\Twig\Entity\ArticleAppRuntime;
 use App\Service\Twig\Entity\AuthorAppRuntime;
 use App\Service\Twig\Entity\CategoryAppRuntime;
+use App\Service\Twig\Entity\LastAppRuntime;
 use App\Service\Twig\Entity\SearchAppRuntime;
 
 /**
@@ -39,7 +40,8 @@ class AppExtension extends \Twig_Extension
             new \Twig_Filter('articleImageLink', [ArticleAppRuntime::class, 'articleImageLink']),
             new \Twig_Filter('categoryLink', [CategoryAppRuntime::class, 'categoryLink']),
             new \Twig_Filter('authorLink', [AuthorAppRuntime::class, 'authorLink']),
-            new \Twig_Filter('searchLink', [SearchAppRuntime::class, 'searchLink'])
+            new \Twig_Filter('searchLink', [SearchAppRuntime::class, 'searchLink']),
+            new \Twig_Filter('lastLink', [LastAppRuntime::class, 'lastLink'])
         ];
     }
 }

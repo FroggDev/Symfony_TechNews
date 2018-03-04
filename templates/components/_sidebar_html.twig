@@ -5,15 +5,14 @@
     <!--tab popular-->
     <ul role="tablist" class="tab-popular">
         <li class="active">
-            <a href="#tab1" role="tab" data-toggle="tab">
-                DERNI&Egrave;RE PUBLICATIONS
+            <a href="/last/1.html">
+                LAST PUBLICATIONS
             </a>
         </li>
     </ul>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="tab1">
             <ul class="list-news-popular">
-
                 {% for article in lastFiveArticles %}
                 <li>
                     {{ article | articleImageLink | raw }}
@@ -26,9 +25,7 @@
                     <p>{{ article.content  | maxLen(100) | raw  }}</p>
                 </li>
                 {% endfor %}
-
             </ul>
-
         </div>
     </div>
 
@@ -43,7 +40,7 @@
     <div class="connect-us">
         <div class="widget-title">
 			<span>
-				SUIVEZ-NOUS
+				Follow us
 			</span>
         </div>
         <ul class="list-social-icon">
@@ -55,7 +52,7 @@
     <div class="connect-us">
         <div class="widget-title">
 			<span>
-				En Avant
+				Special
 			</span>
         </div>
         <div class="list-special">
@@ -71,7 +68,6 @@
                 <p>{{ article.content  | maxLen(200) | raw  }}</p>
             </article>
             {% endfor %}
-
         </div>
     </div>
 </div>

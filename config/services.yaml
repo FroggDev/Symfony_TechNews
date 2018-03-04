@@ -79,6 +79,15 @@ services:
         tags:
             - { name: twig.runtime }
 
+    # last article Custom Twig Filter @router & @assets injection
+    app.twig_runtime_last:
+        class: App\Service\Twig\Entity\LastAppRuntime
+        arguments:
+            - "@router"
+            - "@assets.packages"
+        tags:
+            - { name: twig.runtime }
+
     ####################
     # CONSOLE COMMANDS #
     ####################
