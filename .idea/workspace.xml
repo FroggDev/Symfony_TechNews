@@ -6,40 +6,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="53ab16d8-631a-4845-8943-431bbe2939f7" name="Default" comment="Added Twig Filter images + Forms">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/Controller/SearchController.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/Service/Twig/Entity/SearchAppRuntime.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/templates/components/_worcloud_html.twig" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/templates/index/search.html.twig" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/config/services.yaml" afterPath="$PROJECT_DIR$/config/services.yaml" />
-      <change beforePath="$PROJECT_DIR$/public/images/product/10.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/public/images/product/11.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/public/images/product/12.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/public/images/product/13.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/public/images/product/14.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/public/images/product/15.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/public/images/product/17.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/public/images/product/18.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/public/images/product/9.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/public/images/product/cesars-2018-120-battements-par-minute-fait-la-course-en-tete.jpeg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/public/images/product/dfgdfgdfgd.jpeg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/public/images/product/dfgdgdfgdgsdgsdg.jpeg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/public/images/product/ghjghjgh.jpeg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/public/lib/ckeditor5/LICENSE.md" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/public/lib/ckeditor5/README.md" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/public/lib/ckeditor5/ckeditor.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/public/lib/ckeditor5/ckeditor.js.map" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ArticleController.php" afterPath="$PROJECT_DIR$/src/Controller/ArticleController.php" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/AuthorController.php" afterPath="$PROJECT_DIR$/src/Controller/AuthorController.php" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/CategoryController.php" afterPath="$PROJECT_DIR$/src/Controller/CategoryController.php" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/IndexController.php" afterPath="$PROJECT_DIR$/src/Controller/IndexController.php" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Article.php" afterPath="$PROJECT_DIR$/src/Entity/Article.php" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Author.php" afterPath="$PROJECT_DIR$/src/Entity/Author.php" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/ArticleRepository.php" afterPath="$PROJECT_DIR$/src/Repository/ArticleRepository.php" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Twig/AppExtension.php" afterPath="$PROJECT_DIR$/src/Service/Twig/AppExtension.php" />
-      <change beforePath="$PROJECT_DIR$/templates/components/_footer.html.twig" afterPath="$PROJECT_DIR$/templates/components/_footer.html.twig" />
-      <change beforePath="$PROJECT_DIR$/templates/components/_nav.html.twig" afterPath="$PROJECT_DIR$/templates/components/_nav.html.twig" />
-      <change beforePath="$PROJECT_DIR$/templates/components/_sidebar_html.twig" afterPath="$PROJECT_DIR$/templates/components/_sidebar_html.twig" />
+      <change beforePath="$PROJECT_DIR$/templates/components/_worcloud_html.twig" afterPath="$PROJECT_DIR$/templates/components/_worcloud_html.twig" />
+      <change beforePath="$PROJECT_DIR$/templates/form/article/addArticle.html.twig" afterPath="$PROJECT_DIR$/templates/form/article/addArticle.html.twig" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -101,18 +69,40 @@
       <file leaf-file-name="SearchAppRuntime.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Service/Twig/Entity/SearchAppRuntime.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="497">
+            <state relative-caret-position="548">
               <caret line="71" column="19" lean-forward="false" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="19" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="search.html.twig" pinned="false" current-in-tab="true">
+      <file leaf-file-name="search.html.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/index/search.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="48" column="57" lean-forward="true" selection-start-line="48" selection-start-column="57" selection-end-line="48" selection-end-column="57" />
+            <state relative-caret-position="391">
+              <caret line="41" column="25" lean-forward="false" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="addArticle.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/form/article/addArticle.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="17" column="12" lean-forward="false" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
+              <folding>
+                <element signature="e#12#28#0#Twig" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_worcloud_html.twig" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/components/_worcloud_html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" column="31" lean-forward="false" selection-start-line="1" selection-start-column="31" selection-end-line="1" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -133,7 +123,7 @@
       <file leaf-file-name="SearchController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Controller/SearchController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
+            <state relative-caret-position="531">
               <caret line="87" column="20" lean-forward="false" selection-start-line="87" selection-start-column="20" selection-end-line="87" selection-end-column="20" />
               <folding>
                 <element signature="e#115#138#0#PHP" expanded="true" />
@@ -178,7 +168,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/templates/form/article/addArticle.html.twig" />
         <option value="$PROJECT_DIR$/src/Common/Util/MaxLengthTrait.php" />
         <option value="$PROJECT_DIR$/src/Common/Util/Html/MakeHrefTrait.php" />
         <option value="$PROJECT_DIR$/src/Common/Util/Html/MakeLinkTrait.php" />
@@ -214,7 +203,6 @@
         <option value="$PROJECT_DIR$/public/css/main.css" />
         <option value="$PROJECT_DIR$/templates/components/_socialMedia.html.twig" />
         <option value="$PROJECT_DIR$/templates/components/_footer.html.twig" />
-        <option value="$PROJECT_DIR$/templates/components/_worcloud_html.twig" />
         <option value="$PROJECT_DIR$/src/Controller/CategoryController.php" />
         <option value="$PROJECT_DIR$/src/Controller/AuthorController.php" />
         <option value="$PROJECT_DIR$/templates/components/_sidebar_html.twig" />
@@ -229,6 +217,8 @@
         <option value="$PROJECT_DIR$/config/services.yaml" />
         <option value="$PROJECT_DIR$/src/Controller/SearchController.php" />
         <option value="$PROJECT_DIR$/templates/index/search.html.twig" />
+        <option value="$PROJECT_DIR$/templates/form/article/addArticle.html.twig" />
+        <option value="$PROJECT_DIR$/templates/components/_worcloud_html.twig" />
       </list>
     </option>
   </component>
@@ -421,6 +411,12 @@
               <item name="Symfony_TestProject" type="b2602c69:ProjectViewProjectNode" />
               <item name="Symfony_TestProject" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="templates" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="Symfony_TestProject" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Symfony_TestProject" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="templates" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="form" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
@@ -507,7 +503,7 @@
       <workItem from="1519822147602" duration="13588000" />
       <workItem from="1519894160833" duration="27897000" />
       <workItem from="1519979506164" duration="27960000" />
-      <workItem from="1520020855268" duration="54336000" />
+      <workItem from="1520020855268" duration="54817000" />
     </task>
     <task id="LOCAL-00001" summary="App test">
       <created>1519835733643</created>
@@ -541,7 +537,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="168376000" />
+    <option name="totallyTimeSpent" value="168857000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -621,14 +617,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Service/Twig/AppRuntime.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -883,14 +871,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/components/_worcloud_html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="12" lean-forward="true" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/AuthorController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -1012,9 +992,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/form/article/addArticle.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="12" lean-forward="false" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
+          <folding>
+            <element signature="e#12#28#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Service/Twig/Entity/SearchAppRuntime.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
+        <state relative-caret-position="548">
           <caret line="71" column="19" lean-forward="false" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="19" />
           <folding />
         </state>
@@ -1022,7 +1012,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/SearchController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
+        <state relative-caret-position="531">
           <caret line="87" column="20" lean-forward="false" selection-start-line="87" selection-start-column="20" selection-end-line="87" selection-end-column="20" />
           <folding>
             <element signature="e#115#138#0#PHP" expanded="true" />
@@ -1034,8 +1024,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/index/search.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="48" column="57" lean-forward="true" selection-start-line="48" selection-start-column="57" selection-end-line="48" selection-end-column="57" />
+        <state relative-caret-position="391">
+          <caret line="41" column="25" lean-forward="false" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/components/_worcloud_html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="31" lean-forward="false" selection-start-line="1" selection-start-column="31" selection-end-line="1" selection-end-column="31" />
           <folding />
         </state>
       </provider>

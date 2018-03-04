@@ -12,19 +12,11 @@
 
 {% block js %}
     {{ parent() }}
-    <!--script src="{{ asset('lib/ckeditor5/ckeditor.js') }}"></script-->
-
     <script src="//cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
 
     <script src="{{ asset('lib/dropify/js/dropify.min.js') }}"></script>
     <script>
-
         CKEDITOR.replace( 'article_content' );
-
-
-        //ClassicEditor
-         //   .create(document.querySelector('#article_content'));
-
 
         $('.dropify').dropify({
             messages: {
