@@ -66,7 +66,6 @@ class AuthorAppRuntime
      */
     private function getAuthorHref(Author $author, string $currentPage = null): string
     {
-
         $routeParams = [
             'name' => $author->getNameSlugified()
         ];

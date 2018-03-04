@@ -43,13 +43,13 @@ class CategoryController extends Controller
      */
     public function category(string $label, string $currentPage): Response
     {
-        $currentLabelSlugified = $this->slugify($label);
+        $labelSlugified = $this->slugify($label);
 
         # get repo category
         $reposirotyCategory = $this->getDoctrine()->getRepository(Category::class);
 
         # get category from category
-        $category = $reposirotyCategory->getCategoryFromName($currentLabelSlugified);
+        $category = $reposirotyCategory->getCategoryFromName($labelSlugified);
 
         # check if category exist
         if (!$category) {

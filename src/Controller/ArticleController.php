@@ -130,6 +130,7 @@ class ArticleController extends Controller
                     $fileName
                 );
 
+                # update image name
                 $article->setFeaturedImage($fileName);
             }
 
@@ -137,9 +138,9 @@ class ArticleController extends Controller
             $article->setManualyTitleSlugified();
 
             # insert Into database
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($article);
-            $em->flush();
+            $eManager = $this->getDoctrine()->getManager();
+            $eManager->persist($article);
+            $eManager->flush();
 
             # redirect on the created article
             return $this->redirectToRoute(

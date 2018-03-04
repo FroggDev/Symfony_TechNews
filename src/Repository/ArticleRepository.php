@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -25,7 +24,7 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $idCategory
+     * @param int $nbMonth
      * @return array
      */
     public function findArticleFromLastMonths(int $nbMonth): array

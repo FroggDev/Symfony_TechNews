@@ -19,12 +19,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CreateDatabaseEntry extends command
 {
 
-    private $em;
+    private $eManager;
 
-    public function __construct(?string $name = null, EntityManagerInterface $em)
+    public function __construct(?string $name = null, EntityManagerInterface $eManager)
     {
         parent::__construct($name);
-        $this->em = $em;
+        $this->eManager = $eManager;
     }
 
     /**
@@ -62,8 +62,8 @@ class CreateDatabaseEntry extends command
 
         # you can fetch the EntityManager via $this->getDoctrine()
         # or you can add an argument to your action: index(EntityManagerInterface $em)
-        $checkNewCategory = $this->em->getRepository(Category::class)->findOneBy(array('label' => $newCategory));
-        $checkNewAuthor = $this->em->getRepository(Author::class)->findOneBy(array('email' => $newAuthor));
+        $checkNewCategory = $this->eManager->getRepository(Category::class)->findOneBy(array('label' => $newCategory));
+        $checkNewAuthor = $this->eManager->getRepository(Author::class)->findOneBy(array('email' => $newAuthor));
 
         #Adding new category if not already exist
         if ($checkNewCategory === null) {
@@ -72,7 +72,7 @@ class CreateDatabaseEntry extends command
             $category = new Category();
             $category->setLabel($newCategory);
             // tell Doctrine you want to (eventually) save the Product (no queries yet)
-            $this->em->persist($category);
+            $this->eManager->persist($category);
 
             $output->writeln(['Adding category : ' . $newCategory, '']);
         } else {
@@ -91,7 +91,7 @@ class CreateDatabaseEntry extends command
                 ->setPassword('This is a pass')
                 ->setRoles(['Admin','Contributor']);
             // tell Doctrine you want to (eventually) save the Product (no queries yet)
-            $this->em->persist($author);
+            $this->eManager->persist($author);
 
             $output->writeln(['Adding author : ' . $newAuthor, '']);
         } else {
@@ -114,9 +114,9 @@ class CreateDatabaseEntry extends command
 
 
         // tell Doctrine you want to (eventually) save the Product (no queries yet)
-        $this->em->persist($article);
+        $this->eManager->persist($article);
         // actually executes the queries (i.e. the INSERT query)
-        $this->em->flush();
+        $this->eManager->flush();
 
         $output->writeln(['Congratulation, datas are flushed to Database !', '']);
     }

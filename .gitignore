@@ -1,4 +1,5 @@
-# PHP Documentor
+# OUtput files like phpdoc & phpdepend
+output/
 phpdoc/
 
 ###> symfony/framework-bundle ###

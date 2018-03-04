@@ -3,8 +3,6 @@
 namespace App\Service\Twig\Entity;
 
 use App\Common\Util\Html\ATagGeneratorTrait;
-use App\Entity\Article;
-use App\Entity\Category;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -61,9 +59,11 @@ class SearchAppRuntime
         );
     }
 
+
     /**
-     * @param Category $category
-     * @param string $currentPage
+     * @param string $search
+     * @param string $searchType
+     * @param string|null $currentPage
      * @return string
      */
     private function getSearchHref(string $search, string $searchType, string $currentPage = null): string
@@ -76,6 +76,6 @@ class SearchAppRuntime
             $routeParams['currentPage'] = $currentPage;
         }
 
-        return $this->router->generate("${searchType}_search", $routeParams);
+        return $this->router->generate($searchType."_search", $routeParams);
     }
 }

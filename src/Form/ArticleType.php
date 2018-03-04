@@ -64,13 +64,13 @@ class ArticleType extends AbstractType
                     ]
                 ]
             )->add(
-                'special',
+                'spotlight',
                 CheckboxType::class,
                 [
                     'required' => false
                 ]
             )->add(
-                'spotlight',
+                'special',
                 CheckboxType::class,
                 [
                     'required' => false

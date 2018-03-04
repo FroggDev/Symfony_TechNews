@@ -2,7 +2,7 @@
 <phpdoc>
 	<title>${PROJECT_NAME}</title>
 	<parser>
-		<target>phpdoc/output</target>
+		<target>public/output/phpdoc/output</target>
         <encoding>utf8</encoding>
 		<extensions>
 			<extension>module</extension>
@@ -11,7 +11,7 @@
 		</extensions>
 	</parser>
 	<transformer>
-		<target>phpdoc/docs</target>
+		<target>public/output/phpdoc/</target>
 	</transformer>
 	<files>
         <directory>src</directory>
@@ -19,8 +19,8 @@
     <logging>
         <level>warn</level>
         <paths>
-            <default>phpdoc/log/{DATE}.log</default>
-            <errors>phpdoc/log/{DATE}.errors.log</errors>
+            <default>public/output/phpdoc/log/{DATE}.log</default>
+            <errors>public/output/phpdoc/log/{DATE}.errors.log</errors>
         </paths>
     </logging>
 </phpdoc>
