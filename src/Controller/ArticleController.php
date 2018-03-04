@@ -58,7 +58,7 @@ class ArticleController extends Controller
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $suggestions = $this->getDoctrine()
             ->getRepository(Article::class)
-            ->findArticleSuggestions($id, $article->getCategory()->getId());
+            ->findArticleSuggestions($article->getCategory()->getId());
 
         # Get spotlights
         $spotlight = $this->getDoctrine()
