@@ -1,0 +1,63 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_title "Login" %}
+
+{% set active = "login" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-6 col-xs-push-3">
+            <h2 class="text-center">Login form</h2>
+
+            <form action="{{ url('security_connexion') }}" class="form-horizontal" method="POST">
+
+                {% if app.request.get('register')=="success" %}
+                    <div class="alert alert-success">
+                        <p class="text-center"><i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i></p>
+                        <p class="text-center">Congratulation your account has been created.
+                            <br>You can now login to the application.</p>
+                    </div>
+                {% elseif  app.request.get('register')=="recover" %}
+                    <div class="alert alert-success">
+                        <p class="text-center"><i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i></p>
+                        <p class="text-center">An email has been sent to your mailbox.</p>
+                    </div>
+                {% endif %}
+
+                {% if error %}
+                    <div class="alert alert-danger">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        {{ error }}
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        <input name="_username"
+                               value="{{ last_email }}"
+                               class="form-control" required type="email"
+                               placeholder="Enter your email">
+                    </div>
+                    <div class="col-xs-6">
+                        <input name="_password"
+                               class="form-control" required type="password"
+                               placeholder="Enter your password">
+                    </div>
+                </div>
+
+                 <input type="hidden" value="{% if app.request.get('go')!="" %}{{ app.request.get('go') }}{% else %}/home{% endif %}" name="_target_path"/>
+                 <input type="submit" class="btn btn-block btn-primary"/>
+
+                <div class="form-group">
+                    <div class="col-xs-6"><a href="{{ url("security_register") }}">Not register yet ?</a></div>
+                    <div class="col-xs-6"><a href="{{ url("security_recover") }}">Recover your password ?</a></div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+

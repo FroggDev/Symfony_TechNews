@@ -16,3 +16,7 @@ privacy:
     controller:   Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
     defaults:
         template: static/privacy.html.twig
+
+#route logout (used in security.yaml)
+security_logout:
+    path: /logout.html

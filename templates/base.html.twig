@@ -1,5 +1,5 @@
 {% set categories = category_service.findAll() %}
-
+{% set currentPath = app.request.pathinfo %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -15,6 +15,8 @@
     {% block css '' %}
 </head>
 <body>
+
+{#{ dump(app.user) }#}
 
 {% block html '' %}
 {% block js '' %}

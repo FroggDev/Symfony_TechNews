@@ -14,9 +14,9 @@
 -- Export de données de la table technewssf.author : ~3 rows (environ)
 /*!40000 ALTER TABLE `author` DISABLE KEYS */;
 INSERT INTO `author` VALUES
-(1,'LIEGEARD','Hugo','hugo-liegeard','wf3@hl-media.fr','dGVzdA==','2018-02-26 11:53:18','N;',NULL),
-(2,'PEREZ','Sylviane','sylviane-perez','sylviane.perez@wf3.fr','dGVzdA==','2018-02-26 11:53:18','N;',NULL),
-(3,'FROGG','Froggiz','froggiz-frogg','admin@frogg.fr','dGVzdA==','2018-03-03 18:48:18','N;',NULL);
+(1,'LIEGEARD','Hugo','hugo-liegeard','wf3@hl-media.fr','$2y$13$oJWapb/IFGWDe6Fn5k7j1.SxivjpmbBuYxDVMp9zO8Z/0tuy/hnte','2018-02-26 11:53:18','N;',NULL),
+(2,'PEREZ','Sylviane','sylviane-perez','sylviane.perez@wf3.fr','$2y$13$oJWapb/IFGWDe6Fn5k7j1.SxivjpmbBuYxDVMp9zO8Z/0tuy/hnte','2018-02-26 11:53:18','N;',NULL),
+(3,'FROGG','Froggiz','froggiz-frogg','admin@frogg.fr','$2y$13$oJWapb/IFGWDe6Fn5k7j1.SxivjpmbBuYxDVMp9zO8Z/0tuy/hnte','2018-03-03 18:48:18','N;',NULL);
 /*!40000 ALTER TABLE `author` ENABLE KEYS */;
 
 -- Export de données de la table technews-rouen.category : ~5 rows (environ)

@@ -5,11 +5,15 @@ namespace App\Entity;
 use App\Common\Util\String\SlugifyTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AuthorRepository")
+ * @UniqueEntity(fields={"email"},errorPath="email",message="This email is already in use")
+ * @see https://symfony.com/doc/current/reference/constraints/UniqueEntity.html
  */
-class Author
+class Author implements UserInterface
 {
     use SlugifyTrait;
 
@@ -41,10 +45,42 @@ class Author
     private $email;
 
     /**
+     * @ORM\Column(type="string", length=100,nullable=true)
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="datetime",nullable=true)
+     */
+    private $tokenValidity;
+
+    /**
      * For base64 encode
      * @ORM\Column(type="string",length=64)
      */
     private $password;
+
+
+    /**
+     * @var string
+     */
+    private $passwordCheck;
+
+    /**
+     * @return mixed
+     */
+    public function getPasswordCheck()
+    {
+        return $this->passwordCheck;
+    }
+
+    /**
+     * @param mixed $passwordCheck
+     */
+    public function setPasswordCheck($passwordCheck): void
+    {
+        $this->passwordCheck = $passwordCheck;
+    }
 
     /**
      * @ORM\Column(type="datetime")
@@ -101,7 +137,7 @@ class Author
     /**
      * @return string
      */
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
@@ -121,7 +157,7 @@ class Author
     /**
      * @return string
      */
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
@@ -140,7 +176,7 @@ class Author
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -159,7 +195,7 @@ class Author
     /**
      * @return string
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -171,7 +207,7 @@ class Author
      */
     public function setPassword(string $password): Author
     {
-        $this->password = base64_encode($password);
+        $this->password = $password;
         return $this;
     }
 
@@ -199,18 +235,18 @@ class Author
     /**
      * @return array
      */
-    public function getRoles(): array
+    public function getRoles(): ?array
     {
         return $this->roles;
     }
 
     /**
-     * @param array $roles
+     * @param string $role
      * @return Author
      */
-    public function setRoles(array $roles): Author
+    public function setRoles(string $role): Author
     {
-        $this->roles = $roles;
+        $this->roles[] = $role;
         return $this;
     }
 
@@ -281,4 +317,65 @@ class Author
         $this->nameSlugified = $this->slugify($this->lastName . ' ' . $this->firstName);
         return $this;
     }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+        return null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param string $token
+     * @return Author
+     */
+    public function setToken($token): Author
+    {
+        $this->token = $token;
+        $this->tokenValidity= new \DateTime();
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getTokenValidity()
+    {
+        return $this->tokenValidity;
+    }
+
 }

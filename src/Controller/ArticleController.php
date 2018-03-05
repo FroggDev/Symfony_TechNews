@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Author;
 use App\Form\ArticleType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -89,6 +90,7 @@ class ArticleController extends Controller
      *     "/addArticle.html",
      *     name="add_article"
      * )
+     * @Security("has_role('ROLE_AUTEUR')")
      *
      * @param Request $request
      * @return Response
@@ -167,6 +169,7 @@ class ArticleController extends Controller
      *     "/modArticle/{slug}_{id}.html",
      *     name="mod_article"
      * )
+     * @Security("has_role('ROLE_AUTEUR')")
      *
      * @param Article $article
      * @param Request $request

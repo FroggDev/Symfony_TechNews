@@ -44,4 +44,15 @@ class AppExtension extends \Twig_Extension
             new \Twig_Filter('lastLink', [LastAppRuntime::class, 'lastLink'])
         ];
     }
+
+    /**
+     * @return array
+     */
+    public function getFunctions(): array
+    {
+        return [
+             new \Twig_Function('getUri', [AppRuntime::class, 'getUri'])
+        ];
+    }
+
 }

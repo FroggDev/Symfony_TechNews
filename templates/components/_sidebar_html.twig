@@ -2,10 +2,39 @@
 
 <!--colright-->
 <div class="col-md-4 col-sm-12">
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <h3 class="text-center">Welcome {{ app.user.lastname | capitalize }} {{ app.user.firstname | upper }}</h3>
+        <h4 class="text-center">
+            {% if is_granted('ROLE_ADMIN') %}
+                Administrator
+            {% elseif is_granted('ROLE_AUTEUR') %}
+                Author
+            {% else %}
+                Member
+            {% endif %}
+        </h4>
+        <ul class="list-group">
+            {% if is_granted('ROLE_AUTEUR') %}
+                <li class="list-group-item">
+                    <a href="{{ url('add_article') }}">Create a new article</a>
+                </li>
+            {% endif %}
+            <li class="list-group-item">
+                <a href="{{ url('security_logout') }}">Logout</a>
+            </li>
+        </ul>
+    {% else %}
+
+
+        <li class="list-group-item"><a href="{{ url('security_connexion', { 'go' :  getUri() }) }}">Login</a></li>
+        <li class="list-group-item"><a href="{{ url('security_register') }}">Register</a></li>
+    {% endif %}
+
     <!--tab popular-->
     <ul role="tablist" class="tab-popular">
         <li class="active">
-            <a href="/last/1.html">
+            <a href="{{ url('last_article') }}">
                 LAST PUBLICATIONS
             </a>
         </li>

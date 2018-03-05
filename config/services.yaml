@@ -2,6 +2,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     app.articles.assets.dir: '%kernel.project_dir%/public/images/product'
+    locale: 'en'
 
 services:
     # default configuration for services in *this* file
@@ -40,6 +41,12 @@ services:
     # Common String Custom Twig Filter
     app.twig_runtime_common_string:
         class: App\Service\Twig\Common\StringAppRuntime
+        tags:
+            - { name: twig.runtime }
+
+    # Common Twig function
+    app.twig_runtime_function:
+        class: App\Service\Twig\AppRuntime
         tags:
             - { name: twig.runtime }
 
