@@ -35,7 +35,6 @@ class AppRuntime
      */
     public function isNewsletterModal() : ?bool
     {
-        return $this->session->get( 'newsletterModal');
+        return $this->session->get('newsletterModal');
     }
-
 }

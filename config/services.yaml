@@ -37,6 +37,12 @@ services:
         arguments:
             - "@swiftmailer.mailer"
 
+    ############
+    # LISTNERS #
+    ############
+    App\EventSubscriber\LoginSubscriber:
+        tags:
+            - { name: 'kernel.event_listener', event: 'security.interactive_login' }
     ################
     # TWIG FILTERS #
     ################

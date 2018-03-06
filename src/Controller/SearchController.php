@@ -93,10 +93,10 @@ class SearchController extends Controller
         $countArticle =count($matches);
 
         # get only wanted articles
-        $articles = array_slice( $matches ,($currentPage-1) * SiteConfig::NBARTICLEPERPAGE , SiteConfig::NBARTICLEPERPAGE );
+        $articles = array_slice($matches, ($currentPage-1) * SiteConfig::NBARTICLEPERPAGE, SiteConfig::NBARTICLEPERPAGE);
 
         # number of pagination
-        $countPagination =  ceil($countArticle / SiteConfig::NBARTICLEPERPAGE );
+        $countPagination =  ceil($countArticle / SiteConfig::NBARTICLEPERPAGE);
 
         # display page from twig template
         return $this->render('index/search.html.twig', [

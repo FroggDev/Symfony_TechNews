@@ -1,7 +1,6 @@
 <?php
 namespace App;
 
-
 class SiteConfig
 {
     /**
@@ -15,5 +14,4 @@ class SiteConfig
      * @const int
      */
     const NBPAGEBEFORENEWSLETTERPER = 3;
-
 }

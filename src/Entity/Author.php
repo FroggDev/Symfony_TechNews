@@ -290,9 +290,9 @@ class Author implements AdvancedUserInterface
      * @param \DateTime $lastConnexion
      * @return $this
      */
-    public function setLastConnexion(\DateTime $lastConnexion)
+    public function setLastConnexion()
     {
-        $this->lastConnexion = $lastConnexion;
+        $this->lastConnexion = new \DateTime;
         return $this;
     }
 

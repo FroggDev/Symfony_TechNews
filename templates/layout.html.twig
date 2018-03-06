@@ -47,11 +47,6 @@
     {#Footer#}
     {% include 'components/_footer.html.twig' %}
 
-
-    {{ dump(app.session.get('countUserView')) }}
-    {{ dump(app.session.get('newsletterModal')) }}
-    {{ dump(isNewsletterModal()) }}
-
     {% if isNewsletterModal()==true %}
         {{ render(controller('App\\Controller\\NewsletterController::newsletter' )) }}
         {% block final_js %}
@@ -62,7 +57,6 @@
             </script>
         {% endblock %}
     {% endif %}
-
 
 {% endblock %}
 

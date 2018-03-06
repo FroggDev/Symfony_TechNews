@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\VarDumper\VarDumper;
 
 class NewsletterSubscriber implements EventSubscriberInterface
 {
@@ -47,32 +46,31 @@ class NewsletterSubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(GetResponseEvent $event)
     {
-        if(!$event->isMasterRequest() || $event->getRequest()->isXmlHttpRequest()){
+        if (!$event->isMasterRequest() || $event->getRequest()->isXmlHttpRequest()) {
             return ;
         }
 
         $this->session->set(
             'countUserView',
             $this->session->get(
-                'countUserView', 0
+                'countUserView',
+                0
             ) + 1
         );
 
-        if($this->session->get('countUserView') === SiteConfig::NBPAGEBEFORENEWSLETTERPER ){
-            $this->session->set( 'newsletterModal' , true );
+        if ($this->session->get('countUserView') === SiteConfig::NBPAGEBEFORENEWSLETTERPER) {
+            $this->session->set('newsletterModal', true);
         }
     }
 
     public function onKernelResponse(FilterResponseEvent $event)
     {
-        if(!$event->isMasterRequest() || $event->getRequest()->isXmlHttpRequest()){
+        if (!$event->isMasterRequest() || $event->getRequest()->isXmlHttpRequest()) {
             return ;
         }
-        VarDumper::dump($this->session->get('countUserView'));
 
-
-        if($this->session->get('countUserView') > SiteConfig::NBPAGEBEFORENEWSLETTERPER ){
-            $this->session->set( 'newsletterModal' , false );
+        if ($this->session->get('countUserView') >= SiteConfig::NBPAGEBEFORENEWSLETTERPER) {
+            $this->session->set('newsletterModal', false);
         }
     }
 }
