@@ -23,15 +23,15 @@ class AuthorRecoverType extends AbstractType
                 'label' => false,
                     'attr' => [
                     'placeholder' => 'Set your email.'
-                ]
-            ])->add(
+                    ]
+            ]
+        )->add(
             'submit',
             SubmitType::class,
             [
                 'label' => 'Recover my password ',
                 'attr' => array('class' => 'btn btn-primary')
-            ]
-
+                ]
         )->getForm();
     }
 

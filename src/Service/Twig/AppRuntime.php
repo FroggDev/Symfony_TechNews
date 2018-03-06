@@ -1,20 +1,24 @@
 <?php
 namespace App\Service\Twig;
 
+use App\SiteConfig;
 use Symfony\Component\HttpFoundation\RequestStack;
-
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class AppRuntime
 {
     private $requestStack;
 
+    private $session;
+
     /**
      * AppRuntime constructor.
      * @param RequestStack $requestStack
      */
-    public function __construct(RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack, SessionInterface $session)
     {
         $this->requestStack=$requestStack;
+        $this->session=$session;
     }
 
     /**
@@ -25,4 +29,13 @@ class AppRuntime
         $stack = $this->requestStack->getMasterRequest();
         return $stack->getRequestUri();
     }
+
+    /**
+     * @return bool
+     */
+    public function isNewsletterModal() : ?bool
+    {
+        return $this->session->get( 'newsletterModal');
+    }
+
 }

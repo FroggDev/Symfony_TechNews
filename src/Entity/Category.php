@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Common\Util\String\SlugifyTrait;
+use App\Common\Traits\String\SlugifyTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -105,7 +105,7 @@ class Category
     }
 
     /**
-     * return \Doctrine\ORM\PersistentCollection but init as ArrayCollection
+     * ...return \Doctrine\ORM\PersistentCollection but init as ArrayCollection but need array ...
      */
     public function getArticles()
     {
@@ -114,10 +114,10 @@ class Category
 
 
     /**
-     * @param ArrayCollection $articles
+     * @param mixed $articles
      * @return Category
      */
-    public function setArticles(ArrayCollection $articles): Category
+    public function setArticles($articles): Category
     {
         $this->articles = $articles;
         return $this;

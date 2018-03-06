@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Common\Util\String\SlugifyTrait;
+use App\Common\Traits\String\SlugifyTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

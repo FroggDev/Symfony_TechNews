@@ -1,7 +1,7 @@
 <?php
 namespace App\Service\Twig\Common;
 
-use App\Common\Util\String\MaxLengthTrait;
+use App\Common\Traits\String\MaxLengthTrait;
 
 /**
  * Class AppRuntime

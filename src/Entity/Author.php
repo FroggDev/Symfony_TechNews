@@ -2,18 +2,18 @@
 
 namespace App\Entity;
 
-use App\Common\Util\String\SlugifyTrait;
+use App\Common\Traits\String\SlugifyTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AuthorRepository")
  * @UniqueEntity(fields={"email"},errorPath="email",message="This email is already in use")
  * @see https://symfony.com/doc/current/reference/constraints/UniqueEntity.html
  */
-class Author implements UserInterface
+class Author implements AdvancedUserInterface
 {
     use SlugifyTrait;
 
@@ -306,10 +306,10 @@ class Author implements UserInterface
     }
 
     /**
-     * @param ArrayCollection $articles
+     * @param mixed $articles
      * @return Author
      */
-    public function setArticles(ArrayCollection $articles): Author
+    public function setArticles($articles): Author
     {
         $this->articles = $articles;
         return $this;
@@ -395,7 +395,7 @@ class Author implements UserInterface
         $this->token = uniqid('', true) . uniqid('', true);
         #set token validity only if account has been validated
         # case if user didnt validated email, can validate later
-        if($this->status !== $this::INACTIVE){
+        if ($this->status !== $this::INACTIVE) {
             $this->tokenValidity = new \DateTime();
         }
         return $this;
@@ -411,7 +411,7 @@ class Author implements UserInterface
 
     public function isTokenExpired(): bool
     {
-        if($this->tokenValidity==null){
+        if ($this->tokenValidity==null) {
             return false;
         }
         $now = new \DateTime();
@@ -503,9 +503,16 @@ class Author implements UserInterface
     }
 
     /**
-     * @return bool
+     * Checks whether the user is enabled.
+     *
+     * Internally, if this method returns false, the authentication system
+     * will throw a DisabledException and prevent login.
+     *
+     * @return bool true if the user is enabled, false otherwise
+     *
+     * @see DisabledException
      */
-    public function isActive() : bool
+    public function isEnabled()
     {
         return $this->status == $this::ACTIVE;
     }
@@ -528,4 +535,48 @@ class Author implements UserInterface
     }
 
 
+    /**
+     * Checks whether the user's account has expired.
+     *
+     * Internally, if this method returns false, the authentication system
+     * will throw an AccountExpiredException and prevent login.
+     *
+     * @return bool true if the user's account is non expired, false otherwise
+     *
+     * @see AccountExpiredException
+     */
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    /**
+     * Checks whether the user is locked.
+     *
+     * Internally, if this method returns false, the authentication system
+     * will throw a LockedException and prevent login.
+     *
+     * @return bool true if the user is not locked, false otherwise
+     *
+     * @see LockedException
+     */
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    /**
+     * Checks whether the user's credentials (password) has expired.
+     *
+     * Internally, if this method returns false, the authentication system
+     * will throw a CredentialsExpiredException and prevent login.
+     *
+     * @return bool true if the user's credentials are non expired, false otherwise
+     *
+     * @see CredentialsExpiredException
+     */
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
 }

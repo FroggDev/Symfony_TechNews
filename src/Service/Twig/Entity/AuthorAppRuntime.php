@@ -2,7 +2,7 @@
 
 namespace App\Service\Twig\Entity;
 
-use App\Common\Util\Html\ATagGeneratorTrait;
+use App\Common\Traits\Html\ATagGeneratorTrait;
 use App\Entity\Author;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Routing\RouterInterface;

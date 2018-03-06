@@ -2,9 +2,9 @@
 
 namespace App\Service\Twig\Entity;
 
-use App\Common\Util\Html\ATagGeneratorTrait;
-use App\Common\Util\Html\ImgTagGeneratorTrait;
-use App\Common\Util\String\MaxLengthTrait;
+use App\Common\Traits\Html\ATagGeneratorTrait;
+use App\Common\Traits\Html\ImgTagGeneratorTrait;
+use App\Common\Traits\String\MaxLengthTrait;
 use App\Entity\Article;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Routing\RouterInterface;

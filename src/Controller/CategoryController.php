@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
-use App\Common\Util\String\SlugifyTrait;
+use App\Common\Traits\String\SlugifyTrait;
 use App\Entity\Category;
+use App\SiteConfig;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * @TODO : @ Entity("label", expr="repository.findOneByLabel(label)")
@@ -71,11 +73,24 @@ class CategoryController extends Controller
             );
         }
 
+        #get Article array
+        $matches = $category->getArticles()->getValues();
+
+        # get number of elenmts
+        $countArticle =count($matches);
+
+        # get only wanted articles
+        $articles = array_slice( $matches ,($currentPage-1) * SiteConfig::NBARTICLEPERPAGE , SiteConfig::NBARTICLEPERPAGE );
+
+        # number of pagination
+        $countPagination =  ceil($countArticle / SiteConfig::NBARTICLEPERPAGE );
+
         # display page from twig template
         return $this->render('index/category.html.twig', [
-            'articles' => $category->getArticles(),
+            'articles' => $articles,
             'category' => $category,
-            'currentPage' => $currentPage
+            'currentPage' => $currentPage,
+            'countPagination' => $countPagination
         ]);
     }
 }

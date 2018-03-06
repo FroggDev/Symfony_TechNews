@@ -1,45 +1,49 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Etudiant
+ * Date: 06/03/2018
+ * Time: 12:08
+ */
 
 namespace App\Form;
 
-use App\Entity\Author;
+use App\Entity\Newsletter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AuthorPasswordType extends AbstractType
+class NewsletterType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder ->add(
-            'password',
-            PasswordType::class,
+        $builder->add(
+            'email',
+            EmailType::class,
             [
-            'required' => true,
-            'attr' => [
-                'placeholder' => 'Set your password.'
-            ]
+                'required' => true,
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Set your email.',
+                    'class' => 'form-control'
+                ]
             ]
         )->add(
             'submit',
             SubmitType::class,
             [
-                'label' => 'Change password',
+                'label' => 'Subscribe',
                 'attr' => array('class' => 'btn btn-primary')
                 ]
-        )
-        ->getForm();
+        )->getForm();
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Author::class
+            'data_class' => Newsletter::class
         ]);
     }
 }

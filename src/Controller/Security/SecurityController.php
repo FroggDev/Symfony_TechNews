@@ -2,6 +2,7 @@
 
 namespace App\Controller\Security;
 
+use App\Common\Traits\Comm\MailerTrait;
 use App\Entity\Author;
 use App\Form\AuthorPasswordType;
 use App\Form\AuthorRecoverType;
@@ -12,12 +13,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\VarDumper\VarDumper;
 
 class SecurityController extends Controller
 {
 
-    private $mailer;
+    use MailerTrait;
 
     public function __construct(\Swift_Mailer $mailer)
     {
@@ -99,8 +99,8 @@ class SecurityController extends Controller
             $eManager->persist($author);
             $eManager->flush();
 
-            # send the mail
-            $this->send($author, 'mail/registration.html.twig' , 'TechNews - Validation mail');
+             # send the mail
+            $this->send('technews@frogg.fr', $author->getEmail(), 'mail/registration.html.twig', 'TechNews - Validation mail', $author);
 
             # redirect user
             return $this->redirectToRoute('security_connexion', ['register' => 'success']);
@@ -143,7 +143,7 @@ class SecurityController extends Controller
         }
 
         # account already registered
-        if ($author->isActive()) {
+        if ($author->isEnabled) {
             return $this->redirectToRoute('security_connexion', ['register' => 'actived']);
         }
 
@@ -194,7 +194,6 @@ class SecurityController extends Controller
 
         # check form datas
         if ($form->isSubmitted()) {
-
             # get repo author
             $reposirotyAuthor = $this->getDoctrine()->getRepository(Author::class);
 
@@ -219,7 +218,7 @@ class SecurityController extends Controller
             $eManager->flush();
 
             # send the mail
-            $this->send($author, 'mail/recover.html.twig' , 'TechNews - Password recovery');
+            $this->send('technews@frogg.fr', $author->getEmail(), 'mail/recover.html.twig', 'TechNews - Password recovery', $author);
 
             # redirect user
             return $this->redirectToRoute('security_connexion', ['register' => 'recovered']);
@@ -286,7 +285,6 @@ class SecurityController extends Controller
 
         # check form datas
         if ($form->isSubmitted()) {
-
             # password encryption
             $password = $passwordEncoder->encodePassword($author, $author->getPassword());
 
@@ -310,38 +308,4 @@ class SecurityController extends Controller
             'form' => $form->createView()
         ]);
     }
-
-
-    # DEV CONF ===>
-    # https://symfony.com/doc/current/email/dev_environment.html
-
-    public function send(Author $author,string $template,string $subject)
-    {
-
-        $message = (new \Swift_Message($subject))
-            ->setFrom('technews@frogg.fr')
-            ->setTo($author->getEmail())
-            ->setBody(
-                $this->renderView(
-                // templates/emails/registration.html.twig
-                    $template,
-                    array('author' => $author)
-                ),
-                'text/html'
-            )
-            /*
-             * If you also want to include a plaintext version of the message
-            ->addPart(
-                $this->renderView(
-                    'emails/registration.txt.twig',
-                    array('name' => $name)
-                ),
-                'text/plain'
-            )
-            */
-        ;
-
-        $this->mailer->send($message);
-    }
-
 }

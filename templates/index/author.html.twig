@@ -35,7 +35,7 @@
             <!--list-news-cate-->
             <div class="list-news-cate">
                 <article class="news-cate-item">
-                    {% for article in articles |slice((currentPage-1) * nbArticlePerPage, (currentPage-1) * nbArticlePerPage + nbArticlePerPage) %}
+                    {% for article in articles |slice((currentPage-1) * nbArticlePerPage, nbArticlePerPage) %}
                     <div class="row">
                         <div class="col-md-5 col-sm-5 col-xs-12">
                             {{ article | articleImageLink | raw }}
@@ -73,7 +73,7 @@
 
         {# Side bar #}
         {#% include 'components/_sidebar_html.twig' %#}
-        {{ render(controller('App\\Controller\\IndexController::sideBar')) }}
+        {{ render(controller('App\\Controller\\SectionController::sideBar')) }}
 
 
     </div>

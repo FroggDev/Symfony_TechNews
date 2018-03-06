@@ -1,5 +1,5 @@
 <?php
-namespace App\Common\Util\String;
+namespace App\Common\Traits\String;
 
 trait SlugifyTrait
 {

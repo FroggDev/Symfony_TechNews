@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Class ArticleController
@@ -98,6 +99,7 @@ class ArticleController extends Controller
      */
     public function addArticle(Request $request): Response
     {
+
         # init new article object
         $article = new Article();
 
@@ -106,7 +108,7 @@ class ArticleController extends Controller
         $author = $this
             ->getDoctrine()
             ->getRepository(Author::class)
-            ->find(3);
+            ->find($this->getUser()->getId());
 
         # set author to the article
         $article->setAuthor($author);
@@ -161,7 +163,7 @@ class ArticleController extends Controller
             );
         }
 
-        return $this->render('form/article/addArticle.html.twig', array(
+        return $this->render('article/addArticle.html.twig', array(
             'form' => $form->createView(),
         ));
     }

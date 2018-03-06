@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Common\Util\Html;
+namespace App\Common\Traits\Html;
 
 trait ImgTagGeneratorTrait
 {

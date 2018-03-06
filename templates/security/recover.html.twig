@@ -1,6 +1,6 @@
 {% extends 'layout.html.twig' %}
 
-{% block page_title "Login" %}
+{% block page_title "Password recovery" %}
 
 {% set active = "recover" %}
 
@@ -19,17 +19,6 @@
 
                 {% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
                 {{ form(form) }}
-
-
-            <form class="form-horizontal" method="POST">
-                <div class="form-group">
-                        <input name="_username"
-                               value=""
-                               class="form-control" required type="email"
-                               placeholder="Enter your email">
-                </div>
-                <input type="submit" value="Recover my password" class="btn btn-block btn-primary"/>
-            </form>
         </div>
     </div>
 {% endblock %}

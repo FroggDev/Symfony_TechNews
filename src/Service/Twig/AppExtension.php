@@ -51,8 +51,8 @@ class AppExtension extends \Twig_Extension
     public function getFunctions(): array
     {
         return [
-             new \Twig_Function('getUri', [AppRuntime::class, 'getUri'])
+            new \Twig_Function('getUri', [AppRuntime::class, 'getUri']),
+            new \Twig_Function('isNewsletterModal', [AppRuntime::class, 'isNewsletterModal'])
         ];
     }
-
 }

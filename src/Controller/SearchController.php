@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Remy
- * Date: 03/03/2018
- * Time: 21:33
- */
-
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\SiteConfig;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -95,12 +89,22 @@ class SearchController extends Controller
             }
         );
 
+        # get number of elenmts
+        $countArticle =count($matches);
+
+        # get only wanted articles
+        $articles = array_slice( $matches ,($currentPage-1) * SiteConfig::NBARTICLEPERPAGE , SiteConfig::NBARTICLEPERPAGE );
+
+        # number of pagination
+        $countPagination =  ceil($countArticle / SiteConfig::NBARTICLEPERPAGE );
+
         # display page from twig template
         return $this->render('index/search.html.twig', [
-            'articles' => $matches,
+            'articles' => $articles,
             'search' => $search,
             'currentPage' => $currentPage,
-            'searchType' => 'index'
+            'searchType' => 'index',
+            'countPagination' => $countPagination
         ]);
     }
 
