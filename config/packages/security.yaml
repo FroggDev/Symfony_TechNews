@@ -49,6 +49,8 @@ security:
     access_control:
         # require ROLE_ADMIN for /admin
         - { path: ^/admin, roles: ROLE_ADMIN }
+        # require ROLE_ADMIN for /admin
+        - { path: ^/author, roles: ROLE_AUTHOR }
         # require ROLE_MEMBRE for /member
         - { path: ^/member, roles: ROLE_MEMBER }
 

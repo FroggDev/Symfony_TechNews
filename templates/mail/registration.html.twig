@@ -1,0 +1,12 @@
+{# templates/emails/registration.html.twig #}
+<h3>You did it! You registered!</h3>
+
+<p>Hi {{ author.lastname }} {{ author.firstname }}! You're successfully registered.</p>
+
+{# example, assuming you have a route named "login" #}
+<p>To validate your account, go to: <a href="{{ url('register_validation') }}?email={{ author.email }}&token={{ author.token }}">Account validation</a>.</p>
+
+<p>Thanks!</p>
+
+{# Makes an absolute URL to the /images/logo.png file #}
+<img src="{{ absolute_url(asset('images/logo.png')) }}">

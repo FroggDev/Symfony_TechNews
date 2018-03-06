@@ -87,13 +87,14 @@ class ArticleController extends Controller
 
     /**
      * @route(
-     *     "/addArticle.html",
+     *     "/author/addArticle.html",
      *     name="add_article"
      * )
-     * @Security("has_role('ROLE_AUTEUR')")
      *
      * @param Request $request
      * @return Response
+     *
+     * @see security.yaml @Security("has_role('ROLE_AUTEUR')")
      */
     public function addArticle(Request $request): Response
     {
@@ -101,6 +102,7 @@ class ArticleController extends Controller
         $article = new Article();
 
         # get an author for the demo
+        # TODO : Get this from Connected user !
         $author = $this
             ->getDoctrine()
             ->getRepository(Author::class)
@@ -166,16 +168,17 @@ class ArticleController extends Controller
 
     /**
      * @route(
-     *     "/modArticle/{slug}_{id}.html",
+     *     "/author/modArticle/{slug}_{id}.html",
      *     name="mod_article"
      * )
-     * @Security("has_role('ROLE_AUTEUR')")
      *
      * @param Article $article
      * @param Request $request
      * @param string $slug
      * @param string $id
      * @return Response
+     *
+     * @see security.yaml @Security("has_role('ROLE_AUTEUR')")
      */
     public function modArticle(Article $article, Request $request, string $slug, string $id): Response
     {

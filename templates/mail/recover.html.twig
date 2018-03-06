@@ -1,0 +1,12 @@
+{# templates/emails/registration.html.twig #}
+<h3>Password recovery</h3>
+
+<p>Hi {{ author.lastname }} {{ author.firstname }}! It seems you forgot your password.</p>
+
+{# example, assuming you have a route named "login" #}
+<p>Don't worry we are here to help you, go to: <a href="{{ url('recover_validation') }}?email={{ author.email }}&token={{ author.token }}">Password recovery</a>.</p>
+
+<p>Thanks!</p>
+
+{# Makes an absolute URL to the /images/logo.png file #}
+<img src="{{ absolute_url(asset('images/logo.png')) }}">

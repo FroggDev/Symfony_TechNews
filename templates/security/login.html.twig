@@ -14,13 +14,50 @@
                 {% if app.request.get('register')=="success" %}
                     <div class="alert alert-success">
                         <p class="text-center"><i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i></p>
-                        <p class="text-center">Congratulation your account has been created.
+                        <p class="text-center">Congratulation your account has been created !
+                            <br>An email has been sent to validate your account registration.</p>
+                    </div>
+                {% elseif  app.request.get('register')=="validated" %}
+                    <div class="alert alert-success">
+                        <p class="text-center"><i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i></p>
+                        <p class="text-center">Your account  has been validated !
                             <br>You can now login to the application.</p>
                     </div>
-                {% elseif  app.request.get('register')=="recover" %}
+                {% elseif  app.request.get('register')=="passechanged" %}
+                    <div class="alert alert-success">
+                        <p class="text-center"><i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i></p>
+                        <p class="text-center">Password has been changed !
+                            <br>You can now login to the application.</p>
+                    </div>
+                {% elseif  app.request.get('register')=="recovered" %}
                     <div class="alert alert-success">
                         <p class="text-center"><i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i></p>
                         <p class="text-center">An email has been sent to your mailbox.</p>
+                    </div>
+                {% elseif  app.request.get('register')=="actived" %}
+                    <div class="alert alert-success">
+                        <p class="text-center"><i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i></p>
+                        <p class="text-center">Account is already activated.</p>
+                    </div>
+                {% elseif  app.request.get('register')=="expired" %}
+                    <div class="alert alert-danger">
+                        <p class="text-center"><i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i></p>
+                        <p class="text-center">The request for password recovery has expired.</p>
+                    </div>
+                {% elseif  app.request.get('register')=="notfound" %}
+                    <div class="alert alert-danger">
+                        <p class="text-center"><i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i></p>
+                        <p class="text-center">Email not found.</p>
+                    </div>
+                {% elseif  app.request.get('register')=="banned" %}
+                    <div class="alert alert-danger">
+                        <p class="text-center"><i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i></p>
+                        <p class="text-center">This account is banned.</p>
+                    </div>
+                {% elseif  app.request.get('register')=="closed" %}
+                    <div class="alert alert-danger">
+                        <p class="text-center"><i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i></p>
+                        <p class="text-center">This account has been closed.</p>
                     </div>
                 {% endif %}
 

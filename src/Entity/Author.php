@@ -17,6 +17,35 @@ class Author implements UserInterface
 {
     use SlugifyTrait;
 
+    #####################
+    # Account constants #
+    #####################
+
+    /**
+     * Constant for inactive Author, register but didn't validate email confirmation
+     */
+    const INACTIVE = 0;
+    /**
+     * Constant for registerd Author
+     */
+    const ACTIVE = 1;
+    /**
+     * Constant for Author closed account
+     */
+    const CLOSED = 2;
+    /**
+     * Constant for Author banned account
+     */
+    const BANNED = 3;
+    /**
+     * Constant for Token validity time in day
+     */
+    const TOKENVALIDITYTIME = 1; #day
+
+    ##########
+    # Entity #
+    ##########
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -60,28 +89,6 @@ class Author implements UserInterface
      */
     private $password;
 
-
-    /**
-     * @var string
-     */
-    private $passwordCheck;
-
-    /**
-     * @return mixed
-     */
-    public function getPasswordCheck()
-    {
-        return $this->passwordCheck;
-    }
-
-    /**
-     * @param mixed $passwordCheck
-     */
-    public function setPasswordCheck($passwordCheck): void
-    {
-        $this->passwordCheck = $passwordCheck;
-    }
-
     /**
      * @ORM\Column(type="datetime")
      */
@@ -101,6 +108,25 @@ class Author implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Article",mappedBy="author")
      */
     private $articles;
+
+    /**
+     * Author account state ( 0 = inactive ; 1 = active ; 2 = closed ; 3 = banned ...other state for later )
+     * @ORM\Column(type="integer")
+     * @see Author contants
+     */
+    private $status;
+
+    /**
+     * When Author account is closed or banned
+     * @ORM\Column(type="datetime",nullable=true)
+     */
+    private $dateClosed;
+
+
+    ###########
+    # Methods #
+    ###########
+
 
     /**
      * Author constructor.
@@ -354,7 +380,7 @@ class Author implements UserInterface
     /**
      * @return string
      */
-    public function getToken()
+    public function getToken(): string
     {
         return $this->token;
     }
@@ -363,19 +389,143 @@ class Author implements UserInterface
      * @param string $token
      * @return Author
      */
-    public function setToken($token): Author
+    public function setToken(): Author
     {
-        $this->token = $token;
-        $this->tokenValidity= new \DateTime();
+        //$author->setToken(bin2hex(random_bytes(100)));
+        $this->token = uniqid('', true) . uniqid('', true);
+        #set token validity only if account has been validated
+        # case if user didnt validated email, can validate later
+        if($this->status !== $this::INACTIVE){
+            $this->tokenValidity = new \DateTime();
+        }
         return $this;
     }
 
     /**
      * @return \DateTime
      */
-    public function getTokenValidity()
+    public function getTokenValidity(): \DateTime
     {
         return $this->tokenValidity;
     }
+
+    public function isTokenExpired(): bool
+    {
+        if($this->tokenValidity==null){
+            return false;
+        }
+        $now = new \DateTime();
+        return $now->diff($this->getTokenValidity())->days > $this::TOKENVALIDITYTIME;
+    }
+
+    /**
+     * @return Author
+     */
+    public function removeToken(): Author
+    {
+        $this->tokenValidity = null;
+        $this->token = null;
+        return $this;
+    }
+
+
+    /**
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param integer $status
+     * @return Author
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+
+    /**
+     * @return Author
+     */
+    public function setInactive(): Author
+    {
+        $this->status = $this::INACTIVE;
+        return $this;
+    }
+
+    /**
+     * @return Author
+     */
+    public function setActive(): Author
+    {
+        $this->status = $this::ACTIVE;
+        return $this;
+    }
+
+    /**
+     * @return Author
+     */
+    public function setClosed(): Author
+    {
+        $this->status = $this::CLOSED;
+        $this->setDateClosed();
+        return $this;
+    }
+
+    /**
+     * @return Author
+     */
+    public function setBanned(): Author
+    {
+        $this->status = $this::BANNED;
+        $this->setDateClosed();
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBanned() : bool
+    {
+        return $this->status == $this::BANNED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isClosed() : bool
+    {
+        return $this->status == $this::CLOSED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive() : bool
+    {
+        return $this->status == $this::ACTIVE;
+    }
+
+    /**
+     * @return void
+     */
+    private function setDateClosed(): void
+    {
+        $this->dateClosed = new \DateTime();
+    }
+
+
+    /**
+     * @return \DateTime()
+     */
+    public function getDateClosed(): \DateTime
+    {
+        return $this->dateClosed;
+    }
+
 
 }

@@ -11,54 +11,27 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AuthorType extends AbstractType
+class AuthorRecoverType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder->add(
-            'firstname',
-            TextType::class,
-            [
-                'required' => true,
-                'attr' => [
-                    'placeholder' => 'Set your firstname.'
-                ]
-            ]
-        )->add(
-            'lastname',
-            TextType::class,
-            [
-                'required' => true,
-                'attr' => [
-                    'placeholder' => 'Set your lastname.'
-                ]
-            ]
-        )->add(
             'email',
             EmailType::class,
             [
                 'required' => true,
-                'attr' => [
+                'label' => false,
+                    'attr' => [
                     'placeholder' => 'Set your email.'
                 ]
-            ]
-        )->add(
-            'password',
-            PasswordType::class,
-            [
-                'required' => true,
-                'attr' => [
-                    'placeholder' => 'Set your password.'
-                ]
-            ]
-        )->add(
+            ])->add(
             'submit',
             SubmitType::class,
             [
-                'label' => 'Create account',
+                'label' => 'Recover my password ',
                 'attr' => array('class' => 'btn btn-primary')
             ]
+
         )->getForm();
     }
 

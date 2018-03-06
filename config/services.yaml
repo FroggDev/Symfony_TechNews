@@ -29,6 +29,15 @@ services:
     # please note that last definitions always *replace* previous ones
 
     ################
+    # Swift Mailer #
+    ################
+
+    app.mail.register:
+        class: App\Controller\Security\SecurityController
+        arguments:
+            - "@swiftmailer.mailer"
+
+    ################
     # TWIG FILTERS #
     ################
 

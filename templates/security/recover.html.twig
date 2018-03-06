@@ -1,0 +1,39 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_title "Login" %}
+
+{% set active = "recover" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-6 col-xs-push-3">
+            <h2 class="text-center">Password recovery</h2>
+
+                {% if app.request.get('register')=="notfound" %}
+                    <div class="alert alert-danger">
+                        <p class="text-center"><i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i></p>
+                        <p class="text-center">Email <b>{{ app.request.get('last_email')}}</b> not founds.
+                            <br>Please try again.</p>
+                    </div>
+                {% endif %}
+
+                {% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
+                {{ form(form) }}
+
+
+            <form class="form-horizontal" method="POST">
+                <div class="form-group">
+                        <input name="_username"
+                               value=""
+                               class="form-control" required type="email"
+                               placeholder="Enter your email">
+                </div>
+                <input type="submit" value="Recover my password" class="btn btn-block btn-primary"/>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
