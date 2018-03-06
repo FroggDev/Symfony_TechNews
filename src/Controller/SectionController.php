@@ -6,6 +6,10 @@ use App\Entity\Article;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class SectionController
+ * @package App\Controller
+ */
 class SectionController extends Controller
 {
     /**

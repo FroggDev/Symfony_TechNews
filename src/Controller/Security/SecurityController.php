@@ -14,11 +14,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+/**
+ * Class SecurityController
+ * @package App\Controller\Security
+ */
 class SecurityController extends Controller
 {
 
     use MailerTrait;
 
+    /**
+     * SecurityController constructor.
+     * @param \Swift_Mailer $mailer
+     */
     public function __construct(\Swift_Mailer $mailer)
     {
         $this->mailer=$mailer;
@@ -30,8 +38,10 @@ class SecurityController extends Controller
      *     "/login.html",
      *      name="security_connexion"
      * )
+     * @param AuthenticationUtils $authenticationUtils
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function connexion(Request $request, AuthenticationUtils $authenticationUtils)
+    public function connexion(AuthenticationUtils $authenticationUtils)
     {
         # Récupération du message d'erreur s'il y en a un.
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -54,6 +64,9 @@ class SecurityController extends Controller
      *      name="security_register",
      *     methods={"GET","POST"}
      *     )
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -195,13 +208,13 @@ class SecurityController extends Controller
         # check form datas
         if ($form->isSubmitted()) {
             # get repo author
-            $reposirotyAuthor = $this->getDoctrine()->getRepository(Author::class);
+            $repositoryArticle = $this->getDoctrine()->getRepository(Author::class);
 
             #get posted email
             $email = $form->getData()->getEmail();
 
             #get author from email
-            $author = $reposirotyAuthor->findOneBy(['email' => $email]);
+            $author = $repositoryArticle->findOneBy(['email' => $email]);
 
             # author not found
             if (!$author) {
@@ -248,8 +261,8 @@ class SecurityController extends Controller
         $token = $request->query->get('token');
 
         # getUserFromEmail
-        $reposirotyAuthor = $this->getDoctrine()->getRepository(Author::class);
-        $author = $reposirotyAuthor->findOneBy(
+        $repositoryArticle = $this->getDoctrine()->getRepository(Author::class);
+        $author = $repositoryArticle->findOneBy(
             [
                 'email' => $email,
                 'token' => $token

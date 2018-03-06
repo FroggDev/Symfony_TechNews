@@ -115,6 +115,6 @@ services:
     ####################
 
     # create a new database entry
-    app.command_createDatabaseEntry:
+    app.command_create_db_entry:
         class: App\Command\CreateDatabaseEntry
         arguments: [doctrine.orm.entity_manager]

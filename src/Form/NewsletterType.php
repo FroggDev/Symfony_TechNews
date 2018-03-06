@@ -15,31 +15,44 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class NewsletterType
+ * @package App\Form
+ */
 class NewsletterType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add(
-            'email',
-            EmailType::class,
-            [
-                'required' => true,
-                'label' => false,
-                'attr' => [
-                    'placeholder' => 'Set your email.',
-                    'class' => 'form-control'
+        $builder
+            ->setMethod('GET')
+            ->add(
+                'email',
+                EmailType::class,
+                [
+                    'required' => true,
+                    'label' => false,
+                    'attr' => [
+                        'placeholder' => 'Your email...',
+                        'class' => 'form-control'
+                    ]
                 ]
-            ]
-        )->add(
-            'submit',
-            SubmitType::class,
-            [
-                'label' => 'Subscribe',
-                'attr' => array('class' => 'btn btn-primary')
+            )->add(
+                'submit',
+                SubmitType::class,
+                [
+                    'label' => 'Subscribe',
+                    'attr' => array('class' => 'btn btn-primary my-btn')
                 ]
-        )->getForm();
+            )->getForm();
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

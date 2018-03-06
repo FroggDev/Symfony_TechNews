@@ -2,8 +2,23 @@
 <nav class="menu-res hidden-lg hidden-md ">
     <div class="menu-res-inner">
         <ul>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <a href="{{ path('security_logout') }}">Logout</a>
+                    </li>
+                    {% if is_granted('ROLE_AUTEUR') or is_granted('ROLE_ADMIN') %}
+                        <li class="list-group-item">
+                            <a href="{{ path('add_article') }}">Create a new article</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            {% else %}
+                <li class="list-group-item"><a href="{{ path('security_connexion', { 'go' :  getUri() }) }}">Login</a></li>
+                <li class="list-group-item"><a href="{{ path('security_register') }}">Register</a></li>
+            {% endif %}
             {% for category in categories %}
-                <li>{{ category | categoryLink | raw  }}</li>
+                <li>{{ categoryLink(category) | raw  }}</li>
             {% endfor %}
         </ul>
     </div>
@@ -30,7 +45,7 @@
             <ul class="hidden-sm hidden-xs">
                 <li {% if active == 'index' %}class="current"{% endif %}><a href="{{ path('index') }}">Accueil</a></li>
                 {% for category in categories %}
-                <li {% if active == category.label %}class="current"{% endif %}>{{ category | categoryLink | raw  }}</li>
+                <li {% if active == category.label %}class="current"{% endif %}>{{ categoryLink(category) | raw  }}</li>
                 {% endfor %}
             </ul>
 
@@ -44,13 +59,3 @@
                 </div>
             </div>
         </nav>
-
- <script>
-var searchTxt = document.querySelector(".search-box INPUT");
-var searchFunction = function(e){
-    if (searchTxt.value!="" && ( !e.keyCode || e.keyCode == 13 )) {
-        document.location="/search/"+searchTxt.value+"/1.html";
-    }
-}
-document.querySelector(".search-box BUTTON").addEventListener( "click", searchFunction );
- </script>

@@ -9,6 +9,10 @@ use App\Entity\Article;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * Class ArticleAppRuntime
+ * @package App\Service\Twig\Entity
+ */
 class ArticleAppRuntime
 {
 

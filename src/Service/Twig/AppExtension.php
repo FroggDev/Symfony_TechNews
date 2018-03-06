@@ -19,40 +19,43 @@ use App\Service\Twig\Entity\SearchAppRuntime;
 class AppExtension extends \Twig_Extension
 {
 
+
+
     /**
      * Twig calls :
      * {{ string  | maxLen(47) }}
-     * {{ article | articleLink(47) | raw }}                         //maxlen size is optional
-     * {{ article | articleImageLink | raw }}                        //css is optional
-     * {{ article | articleImage("img-responsive") | raw }}          //css is optional
-     * {{ article.author | authorLink | raw }}                       //css is optional
-     * {{ article.category.label | categoryLink("cate-tag") | raw  }}//css is optional
-     * {{ search | searchLink("cate-tag") | raw  }}//css is optional
-     *
      * @return array
      */
     public function getFilters(): array
     {
         return [
             new \Twig_Filter('maxLen', [StringAppRuntime::class, 'maxLength']),
-            new \Twig_Filter('articleLink', [ArticleAppRuntime::class, 'articleLink']),
-            new \Twig_Filter('articleImage', [ArticleAppRuntime::class, 'articleImage']),
-            new \Twig_Filter('articleImageLink', [ArticleAppRuntime::class, 'articleImageLink']),
-            new \Twig_Filter('categoryLink', [CategoryAppRuntime::class, 'categoryLink']),
-            new \Twig_Filter('authorLink', [AuthorAppRuntime::class, 'authorLink']),
-            new \Twig_Filter('searchLink', [SearchAppRuntime::class, 'searchLink']),
-            new \Twig_Filter('lastLink', [LastAppRuntime::class, 'lastLink'])
         ];
     }
 
     /**
      * @return array
+     *
+     * {{ articleLink(article,47) | raw }}                          //maxlen size is optional
+     * {{ articleImageLink(article) | raw }}                        //css is optional
+     * {{ articleImage(article,"img-responsive") | raw }}           //css is optional
+     * {{ authorLink(article.author) | raw }}                       //css is optional
+     * {{ categoryLink(article.category.label,"cate-tag") | raw  }} //css is optional
+     * {{ searchLink(search,"cate-tag") | raw  }}                   //css is optional
      */
     public function getFunctions(): array
     {
         return [
             new \Twig_Function('getUri', [AppRuntime::class, 'getUri']),
-            new \Twig_Function('isNewsletterModal', [AppRuntime::class, 'isNewsletterModal'])
+            new \Twig_Function('isNewsletterModal', [AppRuntime::class, 'isNewsletterModal']),
+            # Links
+            new \Twig_Function('articleLink', [ArticleAppRuntime::class, 'articleLink']),
+            new \Twig_Function('articleImage', [ArticleAppRuntime::class, 'articleImage']),
+            new \Twig_Function('articleImageLink', [ArticleAppRuntime::class, 'articleImageLink']),
+            new \Twig_Function('categoryLink', [CategoryAppRuntime::class, 'categoryLink']),
+            new \Twig_Function('authorLink', [AuthorAppRuntime::class, 'authorLink']),
+            new \Twig_Function('searchLink', [SearchAppRuntime::class, 'searchLink']),
+            new \Twig_Function('lastLink', [LastAppRuntime::class, 'lastLink'])
         ];
     }
 }

@@ -1,18 +1,8 @@
 {% extends "layout.html.twig" %}
 
-{############### main page vars ###############}
 {% block page_title 'Last publications' %}
 
 {% set active = 'last' %}
-
-{############### pagination var ###############}
-{% set nbArticlePerPage = 5 %}
-{% set nbArticle = articles|length %}
-{# //same as round(0,floor) https://twig.symfony.com/doc/2.x/filters/round.html #}
-{% set nbPagination = ( nbArticle / nbArticlePerPage ) | round(0,'ceil') %}
-{% if nbPagination==0 %}{% set nbPagination=1 %}{% endif %}
-
-{############### MAIN BLOCS ###############}
 
 {# from layout.html.twig #}
 {% block content %}
@@ -35,15 +25,15 @@
             <!--list-news-cate-->
             <div class="list-news-cate">
                 <article class="news-cate-item">
-                    {% for article in articles | slice((currentPage-1) * nbArticlePerPage, nbArticlePerPage) %}
+                    {% for article in articles %}
                     <div class="row">
                         <div class="col-md-5 col-sm-5 col-xs-12">
-                            {{ article | articleImageLink | raw }}
+                            {{ articleImage(article) | raw }}
                         </div>
                         <div class="col-md-7 col-sm-7 col-xs-12">
-                            <h3>{{ article | articleLink(47) | raw }}</h3>
+                            <h3>{{ articleLink(article,47) | raw }}</h3>
                             <div class="meta-post">
-                                {{ article.author | authorLink | raw }}
+                                {{ authorLink(article.author) | raw }}
                                 <em></em>
                                 <span>{{ article.dateCreation }}</span>
                             </div>
@@ -55,16 +45,16 @@
             </div>
 
             <div class="paging">
-                {% if currentPage>1 %}{{ "Prev" | lastLink( null , currentPage-1 ) | raw  }}{% endif %}
-                {% for i in 0..nbPagination-1 %}
+                {% if currentPage>1 %}{{ lastLink( "Prev" , null , currentPage-1 ) | raw  }}{% endif %}
+                {% for i in 0..countPagination-1 %}
                     {% if currentPage==i+1 %}
                         {% set paginationClass='current' %}
                     {% else %}
                         {% set paginationClass='' %}
                     {% endif %}
-                    {{ ((i+1)~'') | lastLink(paginationClass,i+1  ) | raw  }}
+                    {{ lastLink(((i+1)~''),paginationClass,i+1  ) | raw  }}
                 {% endfor %}
-                {% if currentPage<nbPagination %}{{ "Next" | lastLink( null, currentPage+1 ) | raw  }}{% endif %}
+                {% if currentPage<countPagination %}{{ lastLink( "Next" , null, currentPage+1 ) | raw  }}{% endif %}
             </div>
 
             {% endif %}

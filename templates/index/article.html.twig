@@ -15,7 +15,7 @@
         <article class="post-detail">
             <h1>{{ article.title }}</h1>
             <div class="meta-post">
-                {{ article.author | authorLink | raw }}
+                {{ authorLink(article.author) | raw }}
                 <em></em>
                 <span>{{ article.dateCreation }}</span>
             </div>
@@ -39,18 +39,17 @@
             <span>RELATED POST</span>
         </div>
         <section class="spotlight-thumbs spotlight-thumbs-related">
-
             <div class="row">
                 {% for article in suggestions %}
                 <div class="col-md-4 col-sm-4 col-xs-12">
                     <div class="spotlight-item-thumb">
                         <div class="spotlight-item-thumb-img">
-                            {{ article | articleImageLink | raw }}
-                            {{ article.category | categoryLink("cate-tag") | raw  }}
+                            {{ articleImage(article) | raw }}
+                            {{ categoryLink(article.category,"cate-tag") | raw  }}
                         </div>
-                        <h3>{{ article | articleLink(47) | raw }}</h3>
+                        <h3>{{ articleLink(article,47) | raw }}</h3>
                         <div class="meta-post">
-                            {{ article.author | authorLink | raw }}
+                            {{ authorLink(article.author) | raw }}
                             <em></em>
                             <span>{{ article.dateCreation }}</span>
                         </div>

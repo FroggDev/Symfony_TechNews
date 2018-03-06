@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Common\Traits\String\SlugifyTrait;
 use App\Entity\Author;
+use App\SiteConfig;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,13 +34,13 @@ class AuthorController extends Controller
      */
     public function index(string $name, string $currentPage): Response
     {
-        $currentNameSlugified = $this->slugify($name);
+        $nameSlugified = $this->slugify($name);
 
         # get repo author
-        $reposirotyAuthor = $this->getDoctrine()->getRepository(Author::class);
+        $reposositoryAuthor = $this->getDoctrine()->getRepository(Author::class);
 
         # get author from name
-        $author = $reposirotyAuthor->getAuthorFromName($this->slugify($currentNameSlugified));
+        $author = $reposositoryAuthor->getAuthorFromName($this->slugify($nameSlugified));
 
         # check if author exist
         if (!$author) {

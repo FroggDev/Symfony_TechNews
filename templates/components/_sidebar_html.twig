@@ -16,17 +16,17 @@
         </h4>
         <ul class="list-group">
             <li class="list-group-item">
-                <a href="{{ url('security_logout') }}">Logout</a>
+                <a href="{{ path('security_logout') }}">Logout</a>
             </li>
             {% if is_granted('ROLE_AUTEUR') or is_granted('ROLE_ADMIN') %}
                 <li class="list-group-item">
-                    <a href="{{ url('add_article') }}">Create a new article</a>
+                    <a href="{{ path('add_article') }}">Create a new article</a>
                 </li>
             {% endif %}
         </ul>
     {% else %}
-        <li class="list-group-item"><a href="{{ url('security_connexion', { 'go' :  getUri() }) }}">Login</a></li>
-        <li class="list-group-item"><a href="{{ url('security_register') }}">Register</a></li>
+        <li class="list-group-item"><a href="{{ path('security_connexion', { 'go' :  getUri() }) }}">Login</a></li>
+        <li class="list-group-item"><a href="{{ path('security_register') }}">Register</a></li>
     {% endif %}
 
     <!--tab popular-->
@@ -42,10 +42,10 @@
             <ul class="list-news-popular">
                 {% for article in lastFiveArticles %}
                 <li>
-                    {{ article | articleImageLink | raw }}
-                    <h3>{{ article | articleLink(47) | raw }}</h3>
+                    {{ articleImageLink(article) | raw }}
+                    <h3>{{ articleLink(article,47) | raw }}</h3>
                     <div class="meta-post">
-                        {{ article.author | authorLink | raw }}
+                        {{ authorLink(article.author) | raw }}
                         <em></em>
                         <span>{{  article.dateCreation }}</span>
                     </div>
@@ -57,12 +57,8 @@
     </div>
 
     <!-- subcribe box-->
-    <div class="subcribe-box">
-        <h3>NEWSLETTER</h3>
-        <p>Inscrivez-vous pour recevoir nos dernières publications.</p>
-        <input type="text" placeholder="Votre Email..." />
-        <button class="my-btn">Je m'inscris</button>
-    </div>
+    {{ render(controller('App\\Controller\\NewsletterController::sideNewsletter' )) }}
+
     <!-- connect us-->
     <div class="connect-us">
         <div class="widget-title">
@@ -85,10 +81,10 @@
         <div class="list-special">
             {% for article in specialArticles %}
             <article class="news-two-large">
-                {{ article | articleImageLink | raw }}
-                <h3>{{ article | articleLink(47) | raw }}</h3>
+                {{ articleImageLink(article) | raw }}
+                <h3>{{ articleLink(article,47) | raw }}</h3>
                 <div class="meta-post">
-                    {{ article.author | authorLink | raw }}
+                    {{ authorLink(article.author) | raw }}
                     <em></em>
                     <span>{{  article.dateCreation }}</span>
                 </div>

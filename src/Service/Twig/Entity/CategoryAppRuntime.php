@@ -7,6 +7,10 @@ use App\Entity\Category;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * Class CategoryAppRuntime
+ * @package App\Service\Twig\Entity
+ */
 class CategoryAppRuntime
 {
 

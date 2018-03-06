@@ -1,6 +1,10 @@
 <?php
 namespace App;
 
+/**
+ * Class SiteConfig
+ * @package App
+ */
 class SiteConfig
 {
     /**
@@ -13,5 +17,5 @@ class SiteConfig
      * nb page displayed before newsletter popin
      * @const int
      */
-    const NBPAGEBEFORENEWSLETTERPER = 3;
+    const NBPAGEBEFORENEWSLETTERPER = 1;
 }

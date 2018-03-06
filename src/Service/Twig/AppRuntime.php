@@ -1,10 +1,13 @@
 <?php
 namespace App\Service\Twig;
 
-use App\SiteConfig;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
+/**
+ * Class AppRuntime
+ * @package App\Service\Twig
+ */
 class AppRuntime
 {
     private $requestStack;
@@ -14,6 +17,7 @@ class AppRuntime
     /**
      * AppRuntime constructor.
      * @param RequestStack $requestStack
+     * @param SessionInterface $session
      */
     public function __construct(RequestStack $requestStack, SessionInterface $session)
     {

@@ -7,6 +7,10 @@ use App\Entity\Author;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * Class AuthorAppRuntime
+ * @package App\Service\Twig\Entity
+ */
 class AuthorAppRuntime
 {
 

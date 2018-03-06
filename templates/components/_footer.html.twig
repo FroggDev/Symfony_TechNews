@@ -6,22 +6,22 @@
         <div class="row">
             <div class="col-md-4  col-sm-4 col-xs-12">
                 <div class="about">
-                    <a href="#" class="logo">
-                        <img alt="" src="{{ asset('images/logo_footer.png') }}" />
+                    <a href="{{ path('index') }}" class="logo">
+                        <img alt="TechNews" src="{{ asset('images/logo_footer.png') }}" />
                     </a>
                     <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
                 </div>
             </div>
             <div class="col-md-3 col-md-offset-1 col-sm-4 col-xs-12">
-                <h3>NOS CATEGORIES</h3>
+                <h3>Our Categories</h3>
                 <ul class="list-category">
                     {% for category in categories %}
-                        <li>{{ category | categoryLink | raw  }}</li>
+                        <li>{{ categoryLink(category) | raw  }}</li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="col-md-3 col-md-offset-1 col-sm-4 col-xs-12">
-                <h3>RECHERCHE PAR TAGS</h3>
+                <h3>Search by Tags</h3>
                 <div class="list-tags">
                     {{ render(controller('App\\Controller\\SectionController::wordTag')) }}
                 </div>
@@ -31,7 +31,7 @@
         <div class="allright">
             <div class="row">
                 <div class="col-sm-6 col-xs-12">
-                    <p> © 2018 <a href="#">TECH NEWS</a>. All rights reserved.</p>
+                    <p> © 2018 <a alt="TechNews" href="{{ path('index') }}">TECH NEWS</a>. All rights reserved.</p>
                 </div>
 
                 <div class="col-sm-6 col-xs-12">

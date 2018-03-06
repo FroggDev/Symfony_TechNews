@@ -46,12 +46,22 @@ class SearchController extends Controller
             }
         );
 
+        # get number of elenmts
+        $countArticle =count($matches);
+
+        # get only wanted articles
+        $articles = array_slice($matches, ($currentPage-1) * SiteConfig::NBARTICLEPERPAGE, SiteConfig::NBARTICLEPERPAGE);
+
+        # number of pagination
+        $countPagination =  ceil($countArticle / SiteConfig::NBARTICLEPERPAGE);
+
         # display page from twig template
         return $this->render('index/search.html.twig', [
-            'articles' => $matches,
+            'articles' => $articles,
             'search' => $search,
             'currentPage' => $currentPage,
-            'searchType' => 'wordcloud'
+            'searchType' => 'wordcloud',
+            'countPagination' => $countPagination
         ]);
     }
 
@@ -72,10 +82,10 @@ class SearchController extends Controller
     public function search(string $search, string $currentPage): Response
     {
         # get repo category
-        $reposirotyArticle = $this->getDoctrine()->getRepository(Article::class);
+        $repositoryArticle = $this->getDoctrine()->getRepository(Article::class);
 
         # get category from category
-        $articles = $reposirotyArticle->findAll();
+        $articles = $repositoryArticle->findAll();
 
         # search in array
         $matches = array_filter(
@@ -123,10 +133,10 @@ class SearchController extends Controller
     public function lastArticle(string $currentPage): Response
     {
         # get repo category
-        $reposirotyArticle = $this->getDoctrine()->getRepository(Article::class);
+        $repositoryArticle = $this->getDoctrine()->getRepository(Article::class);
 
         # get category from category
-        $articles = $reposirotyArticle->findAll();
+        $articles = $repositoryArticle->findAll();
 
         # display page from twig template
         return $this->render('index/last.html.twig', [

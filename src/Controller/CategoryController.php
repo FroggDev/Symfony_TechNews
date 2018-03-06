@@ -8,7 +8,6 @@ use App\SiteConfig;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * @TODO : @ Entity("label", expr="repository.findOneByLabel(label)")

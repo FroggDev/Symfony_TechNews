@@ -3,7 +3,6 @@ namespace App\EventSubscriber;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use App\Entity\User;
 
 /**
  * Class LoginSubscriber

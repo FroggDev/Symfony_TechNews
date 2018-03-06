@@ -19,13 +19,13 @@
             <div>
                 <article class="spotlight-item">
                     <div class="spotlight-img">
-                        {{ article | articleImage("img-responsive") | raw }}
-                        {{ article.category | categoryLink("cate-tag") | raw   }}
+                        {{ articleImage(article,"img-responsive") | raw }}
+                        {{ categoryLink(article.category,"cate-tag") | raw   }}
                     </div>
                     <div class="spotlight-item-caption">
-                        <h2 class="font-heading">{{ article | articleLink | raw }}</h2>
+                        <h2 class="font-heading">{{ articleLink(article) | raw }}</h2>
                         <div class="meta-post">
-                            {{ article.author | authorLink | raw }}
+                            {{ authorLink(article.author) | raw }}
                             <em></em>
                             <span>{{ article.dateCreation }}</span>
                         </div>
@@ -43,16 +43,15 @@
                 <div class="col-md-4 col-sm-4 col-xs-12">
                     <div class="spotlight-item-thumb">
                         <div class="spotlight-item-thumb-img">
-                            {{ article | articleImageLink | raw }}
-                            {{ article.category | categoryLink("cate-tag") | raw   }}
+                            {{ articleImage(article) | raw }}
+                            {{ categoryLink(article.category,"cate-tag") | raw   }}
                         </div>
-                        <h3>{{ article | articleLink(47) | raw }}</h3>
+                        <h3>{{ articleLink(article,47) | raw }}</h3>
                         <div class="meta-post">
-                            {{ article.author | authorLink | raw }}
+                            {{ authorLink(article.author) | raw }}
                             <em></em>
                             <span>{{ article.dateCreation }}</span>
                         </div>
-                        <p>{{ article.content  | maxLen(100) | raw  }}</p>
                     </div>
                 </div>
                 {% endfor %}

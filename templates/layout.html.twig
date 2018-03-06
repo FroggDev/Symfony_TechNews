@@ -31,6 +31,14 @@
     <![endif]-->
 {% endblock %}
 
+{% block js %}
+    <!--scrip file-->
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+    <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
+{% endblock %}
+
 {% block html %}
 
     <!--preload-->
@@ -56,14 +64,10 @@
                 });
             </script>
         {% endblock %}
+    {% elseif app.getRequest('newsletter')=='registered' %}
+        {% include 'newsletter/modalConfirmation.html.twig' %}
     {% endif %}
 
 {% endblock %}
 
-{% block js %}
-    <!--scrip file-->
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.js') }}"></script>
-    <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('js/main.js') }}"></script>
-{% endblock %}
+

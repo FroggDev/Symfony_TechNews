@@ -287,7 +287,6 @@ class Author implements AdvancedUserInterface
 
 
     /**
-     * @param \DateTime $lastConnexion
      * @return $this
      */
     public function setLastConnexion()
@@ -386,7 +385,6 @@ class Author implements AdvancedUserInterface
     }
 
     /**
-     * @param string $token
      * @return Author
      */
     public function setToken(): Author
@@ -409,6 +407,9 @@ class Author implements AdvancedUserInterface
         return $this->tokenValidity;
     }
 
+    /**
+     * @return bool
+     */
     public function isTokenExpired(): bool
     {
         if ($this->tokenValidity==null) {

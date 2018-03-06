@@ -8,11 +8,19 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
+/**
+ * Class NewsletterSubscriber
+ * @package App\EventSubscriber
+ */
 class NewsletterSubscriber implements EventSubscriberInterface
 {
 
     private $session;
 
+    /**
+     * NewsletterSubscriber constructor.
+     * @param SessionInterface $session
+     */
     public function __construct(SessionInterface $session)
     {
         $this->session = $session;
@@ -44,6 +52,9 @@ class NewsletterSubscriber implements EventSubscriberInterface
             ];
     }
 
+    /**
+     * @param GetResponseEvent $event
+     */
     public function onKernelRequest(GetResponseEvent $event)
     {
         if (!$event->isMasterRequest() || $event->getRequest()->isXmlHttpRequest()) {
@@ -63,6 +74,9 @@ class NewsletterSubscriber implements EventSubscriberInterface
         }
     }
 
+    /**
+     * @param FilterResponseEvent $event
+     */
     public function onKernelResponse(FilterResponseEvent $event)
     {
         if (!$event->isMasterRequest() || $event->getRequest()->isXmlHttpRequest()) {

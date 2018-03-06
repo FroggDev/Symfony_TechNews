@@ -6,6 +6,10 @@ use App\Common\Traits\Html\ATagGeneratorTrait;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * Class LastAppRuntime
+ * @package App\Service\Twig\Entity
+ */
 class LastAppRuntime
 {
 
