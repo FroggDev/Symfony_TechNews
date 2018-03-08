@@ -138,10 +138,20 @@ class SearchController extends Controller
         # get category from category
         $articles = $repositoryArticle->findAll();
 
+        # get number of elenmts
+        $countArticle =count($articles);
+
+        # get only wanted articles
+        $articles = array_slice($articles, ($currentPage-1) * SiteConfig::NBARTICLEPERPAGE, SiteConfig::NBARTICLEPERPAGE);
+
+        # number of pagination
+        $countPagination =  ceil($countArticle / SiteConfig::NBARTICLEPERPAGE);
+
         # display page from twig template
         return $this->render('index/last.html.twig', [
             'articles' => $articles,
-            'currentPage' => $currentPage
+            'currentPage' => $currentPage,
+            'countPagination' => $countPagination
         ]);
     }
 }

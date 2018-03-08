@@ -35,7 +35,10 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findAll()
+    /**
+     * @return array
+     */
+    public function findAll(): array
     {
         return $this->createQueryBuilder('a')
             ->orderBy('a.dateCreation', 'DESC')

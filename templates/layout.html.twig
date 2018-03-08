@@ -32,6 +32,8 @@
 {% endblock %}
 
 {% block js %}
+    {#ADD TO PARENT JS BLOCK#}
+    {{ parent() }}
     <!--scrip file-->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.js') }}"></script>
@@ -40,34 +42,48 @@
 {% endblock %}
 
 {% block html %}
-
-    <!--preload-->
+    {# Loader #}
     <div class="loader" id="page-loader">
         <div class="loading-wrapper">
         </div>
     </div>
 
-    {#Menu du site#}
+    {# Menu #}
     {% include 'components/_nav.html.twig' %}
 
     {% block content '' %}
 
-    {#Footer#}
+    {# Footer #}
     {% include 'components/_footer.html.twig' %}
-
-    {% if isNewsletterModal()==true %}
-        {{ render(controller('App\\Controller\\NewsletterController::newsletter' )) }}
-        {% block final_js %}
-            <script type="text/javascript">
-                $(function(){
-                    $("#newsletterModal").modal('show');
-                });
-            </script>
-        {% endblock %}
-    {% elseif app.getRequest('newsletter')=='registered' %}
-        {% include 'newsletter/modalConfirmation.html.twig' %}
-    {% endif %}
 
 {% endblock %}
 
 
+{# EXTRA HTML #}
+
+{% block html_final %}
+    {% if isNewsletterModal()==true %}
+        {{ render(controller('App\\Controller\\NewsletterController::newsletter' )) }}
+    {% endif %}
+    {% if app.getRequest('newsletter')=='registered' %}
+        {% include 'newsletter/modalConfirmation.html.twig' %}
+    {% endif %}
+ {% endblock %}
+
+{# EXTRA JS #}
+
+{% block js_final %}
+    {% if isNewsletterModal()==true or app.getRequest('newsletter')=='registered' %}
+        <script type="text/javascript">
+            $(function(){ $("#newsletterModal").modal('show'); });
+        </script>
+    {% endif %}
+{% endblock %}
+
+{#
+{% if isNewsletterModal()==true %}
+    {% use  'newsletter/blocks/newsletterForm.html.twig' %}
+{% elseif app.getRequest('newsletter')=='registered' %}
+    {% use  'newsletter/blocks/newsletterConfirmation.html.twig' %}
+{% endif %}
+#}

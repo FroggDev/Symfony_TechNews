@@ -442,7 +442,7 @@ class Author implements AdvancedUserInterface
      * @param integer $status
      * @return Author
      */
-    public function setStatus($status)
+    public function setStatus($status) : Author
     {
         $this->status = $status;
         return $this;
@@ -513,7 +513,7 @@ class Author implements AdvancedUserInterface
      *
      * @see DisabledException
      */
-    public function isEnabled()
+    public function isEnabled() : bool
     {
         return $this->status == $this::ACTIVE;
     }
@@ -546,7 +546,7 @@ class Author implements AdvancedUserInterface
      *
      * @see AccountExpiredException
      */
-    public function isAccountNonExpired()
+    public function isAccountNonExpired() : bool
     {
         return true;
     }
@@ -561,7 +561,7 @@ class Author implements AdvancedUserInterface
      *
      * @see LockedException
      */
-    public function isAccountNonLocked()
+    public function isAccountNonLocked() : bool
     {
         return true;
     }
@@ -576,7 +576,7 @@ class Author implements AdvancedUserInterface
      *
      * @see CredentialsExpiredException
      */
-    public function isCredentialsNonExpired()
+    public function isCredentialsNonExpired() : bool
     {
         return true;
     }

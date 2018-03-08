@@ -28,6 +28,45 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+
+    #################
+    # Data Mediator #
+    #################
+
+    # Add to addsource method the
+    #App\Service\Article\ArticleCatalog:
+    #    calls:
+    #        # ORDER MAKE THE PRIORITY IF DOUBLE !
+    #        - ['addSource',['@App\Service\Source\DoctrineSource']]
+    #        - ['addSource',['@App\Service\Source\YamlSource']]
+
+
+
+    #Same using SetSource instead of add source
+    # TAG AS app.source.article
+    #App\Service\Source\DoctrineSource:
+    #    tags:
+    #        - app.source.article
+    #App\Service\Source\YamlSource:
+    #    tags:
+    #        - app.source.article
+
+    # TAG All in folder
+    #App\Service\Source\:
+    #    resource: '../src/Service/Source'
+    #    tags: ['app.source.article']
+
+    # Tag all instance of (better solution)
+    _instanceof:
+        App\Service\Source\ArticleAbstractSource:
+            tags: ['app.source.article']
+
+    App\Service\Article\ArticleCatalog:
+        calls:
+            - ['setSources', [!tagged app.source.article]]
+            #!tagged = mot clé tagg et not string
+
+
     ################
     # Swift Mailer #
     ################
@@ -40,6 +79,7 @@ services:
     ############
     # LISTNERS #
     ############
+
     App\EventSubscriber\LoginSubscriber:
         tags:
             - { name: 'kernel.event_listener', event: 'security.interactive_login' }

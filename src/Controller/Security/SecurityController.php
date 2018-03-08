@@ -156,7 +156,7 @@ class SecurityController extends Controller
         }
 
         # account already registered
-        if ($author->isEnabled) {
+        if ($author->isEnabled()) {
             return $this->redirectToRoute('security_connexion', ['register' => 'actived']);
         }
 

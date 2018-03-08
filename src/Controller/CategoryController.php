@@ -6,8 +6,8 @@ use App\Common\Traits\String\SlugifyTrait;
 use App\Entity\Category;
 use App\SiteConfig;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * @TODO : @ Entity("label", expr="repository.findOneByLabel(label)")
@@ -18,10 +18,10 @@ use Symfony\Component\HttpFoundation\Response;
  *
  *!\/!\/!\/!\/!\ paramconverters V5 /!\/!\/!\/!\/!\
  *composer require symfony/expression-language
-# Automaticaly fecthing param converter
-# https://symfony.com/doc/current/doctrine.html#automatically-fetching-objects-paramconverter
-# manual :
-# https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html
+ # Automaticaly fecthing param converter
+ # https://symfony.com/doc/current/doctrine.html#automatically-fetching-objects-paramconverter
+ # manual :
+ # https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html
  */
 class CategoryController extends Controller
 {

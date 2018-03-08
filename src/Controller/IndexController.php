@@ -18,13 +18,26 @@
  * extension=pdo_mysql for Doctrine
  * @TODO : check if doctrine use mysqli or pdo_mysql
  */
+/**
+ * @see https://mailtrap.io
+ * mailtrap@frogg.fr
+ * testtest
+ *
+ * swiftmailer:
+ * spool:     { type: memory }
+ * transport: smtp
+ *   host:      smtp.mailtrap.io
+ *   username:  e5e05820e45013
+ *   password:  e4ecbcfef4fb67
+ *   auth_mode: cram-md5
+ *   port: 2525
+ */
 
 namespace App\Controller;
 
 use App\Entity\Article;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Class IndexController
@@ -37,6 +50,7 @@ class IndexController extends Controller
      */
     public function index(): Response
     {
+
         # get repo article
         $repositoryArticle = $this->getDoctrine()->getRepository(Article::class);
 

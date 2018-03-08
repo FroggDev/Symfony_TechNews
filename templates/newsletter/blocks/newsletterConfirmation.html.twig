@@ -1,0 +1,10 @@
+{% block html_final %}
+    {{ parent() }}
+    {% include 'newsletter/modalConfirmation.html.twig' %}
+{% endblock %}
+
+{% block js_final %}
+    <script type="text/javascript">
+        $(function(){ $("#newsletterModal").modal('show'); });
+    </script>
+{% endblock %}

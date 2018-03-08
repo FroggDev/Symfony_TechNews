@@ -1,10 +1,11 @@
 <?php
-
 namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Author;
+use App\Exception\DuplicateCatalogDataException;
 use App\Form\ArticleType;
+use App\Service\Article\ArticleCatalog;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,14 +27,29 @@ class ArticleController extends Controller
      *      requirements={"id" : "\d+"}
      *     )
      *
-     * @param Article $article
+     * //@param Article $article From Doctrine (no more use with mediator)
      * @param string $category
      * @param string $slug
      * @param string $id
      * @return Response
      */
-    public function article(Article $article, string $category, string $slug, string $id): Response
+    public function article(string $category, string $slug, string $id, ArticleCatalog $catalog): Response //Article $article
     {
+
+        VarDumper::dump($catalog->getSources());
+        VarDumper::dump($catalog->findAll());
+        VarDumper::dump($catalog->findLastFive());
+        VarDumper::dump($catalog->findSpecials());
+        VarDumper::dump($catalog->findSpotlights());
+
+
+        # check if there is duplicate article
+        try {
+            $article = $catalog->find($id);
+        } catch (DuplicateCatalogDataException $e) {
+            $article = $e->getArticle();
+        }
+
         # check if article exist
         if (!$article) {
             return $this->redirectToRoute('index', [], Response::HTTP_MOVED_PERMANENTLY);

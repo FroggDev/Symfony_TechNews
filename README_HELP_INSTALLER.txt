@@ -66,7 +66,7 @@ pour editer le contenu des données entrées en base, il faut modifier le fichie
 src/Command/CreateDatabaseEntry.php
 
 
-VII Felicitation !
+VII ] Felicitation !
 ==================
 
 - Si toutes les étapes ont été reussie avec succes le site devrait être opérationnel !
@@ -78,3 +78,7 @@ http://127.0.0.1:8000
 
 - pour visualiser les routes vous pouvez utiliser la commande
 php bin/console debug:router
+
+
+# CHARGER LE CACHE
+php bin/console cache:warmup

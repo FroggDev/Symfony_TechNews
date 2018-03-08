@@ -1,0 +1,9 @@
+{% block html_final %}
+    {{ render(controller('App\\Controller\\NewsletterController::newsletter' )) }}
+{% endblock %}
+
+{% block js_final %}
+    <script type="text/javascript">
+        $(function(){ $("#newsletterModal").modal('show'); });
+    </script>
+{% endblock %}

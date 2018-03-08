@@ -1,7 +1,7 @@
 data:
   article1 :
-    id : 1
-    title : '[1] Tip Aligning Digital Marketing with Business Goals and Objectives'
+    id : 20
+    title : '[1] CEST CELUI LA Tip Aligning Digital Marketing with Business Goals and Objectives'
     content    : '<p>CONTENU</p>'
     featuredimage : '1.jpg'
     special : false
@@ -16,8 +16,8 @@ data:
       lastname : 'LIEGEARD'
       email : 'wf3@hl-media.fr'
   article2 :
-    id : 2
-    title : '[2] Tip Aligning Digital Marketing with Business Goals and Objectives'
+    id : 12
+    title : '[2] CEST CELUI LA 2 Tip Aligning Digital Marketing with Business Goals and Objectives'
     content    : '<p>CONTENU</p>'
     featuredimage : '2.jpg'
     special : false
@@ -33,7 +33,7 @@ data:
       email : 'wf3@hl-media.fr'
   article3 :
     id : 3
-    title : '[3] Tip Aligning Digital Marketing with Business Goals and Objectives'
+    title : '[3] CEST CELUI LA 3 Tip Aligning Digital Marketing with Business Goals and Objectives'
     content    : '<p>CONTENU</p>'
     featuredimage : '3.jpg'
     special : false

@@ -9,11 +9,14 @@
 namespace App\Form;
 
 use App\Entity\Newsletter;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpKernel\Tests\Controller;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Class NewsletterType
@@ -21,6 +24,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class NewsletterType extends AbstractType
 {
+
+    public function __construct()
+    {
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -28,7 +36,8 @@ class NewsletterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->setMethod('GET')
+            ->setMethod('POST')
+            //->setAction($this->router->generateUrl('target_route'))
             ->add(
                 'email',
                 EmailType::class,

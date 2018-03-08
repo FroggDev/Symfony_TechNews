@@ -1,8 +1,8 @@
 <?php
 namespace App\EventSubscriber;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+#use Doctrine\ORM\EntityManagerInterface;
+#use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 /**
  * Class LoginSubscriber
@@ -10,23 +10,15 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
  */
 class LoginSubscriber
 {
-    /**
-     * @var EntityManagerInterface
-     */
+    // Version not optimized !!!!
+/*
     private $eManager;
 
-    /**
-     * LoginSubscriber constructor.
-     * @param EntityManagerInterface $eManager
-     */
     public function __construct(EntityManagerInterface $eManager)
     {
         $this->eManager = $eManager;
     }
 
-    /**
-     * @param InteractiveLoginEvent $event
-     */
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
         # Get the User entity.
@@ -35,8 +27,9 @@ class LoginSubscriber
         # set last connexion
         $author->setLastConnexion();
 
-        # Persist the data to database.
-        $this->eManager->persist($author);
+        # Persist the data to database. (Only if not exist in database)
+        # $this->eManager->persist($author);
         $this->eManager->flush();
     }
+*/
 }
