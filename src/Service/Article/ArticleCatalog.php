@@ -6,6 +6,7 @@ use App\Exception\DuplicateCatalogDataException;
 use App\Service\Source\ArticleAbstractSource;
 use App\SiteConfig;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Class ArticleCatalog
@@ -64,7 +65,7 @@ class ArticleCatalog implements ArticleCalatogInterface
         }
 
         if($functionSort){
-            usort($articles,$this->$functionSort);
+            usort($articles,"Self::$functionSort");
         }
 
         return new ArrayCollection($articles);
@@ -188,11 +189,12 @@ class ArticleCatalog implements ArticleCalatogInterface
     }
 
     /**
-     * @param array $articles
-     * @return array
+     * @param $a
+     * @param $b
+     * @return bool
      */
-    private function sortByDate($a, $b)
+    public function sortByDate($a, $b) : bool
     {
-        return $a->getDateCreation() > $b->getDateCreation();
+        return $a->getDateCreation() < $b->getDateCreation();
     }
 }

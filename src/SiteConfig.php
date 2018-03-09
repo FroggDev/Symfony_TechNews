@@ -35,7 +35,7 @@ class SiteConfig
      * nb page displayed before newsletter popin
      * @const int
      */
-    const NBPAGEBEFORENEWSLETTERPER = 1;
+    const NBPAGEBEFORENEWSLETTERPER=1;
 
     /**
      * name of the php cached file
@@ -44,7 +44,7 @@ class SiteConfig
     const YAMLFILE = '/../../articles.yaml';
 
     /**
-     * name of the php cached file
+     * name of the php cached file in var/cache/(+dev on dev env)
      * @const string
      */
     const YAMLCACHEFILE = 'yaml-articles.php';

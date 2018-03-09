@@ -23,6 +23,18 @@ abstract class ArticleAbstractSource implements ArticleRepositoryInterface
     }
 
     /**
+     * Sort an array by key date
+     * @param $a
+     * @param $b
+     * @return bool
+     */
+    public function sortByDate($a, $b) : bool
+    {
+        return $a->getDateCreation() < $b->getDateCreation();
+    }
+
+
+    /**
      * @param iterable $tmpArticle
      * @return Article|null
      */

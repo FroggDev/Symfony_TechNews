@@ -69,15 +69,6 @@ class DoctrineSource extends ArticleAbstractSource
     }
 
     /**
-     * @param iterable $tmpArticle
-     * @return Article|null
-     */
-    protected function convertToArticle(iterable $tmpArticle): ?Article
-    {
-        return null;
-    }
-
-    /**
      * Return spotlights articles
      * @return iterable|null
      */
@@ -129,5 +120,18 @@ class DoctrineSource extends ArticleAbstractSource
             ->setMaxResults(SiteConfig::NBARTICLESPECIAL)
             ->getQuery()
             ->getResult();
+    }
+
+    /*======================================*/
+    /* THOOSE ARE NOT REQUIRED FOR DOCTRINE */
+    /*======================================*/
+
+    /**
+     * @param iterable $tmpArticle
+     * @return Article|null
+     */
+    protected function convertToArticle(iterable $tmpArticle): ?Article
+    {
+        return null;
     }
 }

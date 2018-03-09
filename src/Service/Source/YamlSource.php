@@ -8,6 +8,7 @@ use App\Entity\Category;
 use App\Service\Article\YamlProvider;
 use App\SiteConfig;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Class YamlSource
@@ -149,7 +150,9 @@ class YamlSource extends ArticleAbstractSource
      */
     public function findLastFive(): ?iterable
     {
-        return array_slice($this->sortByDate($this->findAll()), 0, 5);
+        $articles = $this->findAll();
+        usort($articles ,'self::sortByDate');
+        return array_slice($articles , 0, 5);
     }
 
     /**
@@ -160,7 +163,8 @@ class YamlSource extends ArticleAbstractSource
     {
         $articles = [];
         $nbFound = 0;
-        $tmpArticles = $this->sortByDate($this->findAll());
+        $tmpArticles = $this->findAll();
+        usort($tmpArticles ,'self::sortByDate');
         foreach ($tmpArticles as $article) {
 
             if ($article->getSpotlight()) {
@@ -193,7 +197,8 @@ class YamlSource extends ArticleAbstractSource
     {
         $articles = [];
         $nbFound = 0;
-        $tmpArticles = $this->sortByDate($this->findAll());
+        $tmpArticles = $this->findAll();
+        usort($tmpArticles ,'self::sortByDate');
         foreach ($tmpArticles as $article) {
 
             if ($article->getSpotlight()) {
@@ -208,17 +213,5 @@ class YamlSource extends ArticleAbstractSource
         return $articles;
     }
 
-    /**
-     * @param array $articles
-     * @return array
-     */
-    private  function sortByDate(Array $articles)
-    {
-        usort(
-            $articles,
-            function ($a, $b) {
-                return $a->getDateCreation() > $b->getDateCreation();
-            });
-        return $articles;
-    }
+
 }

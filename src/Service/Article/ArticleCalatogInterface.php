@@ -27,4 +27,13 @@ interface ArticleCalatogInterface extends ArticleRepositoryInterface
      * @return iterable|null
      */
     public function getSources() : ?iterable;
+
+    /**
+     * Sort an array by key date
+     * @param $a
+     * @param $b
+     * @return bool
+     */
+    public function sortByDate($a, $b): bool;
+
 }
