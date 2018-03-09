@@ -46,4 +46,10 @@ interface ArticleRepositoryInterface
      * @return iterable|null
      */
     public function findSpecials(): ?iterable;
+
+    /**
+     * get the number of items in each sources
+     * @return int
+     */
+    public function count() : int;
 }

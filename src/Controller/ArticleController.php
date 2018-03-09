@@ -6,12 +6,20 @@ use App\Entity\Author;
 use App\Exception\DuplicateCatalogDataException;
 use App\Form\ArticleType;
 use App\Service\Article\ArticleCatalog;
+use App\SiteConfig;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\Loader\XliffFileLoader;
+use Symfony\Component\Translation\Loader\YamlFileLoader;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\VarDumper\VarDumper;
+
+
+use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\Loader\ArrayLoader;
 
 /**
  * Class ArticleController
@@ -21,7 +29,7 @@ class ArticleController extends Controller
 {
     /**
      * @Route(
-     *      "/article/{category}/{slug}_{id}.html",
+     *      "/{_locale}/article/{category}/{slug}_{id}.html",
      *      name="index_article",
      *      methods={"GET"},
      *      requirements={"id" : "\d+"}
@@ -104,7 +112,7 @@ class ArticleController extends Controller
 
     /**
      * @route(
-     *     "/author/addArticle.html",
+     *     "/{_locale}/author/addArticle.html",
      *     name="add_article"
      * )
      *
@@ -186,7 +194,7 @@ class ArticleController extends Controller
 
     /**
      * @route(
-     *     "/author/modArticle/{slug}_{id}.html",
+     *     "/{_locale}/author/modArticle/{slug}_{id}.html",
      *     name="mod_article"
      * )
      *

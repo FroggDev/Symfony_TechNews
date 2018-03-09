@@ -1,6 +1,6 @@
 {% extends "layout.html.twig" %}
 
-{% block page_title 'Search result for "'~search~'"' %}
+{% block page_title "search.result"|trans({'%search%': search}) %}
 
 {% set active = 'search' %}
 
@@ -14,12 +14,12 @@
 
             {% if articles is  empty %}
                 <div class="alert alert-danger">
-                    <strong>No result found for : {{ search }}</strong>
+                    <strong>{% trans with {'%search%': search} %}error.noresultsearch{% endtrans %}</strong>
                 </div>
             {% else %}
 
             <div class="box-caption">
-                <span>Search result for  "{{ search }}"</span>
+                <span>{% trans with {'%search%': search} %}search.result{% endtrans %}</span>
             </div>
 
             <!--list-news-cate-->

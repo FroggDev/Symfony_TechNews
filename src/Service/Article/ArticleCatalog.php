@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Service\Article;
 
 use App\Entity\Article;
@@ -6,10 +7,9 @@ use App\Exception\DuplicateCatalogDataException;
 use App\Service\Source\ArticleAbstractSource;
 use App\SiteConfig;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
- * Class ArticleCatalog
+ * Class ArticleCatalog (THIS IS A MEDIATOR)
  * @package App\Service\Article
  */
 class ArticleCatalog implements ArticleCalatogInterface
@@ -36,7 +36,7 @@ class ArticleCatalog implements ArticleCalatogInterface
      */
     public function setSources(iterable $sources): void
     {
-        $this->sources=$sources;
+        $this->sources = $sources;
     }
 
     /**
@@ -53,19 +53,20 @@ class ArticleCatalog implements ArticleCalatogInterface
      * @param $functionToCall
      * @return ArrayCollection
      */
-    private function sourcesUnifier($functionToCall,$functionSort=null) : iterable{
-        $articles=[];
+    private function sourcesUnifier($functionToCall, $functionSort = null): iterable
+    {
+        $articles = [];
 
-        foreach($this->sources as $source){
-            foreach($source->$functionToCall() as $article){
-                if(!array_key_exists($article->getId(),$articles)){
-                    $articles[$article->getId()]=$article;
+        foreach ($this->sources as $source) {
+            foreach ($source->$functionToCall() as $article) {
+                if (!array_key_exists($article->getId(), $articles)) {
+                    $articles[$article->getId()] = $article;
                 }
             }
         }
 
-        if($functionSort){
-            usort($articles,"Self::$functionSort");
+        if ($functionSort) {
+            usort($articles, "Self::$functionSort");
         }
 
         return new ArrayCollection($articles);
@@ -79,7 +80,7 @@ class ArticleCatalog implements ArticleCalatogInterface
      */
     public function find($id): ?Article
     {
-        $articles=[];
+        $articles = [];
 
         foreach ($this->sources as $source) {
             $article = $source->find($id);
@@ -88,11 +89,11 @@ class ArticleCatalog implements ArticleCalatogInterface
             }
         }
 
-        if (count($articles)>1) {
+        if (count($articles) > 1) {
             throw new DuplicateCatalogDataException(
                 sprintf(
                     'Cannot return more than on record on line %s ' .
-                    get_class($this).'::'.__FUNCTION__.'()',
+                    get_class($this) . '::' . __FUNCTION__ . '()',
                     __LINE__
                 ),
                 0,
@@ -113,28 +114,28 @@ class ArticleCatalog implements ArticleCalatogInterface
 
         return $this->sourcesUnifier('findAll');
 
-/*
-        $articles = [];
+        /*
+                $articles = [];
 
-        foreach ($this->sources as $source) {
-            $articles = array_merge(
-                $articles,
-                $source->findAll()
-            );
-        }
+                foreach ($this->sources as $source) {
+                    $articles = array_merge(
+                        $articles,
+                        $source->findAll()
+                    );
+                }
 
-        # remove duplicated entries
-        $idList = [];
-        foreach ($articles as $k => $v) {
-            if (in_array($v->getId(), $idList)) {
-                unset($articles[$k]);
-            } else {
-                $idList[] = $v->getId();
-            }
-        }
+                # remove duplicated entries
+                $idList = [];
+                foreach ($articles as $k => $v) {
+                    if (in_array($v->getId(), $idList)) {
+                        unset($articles[$k]);
+                    } else {
+                        $idList[] = $v->getId();
+                    }
+                }
 
-        return new ArrayCollection($articles);
-*/
+                return new ArrayCollection($articles);
+        */
     }
 
 
@@ -145,7 +146,7 @@ class ArticleCatalog implements ArticleCalatogInterface
     public function findLastFive(): ?iterable
     {
 
-        return $this->sourcesUnifier('findLastFive')->slice(0,5);
+        return $this->sourcesUnifier('findLastFive')->slice(0, 5);
 
         /*
         $articles = $this->findAll()->toArray();
@@ -167,7 +168,7 @@ class ArticleCatalog implements ArticleCalatogInterface
      */
     public function findSpotlights(): ?iterable
     {
-        return $this->sourcesUnifier('findSpotlights','sortByDate')->slice(0,SiteConfig::NBARTICLESPOTLIGHT);
+        return $this->sourcesUnifier('findSpotlights', 'sortByDate')->slice(0, SiteConfig::NBARTICLESPOTLIGHT);
     }
 
     /**
@@ -176,8 +177,9 @@ class ArticleCatalog implements ArticleCalatogInterface
      */
     public function findSugestions(): ?iterable
     {
-        return $this->sourcesUnifier('findSugestions','sortByDate')->slice(0,SiteConfig::NBARTICLESUGESTION);
+        return $this->sourcesUnifier('findSugestions', 'sortByDate')->slice(0, SiteConfig::NBARTICLESUGESTION);
     }
+
 
     /**
      * Return specials articles
@@ -185,16 +187,43 @@ class ArticleCatalog implements ArticleCalatogInterface
      */
     public function findSpecials(): ?iterable
     {
-        return $this->sourcesUnifier('findSpecials','sortByDate')->slice(0,SiteConfig::NBARTICLESPECIAL);
+        return $this->sourcesUnifier('findSpecials', 'sortByDate')->slice(0, SiteConfig::NBARTICLESPECIAL);
     }
+
 
     /**
      * @param $a
      * @param $b
      * @return bool
      */
-    public function sortByDate($a, $b) : bool
+    public function sortByDate($a, $b): bool
     {
         return $a->getDateCreation() < $b->getDateCreation();
+    }
+
+
+    /**
+     * get the number of items in each sources
+     * @return int
+     */
+    public function count(): int
+    {
+        return count($this->sources);
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getStats()
+    {
+        $stats = [];
+        $stats[get_class($this)] = $this->count();
+
+        foreach ($this->sources as $source) {
+            $stats[get_class($source)] = $source->count();
+        }
+
+        return $stats;
     }
 }

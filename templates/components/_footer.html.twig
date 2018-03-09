@@ -9,11 +9,11 @@
                     <a href="{{ path('index') }}" class="logo">
                         <img alt="TechNews" src="{{ asset('images/logo_footer.png') }}" />
                     </a>
-                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
+                    <p>{% trans %}footer.txt{% endtrans %}</p>
                 </div>
             </div>
             <div class="col-md-3 col-md-offset-1 col-sm-4 col-xs-12">
-                <h3>Our Categories</h3>
+                <h3>{% trans %}footer.category{% endtrans %}</h3>
                 <ul class="list-category">
                     {% for category in categories %}
                         <li>{{ categoryLink(category) | raw  }}</li>
@@ -21,7 +21,7 @@
                 </ul>
             </div>
             <div class="col-md-3 col-md-offset-1 col-sm-4 col-xs-12">
-                <h3>Search by Tags</h3>
+                <h3>{% trans %}footer.tagSearch{% endtrans %}</h3>
                 <div class="list-tags">
                     {{ render(controller('App\\Controller\\SectionController::wordTag')) }}
                 </div>
@@ -31,13 +31,11 @@
         <div class="allright">
             <div class="row">
                 <div class="col-sm-6 col-xs-12">
-                    <p> © 2018 <a alt="TechNews" href="{{ path('index') }}">TECH NEWS</a>. All rights reserved.</p>
+                    <p> © 2018 <a alt="TechNews" href="{{ path('index') }}">TECH NEWS</a>. {% trans %}footer.reserved{% endtrans %}</p>
                 </div>
 
                 <div class="col-sm-6 col-xs-12">
-                    <ul class="list-social-icon list-social-icon-footer">
-                        {% include 'components/_socialMedia.html.twig' %}
-                    </ul>
+                    <ul class="list-social-icon list-social-icon-footer">{% include 'components/_socialMedia.html.twig' %}</ul>
                 </div>
             </div>
         </div>

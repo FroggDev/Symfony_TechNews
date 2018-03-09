@@ -1,7 +1,7 @@
 <!-- subcribe box-->
 <div class="subcribe-box">
-    <h3>NEWSLETTER</h3>
-    <p>Subscribe to the newsletter to recieve our last publications.</p>
+    <h3>{% trans %}sidebar.newsletter.title{% endtrans %}</h3>
+    <p>{% trans %}sidebar.newsletter.message{% endtrans %}</p>
     {{ form_start(form) }}
     {{ form_row(form.email) }}
     {{ form_end(form) }}

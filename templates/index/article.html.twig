@@ -27,16 +27,14 @@
         </article>
         <!--social-detail-->
         <div class="social-detail">
-            <span>   Share article</span>
-
+            <span>{% trans %}article.share{% endtrans %}</span>
             <ul class="list-social-icon">
                 {% include 'components/_socialMedia.html.twig' %}
             </ul>
         </div>
-
         <!--related post-->
         <div class="detail-caption">
-            <span>RELATED POST</span>
+            <span>{% trans %}article.related{% endtrans %}</span>
         </div>
         <section class="spotlight-thumbs spotlight-thumbs-related">
             <div class="row">

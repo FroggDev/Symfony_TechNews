@@ -134,4 +134,16 @@ class DoctrineSource extends ArticleAbstractSource
     {
         return null;
     }
+
+    /**
+     * get the number of items in each sources
+     * @return int
+     */
+    public function count(): int
+    {
+        return $this
+            ->eManager
+            ->getRepository($this->entity)
+            ->findCountArticles();
+    }
 }

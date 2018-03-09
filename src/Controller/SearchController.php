@@ -15,7 +15,7 @@ class SearchController extends Controller
 {
     /**
      * @Route(
-     *      "/wordcloud/{search}/{currentPage}.html",
+     *      "/{_locale}/wordcloud/{search}/{currentPage}.html",
      *      name="wordcloud_search",
      *      requirements={"currentPage" : "\d+"},
      *      defaults={"currentPage"="1"},
@@ -68,7 +68,7 @@ class SearchController extends Controller
 
     /**
      * @Route(
-     *      "/search/{search}/{currentPage}.html",
+     *      "/{_locale}/search/{search}/{currentPage}.html",
      *      name="index_search",
      *      requirements={"currentPage" : "\d+"},
      *      defaults={"currentPage"="1"},
@@ -120,7 +120,7 @@ class SearchController extends Controller
 
     /**
      * @Route(
-     *      "/last/{currentPage}.html",
+     *      "/{_locale}/last/{currentPage}.html",
      *      name="last_article",
      *      requirements={"currentPage" : "\d+"},
      *      defaults={"currentPage"="1"},

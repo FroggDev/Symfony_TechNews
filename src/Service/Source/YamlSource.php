@@ -151,8 +151,8 @@ class YamlSource extends ArticleAbstractSource
     public function findLastFive(): ?iterable
     {
         $articles = $this->findAll();
-        usort($articles ,'self::sortByDate');
-        return array_slice($articles , 0, 5);
+        usort($articles, 'self::sortByDate');
+        return array_slice($articles, 0, 5);
     }
 
     /**
@@ -164,9 +164,8 @@ class YamlSource extends ArticleAbstractSource
         $articles = [];
         $nbFound = 0;
         $tmpArticles = $this->findAll();
-        usort($tmpArticles ,'self::sortByDate');
+        usort($tmpArticles, 'self::sortByDate');
         foreach ($tmpArticles as $article) {
-
             if ($article->getSpotlight()) {
                 $articles[] = $article;
                 $nbFound++;
@@ -198,9 +197,8 @@ class YamlSource extends ArticleAbstractSource
         $articles = [];
         $nbFound = 0;
         $tmpArticles = $this->findAll();
-        usort($tmpArticles ,'self::sortByDate');
+        usort($tmpArticles, 'self::sortByDate');
         foreach ($tmpArticles as $article) {
-
             if ($article->getSpotlight()) {
                 $articles[] = $article;
                 $nbFound++;
@@ -213,5 +211,12 @@ class YamlSource extends ArticleAbstractSource
         return $articles;
     }
 
-
+    /**
+     * get the number of items in each sources
+     * @return int
+     */
+    public function count(): int
+    {
+        return count($this->articles);
+    }
 }

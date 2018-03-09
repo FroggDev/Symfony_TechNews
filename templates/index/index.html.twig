@@ -2,7 +2,7 @@
 
 {% set active='index' %}
 
-{% block page_title 'Home' %}
+{% block page_title "index.title"|trans %}
 
 {% block content %}
 
@@ -10,7 +10,7 @@
     <!--colleft-->
     <div class="col-md-8 col-sm-12">
         <div class="box-caption">
-            <span>spotlight</span>
+            <span>{% trans %}index.spotlight{% endtrans %}</span>
         </div>
 
         <!--sportlight-->

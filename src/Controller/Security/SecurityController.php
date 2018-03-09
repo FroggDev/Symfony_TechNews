@@ -35,7 +35,7 @@ class SecurityController extends Controller
     /**
      * User login
      * @Route(
-     *     "/login.html",
+     *     "/{_locale}/login.html",
      *      name="security_connexion"
      * )
      * @param AuthenticationUtils $authenticationUtils
@@ -60,7 +60,7 @@ class SecurityController extends Controller
     /**
      * User register
      * @Route (
-     *     "/register.html",
+     *     "/{_locale}/register.html",
      *      name="security_register",
      *     methods={"GET","POST"}
      *     )
@@ -128,7 +128,7 @@ class SecurityController extends Controller
     /**
      * User registration validation
      * @Route(
-     *     "/register/validation.html",
+     *     "/{_locale}/register/validation.html",
      *      name="register_validation"
      * )
      *
@@ -187,7 +187,7 @@ class SecurityController extends Controller
     /**
      * User password recover form
      * @Route(
-     *     "/recover/request.html",
+     *     "/{_locale}/recover/request.html",
      *      name="security_recover"
      * )
      *
@@ -246,7 +246,7 @@ class SecurityController extends Controller
     /**
      * User password recover
      * @Route(
-     *     "/recover/validation.html",
+     *     "/{_locale}/recover/validation.html",
      *      name="recover_validation"
      * )
      *

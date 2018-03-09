@@ -68,6 +68,20 @@ services:
 
 
     ################
+    # DataColector #
+    ################
+
+    App\DataCollector\SourceCollector:
+        tags:
+            -   name:     data_collector
+                template: 'collector/source.html.twig'
+                # must match the value returned by the getName() method
+                id:       'app.source_collector'
+                # optional priority
+                # priority: 300
+        public: false
+
+    ################
     # Swift Mailer #
     ################
 

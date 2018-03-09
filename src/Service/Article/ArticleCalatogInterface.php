@@ -35,5 +35,4 @@ interface ArticleCalatogInterface extends ArticleRepositoryInterface
      * @return bool
      */
     public function sortByDate($a, $b): bool;
-
 }

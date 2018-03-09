@@ -38,6 +38,5 @@ abstract class ArticleAbstractSource implements ArticleRepositoryInterface
      * @param iterable $tmpArticle
      * @return Article|null
      */
-    abstract protected  function convertToArticle(iterable $tmpArticle): ?Article;
-
+    abstract protected function convertToArticle(iterable $tmpArticle): ?Article;
 }

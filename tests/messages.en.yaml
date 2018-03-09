@@ -1,0 +1,53 @@
+# User
+user:
+    welcome: Welcome %user%
+    login: Login
+    logout: Logout
+    register: Register
+    is:
+        admin: Administrator
+        author: Author
+        member: Member
+    article:
+        create: Create a new article
+
+# Index
+index:
+    title: Home
+    spotlight: Spotlight
+
+# Menu
+menu:
+    title: Menu
+    search:
+        msg: Search...
+        launch: launch
+
+# search
+search:
+    result: Search result for %search%
+# Side bar
+sidebar:
+    lastpublication: Last publications
+    followus: Follow Us
+    special: Special
+    newsletter:
+        title: Newsletter
+        message: Subscribe to the newsletter to recieve our last publications.
+
+# Footers
+footer:
+    tagSearch: Search by Tags
+    category: Our Categories
+    txt: EN There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form
+    reserved: All rights reserved.
+
+#Article
+article:
+    share: Share article
+    related: Related post
+
+#Error
+error:
+    nopublication: No publication found at the moment
+    noresultsearch: No result found for the search %search%

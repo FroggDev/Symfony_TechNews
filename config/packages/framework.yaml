@@ -31,3 +31,9 @@ framework:
 
     # Add CSRF protection
     csrf_protection: ~
+
+
+     # Defaulkt locale to display
+    default_locale: en
+    translator:
+            fallbacks: ['en']

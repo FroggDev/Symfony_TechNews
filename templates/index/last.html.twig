@@ -1,6 +1,6 @@
 {% extends "layout.html.twig" %}
 
-{% block page_title 'Last publications' %}
+{% block page_title 'sidebar.lastpublication'|trans %}
 
 {% set active = 'last' %}
 
@@ -14,12 +14,12 @@
 
             {% if articles is  empty %}
                 <div class="alert alert-danger">
-                    <strong>No publication found</strong>
+                    <strong>{% trans %}error.nopublication{% endtrans %}</strong>
                 </div>
             {% else %}
 
             <div class="box-caption">
-                <span>Last publications</span>
+                <span>{% trans %}sidebar.lastpublication{% endtrans %}</span>
             </div>
 
             <!--list-news-cate-->

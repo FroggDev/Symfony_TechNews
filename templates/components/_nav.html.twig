@@ -1,3 +1,5 @@
+{# seulement si fichier a special file : navigation.local.ext #}
+{#%  trans_default_domain 'messages' %#}
 <!--menu mobile-->
 <nav class="menu-res hidden-lg hidden-md ">
     <div class="menu-res-inner">
@@ -5,17 +7,17 @@
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <a href="{{ path('security_logout') }}">Logout</a>
+                        <a href="{{ path('security_logout') }}">{{ 'user.logout' | trans }}</a>
                     </li>
                     {% if is_granted('ROLE_AUTEUR') or is_granted('ROLE_ADMIN') %}
                         <li class="list-group-item">
-                            <a href="{{ path('add_article') }}">Create a new article</a>
+                            <a href="{{ path('add_article') }}">{{ 'user.article.create' | trans }}</a>
                         </li>
                     {% endif %}
                 </ul>
             {% else %}
-                <li class="list-group-item"><a href="{{ path('security_connexion', { 'go' :  getUri() }) }}">Login</a></li>
-                <li class="list-group-item"><a href="{{ path('security_register') }}">Register</a></li>
+                <li class="list-group-item"><a href="{{ path('security_connexion', { 'go' :  getUri() }) }}">{{ 'user.login' | trans }}</a></li>
+                <li class="list-group-item"><a href="{{ path('security_register') }}">{{ 'user.register' | trans }}</a></li>
             {% endif %}
             {% for category in categories %}
                 <li>{{ categoryLink(category) | raw  }}</li>
@@ -39,11 +41,11 @@
         <nav class="menu font-heading">
             <div class="menu-icon hidden-lg hidden-md">
                 <i class="fa fa-navicon"></i>
-                <span>MENU</span>
+                <span>{{ 'menu.title' | trans }}</span>
             </div>
 
             <ul class="hidden-sm hidden-xs">
-                <li {% if active == 'index' %}class="current"{% endif %}><a href="{{ path('index') }}">Accueil</a></li>
+                <li {% if active == 'index' %}class="current"{% endif %}><a href="{{ path('index') }}">{{ 'index.title' | trans }}</a></li>
                 {% for category in categories %}
                 <li {% if active == category.label %}class="current"{% endif %}>{{ categoryLink(category) | raw  }}</li>
                 {% endfor %}
@@ -54,8 +56,8 @@
                     <i class="fa fa-search"></i>
                 </div>
                 <div class="search-box">
-                    <input type="text" placeholder="Rechercher..." onkeypress="return searchFunction(event)"/>
-                    <button>Lancer</button>
+                    <input type="text" placeholder="{{ 'menu.search.msg' | trans }}" onkeypress="return searchFunction(event)"/>
+                    <button>{{ 'menu.search.launch' | trans }}</button>
                 </div>
             </div>
         </nav>

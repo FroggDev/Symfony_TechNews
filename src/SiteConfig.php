@@ -41,11 +41,17 @@ class SiteConfig
      * name of the php cached file
      * @const string
      */
-    const YAMLFILE = '/../../articles.yaml';
+    const YAMLFILE = 'articles.yaml';
 
     /**
      * name of the php cached file in var/cache/(+dev on dev env)
      * @const string
      */
     const YAMLCACHEFILE = 'yaml-articles.php';
+
+    /**
+     * Cookie validity in days
+     * @const int
+     */
+    const COOKIEVALIDITY = 30;
 }

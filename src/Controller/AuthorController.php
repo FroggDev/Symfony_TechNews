@@ -20,7 +20,7 @@ class AuthorController extends Controller
 
     /**
      * @Route(
-     *     "/author/{name}/{currentPage}.html",
+     *     "/{_locale}/author/{name}/{currentPage}.html",
      *      name="index_author",
      *      methods={"GET"},
      *      requirements={"name" : "[a-z0-9-]+"},

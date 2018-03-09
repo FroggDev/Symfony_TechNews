@@ -36,7 +36,7 @@ class YamlCacheWarmer extends CacheWarmer
     public function warmUp($cacheDir)
     {
         try {
-            $articles = Yaml::parseFile(__DIR__ . SiteConfig::YAMLFILE);
+            $articles = Yaml::parseFile(__DIR__ . '/../../' . SiteConfig::YAMLFILE);
 
             $this->writeCacheFile(
                 $cacheDir.'/'.SiteConfig::YAMLCACHEFILE,

@@ -30,7 +30,7 @@ class CategoryController extends Controller
 
     /**
      * @Route(
-     *      "/category/{label}/{currentPage}.html",
+     *      "/{_locale}/category/{label}/{currentPage}.html",
      *      name="index_category",
      *      methods={"GET"},
      *      requirements={"label" : "[a-z0-9-]+"},

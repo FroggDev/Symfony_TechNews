@@ -2,39 +2,43 @@
 
 <!--colright-->
 <div class="col-md-4 col-sm-12">
-
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <h3 class="text-center">Welcome {{ app.user.lastname | capitalize }} {{ app.user.firstname | upper }}</h3>
+        <h3 class="text-center">
+            {% trans with {'%user%': ((app.user.lastname | capitalize)~" "~(app.user.firstname | upper))}%}user.welcome{% endtrans %}
+        </h3>
         <h4 class="text-center">
             {% if is_granted('ROLE_ADMIN') %}
-                Administrator
+                {% trans %}user.is.admin{% endtrans %}
             {% elseif is_granted('ROLE_AUTEUR') %}
-                Author
+                {% trans %}user.is.author{% endtrans %}
             {% else %}
-                Member
+                {% trans %}user.is.member{% endtrans %}
             {% endif %}
         </h4>
         <ul class="list-group">
             <li class="list-group-item">
-                <a href="{{ path('security_logout') }}">Logout</a>
+                <a href="{{ path('security_logout') }}">{{ 'user.logout' | trans }}</a>
             </li>
             {% if is_granted('ROLE_AUTEUR') or is_granted('ROLE_ADMIN') %}
                 <li class="list-group-item">
-                    <a href="{{ path('add_article') }}">Create a new article</a>
+                    <a href="{{ path('add_article') }}">{% trans %}user.article.create{% endtrans %}</a>
                 </li>
             {% endif %}
         </ul>
     {% else %}
-        <li class="list-group-item"><a href="{{ path('security_connexion', { 'go' :  getUri() }) }}">Login</a></li>
-        <li class="list-group-item"><a href="{{ path('security_register') }}">Register</a></li>
+        <li class="list-group-item"><a href="{{ path('security_connexion', { 'go' :  getUri() }) }}">{% trans %}user.login{% endtrans %}</a></li>
+        <li class="list-group-item"><a href="{{ path('security_register') }}">{% trans %}user.register{% endtrans %}</a></li>
     {% endif %}
+
+
+    {#{ app.user.lastname | capitalize }} {{ app.user.firstname | upper }#}
+    {#% trans %}user.welcome{% endtrans %#}
+
 
     <!--tab popular-->
     <ul role="tablist" class="tab-popular">
         <li class="active">
-            <a href="{{ url('last_article') }}">
-                LAST PUBLICATIONS
-            </a>
+            <a href="{{ url('last_article') }}">{% trans %}sidebar.lastpublication{% endtrans %}</a>
         </li>
     </ul>
     <div class="tab-content">
@@ -62,9 +66,7 @@
     <!-- connect us-->
     <div class="connect-us">
         <div class="widget-title">
-			<span>
-				Follow us
-			</span>
+			<span>{% trans %}sidebar.followus{% endtrans %}</span>
         </div>
         <ul class="list-social-icon">
             {% include 'components/_socialMedia.html.twig' %}
@@ -74,9 +76,7 @@
     <!-- special post-->
     <div class="connect-us">
         <div class="widget-title">
-			<span>
-				Special
-			</span>
+			<span>{% trans %}sidebar.special{% endtrans %}</span>
         </div>
         <div class="list-special">
             {% for article in specialArticles %}

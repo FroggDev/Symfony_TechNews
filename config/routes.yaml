@@ -1,14 +1,18 @@
 index:
     path: /
     controller: App\Controller\IndexController::index
+    #default:
+    #    - _locale: '%locale%'
+    #requierements:
+    #    - _locale: fr|en
 
 #route redirection
 home:
     path: /home
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
     defaults:
-      route: index
-      permanent: true
+        route: index
+        permanent: true
 
 #static redirection
 privacy:
