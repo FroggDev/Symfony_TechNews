@@ -27,7 +27,7 @@ class SectionController extends Controller
         $repositoryArticle->findSpecialArticles()
         $repositoryArticle->findLastFiveArticle()
         */
-        
+
         # display page from twig template
         return $this->render(
             'components/_sidebar_html.twig',
