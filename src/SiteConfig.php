@@ -7,6 +7,10 @@ namespace App;
  */
 class SiteConfig
 {
+    ###########
+    # ARTICLE #
+    ###########
+
     /**
      * nb article to display per page
      * @const int
@@ -31,11 +35,19 @@ class SiteConfig
      */
     const NBARTICLESPECIAL=1;
 
+    ##############
+    # NEWSLETTER #
+    ##############
+
     /**
      * nb page displayed before newsletter popin
      * @const int
      */
     const NBPAGEBEFORENEWSLETTERPER=1;
+
+    #################
+    # YAML DATABASE #
+    #################
 
     /**
      * name of the php cached file
@@ -49,9 +61,20 @@ class SiteConfig
      */
     const YAMLCACHEFILE = 'yaml-articles.php';
 
+    ##########
+    # LOCALE #
+    ##########
+
     /**
      * Cookie validity in days
      * @const int
      */
-    const COOKIEVALIDITY = 30;
+    const COOKIELOCALEVALIDITY = 30;
+
+    /**
+     * Cookie name
+     * @const string
+     */
+    const COOKIELOCALENAME = "locale";
+
 }

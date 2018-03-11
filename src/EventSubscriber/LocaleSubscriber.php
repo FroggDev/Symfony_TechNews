@@ -1,14 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Etudiant
- * Date: 09/03/2018
- * Time: 12:51
- */
-
 namespace App\EventSubscriber;
 
-use App\SiteConfig;
+use App\Service\LocaleService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -21,38 +14,12 @@ class LocaleSubscriber implements EventSubscriberInterface
 {
 
     /**
-     * get the user browser language
-     * @return string|null
-     * @access private
-     */
-    private function getUserBrowserLangs() : ?string
-    {
-        preg_match_all('/([a-z]{2})-[A-Z]{2}/', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $lang);
-        if (count($lang)>0) {
-            return $lang[1][0];
-        }
-        return null;
-    }
-
-    /**
      * @param GetResponseEvent $event
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
-
-        # get the request
-        $request = $event->getRequest();
-
-        # check if lang are set as arguments, then check in cookies
-        $currentLang = $_COOKIE["lang"]??$this->getUserBrowserLangs()??$request->getDefaultLocale();
-
-        # Update cookiez
-        setcookie('lang', $currentLang, time() + ( SiteConfig::COOKIEVALIDITY * 24 * 60 * 60), "/"); // 24 * 60 * 60 = 86400 = 1 day
-
-        /*TODO REDIRECT TO ROUTE*/
-
-        # some logic to determine the $locale
-        //$request->setLocale($currentLang);
+        $localService = new LocaleService($event->getRequest(), $event );
+        $localService->changeDefaultLocale();
     }
 
     /**

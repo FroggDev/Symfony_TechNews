@@ -71,13 +71,3 @@
         }
     });
 })(jQuery);
-
-
-// Search inpu and click button
-var searchTxt = document.querySelector(".search-box INPUT");
-var searchFunction = function(e){
-    if (searchTxt.value!="" && ( !e.keyCode || e.keyCode == 13 )) {
-        document.location="/search/"+searchTxt.value+"/1.html";
-    }
-}
-document.querySelector(".search-box BUTTON").addEventListener( "click", searchFunction );

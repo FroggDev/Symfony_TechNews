@@ -23,6 +23,9 @@ class YamlSource extends ArticleAbstractSource
 
     private $articles;
 
+    # optimization for the find all
+    private $convertedArticles;
+
     /**
      * YamlSource constructor.
      * @param YamlProvider $yamlProvider
@@ -49,7 +52,6 @@ class YamlSource extends ArticleAbstractSource
         }
 
         /*
-         * @TODO APRES C ESTMOI QUI SUIS CRITIQUE
          * VERSION DU FORMATEUR ==>
          * ------------------------
         # Récupération de l'Article dans le tableau
@@ -73,13 +75,21 @@ class YamlSource extends ArticleAbstractSource
      */
     public function findAll(): iterable
     {
-        $articles = [];
-
-        foreach ($this->articles as $tmpArticle) {
-            $articles[] = $this->convertToArticle($tmpArticle);
+        # Optimization if already loaded
+        if ($this->convertedArticles) {
+            return $this->convertedArticles;
         }
 
-        return $articles;
+
+        $this->convertedArticles = [];
+
+        foreach ($this->articles as $tmpArticle) {
+            $this->convertedArticles[] = $this->convertToArticle($tmpArticle);
+        }
+
+        usort($this->convertedArticles, "Self::sortByDate");
+
+        return $this->convertedArticles;
     }
 
 
@@ -151,7 +161,6 @@ class YamlSource extends ArticleAbstractSource
     public function findLastFive(): ?iterable
     {
         $articles = $this->findAll();
-        usort($articles, 'self::sortByDate');
         return array_slice($articles, 0, 5);
     }
 
@@ -164,7 +173,6 @@ class YamlSource extends ArticleAbstractSource
         $articles = [];
         $nbFound = 0;
         $tmpArticles = $this->findAll();
-        usort($tmpArticles, 'self::sortByDate');
         foreach ($tmpArticles as $article) {
             if ($article->getSpotlight()) {
                 $articles[] = $article;
@@ -197,7 +205,6 @@ class YamlSource extends ArticleAbstractSource
         $articles = [];
         $nbFound = 0;
         $tmpArticles = $this->findAll();
-        usort($tmpArticles, 'self::sortByDate');
         foreach ($tmpArticles as $article) {
             if ($article->getSpotlight()) {
                 $articles[] = $article;
@@ -219,4 +226,5 @@ class YamlSource extends ArticleAbstractSource
     {
         return count($this->articles);
     }
+
 }

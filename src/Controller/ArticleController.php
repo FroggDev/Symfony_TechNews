@@ -44,17 +44,19 @@ class ArticleController extends Controller
     public function article(string $category, string $slug, string $id, ArticleCatalog $catalog): Response //Article $article
     {
 
-        VarDumper::dump($catalog->getSources());
-        VarDumper::dump($catalog->findAll());
-        VarDumper::dump($catalog->findLastFive());
-        VarDumper::dump($catalog->findSpecials());
-        VarDumper::dump($catalog->findSpotlights());
+        #ArticleCatalog $catalog
+        #VarDumper::dump($catalog->getSources());
+        #VarDumper::dump($catalog->findAll());
+        #VarDumper::dump($catalog->findLastFive());
+        #VarDumper::dump($catalog->findSpecials());
+        #VarDumper::dump($catalog->findSpotlights());
 
 
-        # check if there is duplicate article
+        # get article from catalog and check if there is duplicate article
         try {
             $article = $catalog->find($id);
         } catch (DuplicateCatalogDataException $e) {
+            # if duplicate get first article found
             $article = $e->getArticle();
         }
 
@@ -67,7 +69,7 @@ class ArticleController extends Controller
         $categorySlugified = $article->getCategory()->getLabelSlugified();
         $titleSlugified = $article->getTitleSlugified();
 
-        # check url format
+        # check url format, else redirect to formated route
         if ($category != $categorySlugified || $slug != $titleSlugified) {
             return $this->redirectToRoute(
                 'index_article',
@@ -80,16 +82,32 @@ class ArticleController extends Controller
             );
         }
 
+        /**
+         * DOCTRINE VERION
+         */
+
         # Get suggestions
         /** @noinspection PhpMethodParametersCountMismatchInspection */
+        /*
         $suggestions = $this->getDoctrine()
             ->getRepository(Article::class)
             ->findArticleSuggestions($article->getCategory()->getId());
+        */
 
         # Get spotlights
+        /*
         $spotlight = $this->getDoctrine()
             ->getRepository(Article::class)
             ->findSpotLightArticles();
+        */
+
+        /**
+         * CATALOG VERION
+         */
+        # Get spotlights from catalog
+        $spotlight = $catalog->findSpotlights();
+        # get suggestion
+        $suggestions = $catalog->findSuggestions($article->getCategory()->getId());
 
         /*
          * Lazy Loading et le Chargement des Related Objects
@@ -127,8 +145,7 @@ class ArticleController extends Controller
         # init new article object
         $article = new Article();
 
-        # get an author for the demo
-        # TODO : Get this from Connected user !
+        # get an author from user logged in
         $author = $this
             ->getDoctrine()
             ->getRepository(Author::class)

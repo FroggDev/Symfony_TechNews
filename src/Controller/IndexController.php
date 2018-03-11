@@ -40,8 +40,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Class IndexController
@@ -50,14 +48,17 @@ use Symfony\Component\VarDumper\VarDumper;
 class IndexController extends Controller
 {
     /**
-     * @Route("/{_locale}")
+     * @Route("/{_locale}",name="index_locale")
      * @return Response
      */
-    public function index(Request $request): Response
+    public function index(): Response
     {
 
-        $locale = $request->getLocale();
-        VarDumper::dump($locale);
+        /**
+         * @debug displaying current locale
+         */
+        #$locale = $request->getLocale();
+        #VarDumper::dump($locale);
 
         # get repo article
         $repositoryArticle = $this->getDoctrine()->getRepository(Article::class);

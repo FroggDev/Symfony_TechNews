@@ -39,6 +39,17 @@
     <script src="{{ asset('js/bootstrap.js') }}"></script>
     <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+
+    <script>
+    // Search inpu and click button
+    var searchTxt = document.querySelector(".search-box INPUT");
+    var searchFunction = function(e){
+        if (searchTxt.value!="" && ( !e.keyCode || e.keyCode == 13 )) {
+        document.location="/{{ app.request.locale }}/search/"+searchTxt.value+"/1.html";
+        }
+    }
+    document.querySelector(".search-box BUTTON").addEventListener( "click", searchFunction );
+    </script>
 {% endblock %}
 
 {% block html %}

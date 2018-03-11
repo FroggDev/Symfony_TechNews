@@ -7,6 +7,7 @@ use App\Exception\DuplicateCatalogDataException;
 use App\Service\Source\ArticleAbstractSource;
 use App\SiteConfig;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Class ArticleCatalog (THIS IS A MEDIATOR)
@@ -20,6 +21,11 @@ class ArticleCatalog implements ArticleCalatogInterface
      */
     private $sources;
 
+
+    /**
+     * contain the findAll result for optimization
+     */
+    private $allArticles;
 
     /**
      * Add a source
@@ -112,7 +118,14 @@ class ArticleCatalog implements ArticleCalatogInterface
     public function findAll(): ?iterable
     {
 
-        return $this->sourcesUnifier('findAll');
+        # Optimization
+        if($this->allArticles){
+            return $this->allArticles;
+        }
+
+        $this->allArticles = $this->sourcesUnifier('findAll', 'sortByDate');
+
+        return $this->allArticles;
 
         /*
                 $articles = [];
@@ -146,7 +159,7 @@ class ArticleCatalog implements ArticleCalatogInterface
     public function findLastFive(): ?iterable
     {
 
-        return $this->sourcesUnifier('findLastFive')->slice(0, 5);
+        return $this->sourcesUnifier('findLastFive','sortByDate')->slice(0, 5);
 
         /*
         $articles = $this->findAll()->toArray();
@@ -225,5 +238,21 @@ class ArticleCatalog implements ArticleCalatogInterface
         }
 
         return $stats;
+    }
+
+
+    /**
+     * @param int $idCategory
+     * @return iterable
+     */
+    public function findSuggestions(int $idCategory) : iterable
+    {
+        $articles = [];
+        foreach($this->findAll() as $article){
+            if($article->getCategory()->getId()==$idCategory){
+                $articles[] = $article;
+            }
+        }
+        return $articles;
     }
 }

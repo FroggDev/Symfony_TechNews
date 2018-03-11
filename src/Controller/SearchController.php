@@ -2,10 +2,12 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Service\Article\ArticleCatalog;
 use App\SiteConfig;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Class SearchController
@@ -26,13 +28,19 @@ class SearchController extends Controller
      * @param string $currentPage
      * @return Response
      */
-    public function wordTag(string $search, string $currentPage): Response
+    public function wordTag(string $search, string $currentPage, ArticleCatalog $catalog): Response
     {
+        # FROM DOCTRINE
+        /*
         # get repo category
-        $reposirotyArticle = $this->getDoctrine()->getRepository(Article::class);
+        $repositoryArticle = $this->getDoctrine()->getRepository(Article::class);
 
         # get category from category
-        $articles = $reposirotyArticle->findAll();
+        $articles = $repositoryArticle->findAll();
+        */
+
+        # FROM CATALOG
+        $articles = $catalog->findAll()->toArray();
 
         # search in array
         $matches = array_filter(
@@ -79,13 +87,19 @@ class SearchController extends Controller
      * @param string $currentPage
      * @return Response
      */
-    public function search(string $search, string $currentPage): Response
+    public function search(string $search, string $currentPage, ArticleCatalog $catalog): Response
     {
+        # FROM DOCTRINE
+        /*
         # get repo category
         $repositoryArticle = $this->getDoctrine()->getRepository(Article::class);
 
         # get category from category
         $articles = $repositoryArticle->findAll();
+        */
+
+        # FROM CATALOG
+        $articles = $catalog->findAll()->toArray();
 
         # search in array
         $matches = array_filter(
@@ -130,13 +144,19 @@ class SearchController extends Controller
      * @param string $currentPage
      * @return Response
      */
-    public function lastArticle(string $currentPage): Response
+    public function lastArticle(string $currentPage, ArticleCatalog $catalog): Response
     {
+        # FROM DOCTRINE
+        /*
         # get repo category
         $repositoryArticle = $this->getDoctrine()->getRepository(Article::class);
 
         # get category from category
         $articles = $repositoryArticle->findAll();
+        */
+
+        # FROM CATALOG
+        $articles = $catalog->findAll()->toArray();
 
         # get number of elenmts
         $countArticle =count($articles);

@@ -35,6 +35,12 @@
                         <img alt="Logo" src="{{ asset('images/logo.png') }}" />
                     </a>
                 </div>
+
+                {# CAN BE TEST FOR HIGHLIGHT : { app.request.locale }#}
+
+                <a lang ="fr" href="{{ path('change_locale', { 'locale' :  'fr' }) }}" style="border:2px solid darkblue;padding:5px;">FR</a>
+                <a lang ="en" href="{{ path('change_locale', { 'locale' :  'en' }) }}" style="border:2px solid darkblue;padding:5px;">EN</a>
+
             </div>
         </header>
         <!--menu-->
