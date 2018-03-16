@@ -1,0 +1,15 @@
+{% extends "layout.html.twig" %}
+
+{% set active ="error" %}
+
+{% block page_title %}
+Error {{ status_code }}
+{% endblock %}
+
+{% block content %}
+    <div class="page-404">
+        <h1>{{ status_code }}</h1>
+        <p>{{ status_text }}</p>
+        <a href="{{ url('index') }}">Back to index</a>
+    </div>
+{% endblock %}

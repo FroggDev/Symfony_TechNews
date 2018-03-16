@@ -17,6 +17,8 @@ security:
         main:
             anonymous: true
 
+            access_denied_handler: App\Security\AccessDeniedHandler
+
             # Information to route login
             # ##########################
             # login security firewall

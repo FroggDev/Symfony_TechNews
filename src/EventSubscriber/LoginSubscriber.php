@@ -3,6 +3,8 @@ namespace App\EventSubscriber;
 
 #use Doctrine\ORM\EntityManagerInterface;
 #use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 /**
  * Class LoginSubscriber
@@ -11,14 +13,21 @@ namespace App\EventSubscriber;
 class LoginSubscriber
 {
     // Version not optimized !!!!
-/*
+
     private $eManager;
 
+    /**
+     * LoginSubscriber constructor.
+     * @param EntityManagerInterface $eManager
+     */
     public function __construct(EntityManagerInterface $eManager)
     {
         $this->eManager = $eManager;
     }
 
+    /**
+     * @param InteractiveLoginEvent $event
+     */
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
         # Get the User entity.
@@ -31,5 +40,5 @@ class LoginSubscriber
         # $this->eManager->persist($author);
         $this->eManager->flush();
     }
-*/
+
 }

@@ -15,6 +15,7 @@
         "symfony/lts": "^4@dev",
         "symfony/maker-bundle": "^1.1",
         "symfony/orm-pack": "^1.0",
+        "symfony/requirements-checker": "^1.0",
         "symfony/security-bundle": "^4.0",
         "symfony/security-csrf": "^4.0",
         "symfony/swiftmailer-bundle": "^3.2",
@@ -54,7 +55,8 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd",
+            "requirements-checker": "script"
         },
         "post-install-cmd": [
             "@auto-scripts"

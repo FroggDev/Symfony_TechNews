@@ -48,7 +48,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class IndexController extends Controller
 {
     /**
-     * @Route("/{_locale}",name="index_locale")
+     * @Route("/{_locale}",name="index_locale",requirements={"_locale"="en|fr"})
      * @return Response
      */
     public function index(): Response

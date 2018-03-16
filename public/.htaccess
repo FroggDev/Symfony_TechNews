@@ -2,3 +2,8 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [L,QSA]
 
+# this replace
+SetEnv APP_ENV = prod
+SetEnv APP_SECRET=afb0e99a58cde3c88de15106c04d6207
+SetEnv DATABASE_URL=mysql://root:root@127.0.0.1:3306/technews
+SetEnv MAILER_URL=smtp://smtp.mailtrap.io:2525?auth_mode=login&username=e5e05820e45013&password=e4ecbcfef4fb67
