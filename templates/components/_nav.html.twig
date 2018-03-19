@@ -11,7 +11,7 @@
                     </li>
                     {% if is_granted('ROLE_AUTEUR') or is_granted('ROLE_ADMIN') %}
                         <li class="list-group-item">
-                            <a href="{{ path('add_article') }}">{{ 'user.article.create' | trans }}</a>
+                            <a href="{{ path('edit_article') }}">{{ 'user.article.create' | trans }}</a>
                         </li>
                     {% endif %}
                 </ul>

@@ -60,7 +60,8 @@
 
     {# Side bar #}
     {#% include 'components/_sidebar_html.twig' %#}
-    {{ render(controller('App\\Controller\\SectionController::sideBar')) }}
+    {#{ controller(controller, attributes, query) }#}
+    {{ render(controller('App\\Controller\\SectionController::sideBar', { 'article': article })) }}
 
 </div>
 {% endblock %}

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Remy
- * Date: 01/03/2018
- * Time: 23:35
- */
-
 namespace App\Command;
 
 use App\Entity\Article;
@@ -16,6 +9,11 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @TODO : CLEAN THIS
+ * Class CreateDatabaseEntry
+ * @package App\Command
+ */
 class CreateDatabaseEntry extends command
 {
 

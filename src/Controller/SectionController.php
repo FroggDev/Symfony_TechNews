@@ -17,9 +17,10 @@ class SectionController extends Controller
 {
     /**
      * @param ArticleCatalog $catalog
+     * @param Article|null $article
      * @return Response
      */
-    public function sideBar(ArticleCatalog $catalog): Response
+    public function sideBar(ArticleCatalog $catalog, ?Article $article = null): Response
     {
         # get repo article (old, only from doctrine)
         /*
@@ -35,7 +36,8 @@ class SectionController extends Controller
                 # get repo article
                 'specialArticles' => $catalog->findSpecials(),
                 # Get last five Articles
-                'lastFiveArticles' => $catalog->findLastFive()
+                'lastFiveArticles' => $catalog->findLastFive(),
+                'article' => $article
             ]
         );
     }

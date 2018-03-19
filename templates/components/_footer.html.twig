@@ -7,7 +7,7 @@
             <div class="col-md-4  col-sm-4 col-xs-12">
                 <div class="about">
                     <a href="{{ path('index') }}" class="logo">
-                        <img alt="TechNews" src="{{ asset('images/logo_footer.png') }}" />
+                        <img alt="{{ constant('App\\SiteConfig::SITENAME') }}" src="{{ asset('images/logo_footer.png') }}" />
                     </a>
                     <p>{% trans %}footer.txt{% endtrans %}</p>
                 </div>
@@ -31,7 +31,7 @@
         <div class="allright">
             <div class="row">
                 <div class="col-sm-6 col-xs-12">
-                    <p> © 2018 <a alt="TechNews" href="{{ path('index') }}">TECH NEWS</a>. {% trans %}footer.reserved{% endtrans %}</p>
+                    <p> © {{ constant('App\\SiteConfig::SITEDATE') }} <a alt="{{ constant('App\\SiteConfig::SITENAME') }}" href="{{ path('index') }}">{{ constant('App\\SiteConfig::SITENAME') | upper }}</a>. {% trans %}footer.reserved{% endtrans %}</p>
                 </div>
 
                 <div class="col-sm-6 col-xs-12">

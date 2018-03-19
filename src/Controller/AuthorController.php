@@ -23,8 +23,7 @@ class AuthorController extends Controller
      *     "/{_locale}/author/{name}/{currentPage}.html",
      *      name="index_author",
      *      methods={"GET"},
-     *      requirements={"name" : "[a-z0-9-]+"},
-     *      requirements={"currentPage" : "\d+"},
+     *      requirements={"name" : "[a-z0-9-]+","currentPage" : "\d+"},
      *      defaults={"currentPage" : 1}
      *      )
      *

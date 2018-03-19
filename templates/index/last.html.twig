@@ -45,7 +45,7 @@
             </div>
 
             <div class="paging">
-                {% if currentPage>1 %}{{ lastLink( "Prev" , null , currentPage-1 ) | raw  }}{% endif %}
+                {% if currentPage>1 %}{{ lastLink( "pagination.prev"|trans , null , currentPage-1 ) | raw  }}{% endif %}
                 {% for i in 0..countPagination-1 %}
                     {% if currentPage==i+1 %}
                         {% set paginationClass='current' %}
@@ -54,7 +54,7 @@
                     {% endif %}
                     {{ lastLink(((i+1)~''),paginationClass,i+1  ) | raw  }}
                 {% endfor %}
-                {% if currentPage<countPagination %}{{ lastLink( "Next" , null, currentPage+1 ) | raw  }}{% endif %}
+                {% if currentPage<countPagination %}{{ lastLink( "pagination.next"|trans , null, currentPage+1 ) | raw  }}{% endif %}
             </div>
 
             {% endif %}

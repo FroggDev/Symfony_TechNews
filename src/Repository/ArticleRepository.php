@@ -42,6 +42,7 @@ class ArticleRepository extends ServiceEntityRepository
     public function findAll(): array
     {
         return $this->createQueryBuilder('a')
+            ->where('a.status LIKE :status')->setParameter('status' , "%published%")
             ->orderBy('a.dateCreation', 'DESC')
             ->getQuery()
             ->getResult();

@@ -1,7 +1,7 @@
 {% extends "layout.html.twig" %}
 
 {% set active = 'editArticle' %}
-{% block page_title 'Edit an article' %}
+{% block page_title 'form.article.title'|trans %}
 
 {% block css %}
     {{ parent() }}
@@ -20,12 +20,12 @@
 
         $('.dropify').dropify({
             messages: {
-                'default': 'Drag and drop a file here or click',
-                'replace': 'Drag and drop or click to replace',
-                'remove': 'Remove',
-                'error': 'Sorry, an error occured, please retry',
-                'fileSize': 'The file size is too big ({ { value } } max).',
-                'imageFormat': 'The image format is not allowed ({ { value } } only).'
+                'default': '{% trans %}dropify.default{% endtrans %}',
+                'replace': '{% trans %}dropify.replace{% endtrans %}',
+                'remove': '{% trans %}dropify.remove{% endtrans %}',
+                'error': '{% trans %}dropify.error{% endtrans %}',
+                'fileSize': '{% trans %}dropify.fileSize{% endtrans %}',
+                'imageFormat': '{% trans %}dropify.imageFormat{% endtrans %}'
             }
         });
     </script>
@@ -36,7 +36,7 @@
     <div class="row">
 
         <div class="col-xs-10 col-xs-offset-1">
-            <h3>Edit an article</h3>
+            <h3>{% trans %}form.article.title{% endtrans %}</h3>
 
             {#% form_theme form 'bootstrap_4_layout.html.twig' %#}
 
@@ -57,7 +57,6 @@
             {#{ form_start(form) }#}
             {#{ form_widget(form) }#}
             {#{ form_end(form) }#}
-
         </div>
 
     </div>

@@ -44,6 +44,9 @@ class YamlCacheWarmer extends CacheWarmer
             );
         } catch (ParseException $e) {
             printf('Unable to parse the YAML file', $e->getMessage());
+            /**
+             * TODO : LOG THIS
+             */
         }
     }
 }

@@ -11,13 +11,39 @@ class SiteConfig
     # GLOBAL #
     ##########
 
+    /**
+     * website name
+     * @const string
+     */
     const SITENAME='TechNews';
+
+    /**
+     * website date (in footer)
+     * @const string
+     */
+    const SITEDATE="2018";
 
     ############
     # REGISTER #
     ############
 
+    /**
+     * name of security mail from
+     * @const string
+     */
     const SECURITYMAIL='technews@frogg.fr';
+
+    /**
+     * name of security Entity
+     * @const string
+     */
+    const USERENTITY = "\App\Entity\Author";
+
+    /**
+     * list of available roles
+     * @const array
+     */
+    const USERROLES = ['ROLE_MEMBER','ROLE_AUTHOR','ROLE_ADMIN'];
 
     ###########
     # ARTICLE #

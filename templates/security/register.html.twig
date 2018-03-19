@@ -2,12 +2,12 @@
 
 {% set active = "register" %}
 
-{% block page_title "Register" %}
+{% block page_title 'form.register.title'|trans %}
 
 {% block content %}
     <div class="row">
         <div class="col-xs-6 col-xs-push-3">
-            <h2 class="text-center">Register form</h2>
+            <h2 class="text-center">{% trans %}form.register.title{% endtrans %}</h2>
             {% form_theme form 'bootstrap_3_layout.html.twig' %}
             {{ form(form) }}
         </div>

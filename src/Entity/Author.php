@@ -284,6 +284,25 @@ class Author implements AdvancedUserInterface
 
 
     /**
+     * @param array $roles
+     * @return Author
+     */
+    public function setAllRoles(array $roles): Author
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+    /**
+     * @param string $role
+     * @return bool
+     */
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->roles);
+    }
+
+    /**
      * @return \DateTime
      */
     public function getLastConnexion(): \DateTime

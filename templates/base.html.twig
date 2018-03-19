@@ -1,7 +1,7 @@
 {% set categories = category_service.findAll() %}
 {% set currentPath = app.request.pathinfo %}
 <!doctype html>
-<html lang="en">
+<html lang="{{ app.request.locale }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>
             {% block title %}
-                {% block page_title '' %} | {% block site_title 'TechNews' %}
+                {% block page_title '' %} | {% block site_title constant('App\\SiteConfig::SITENAME') %}
             {% endblock %}
     </title>
     {% block css '' %}
@@ -23,7 +23,6 @@
 
 {% block js '' %}
 {% block js_final '' %}
-
 
 </body>
 </html>

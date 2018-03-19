@@ -74,6 +74,11 @@ class Article
     private $status;
 
     /**
+     * @var string from where the data come from
+     */
+    private $source;
+
+    /**
      * Article constructor.
      */
     public function __construct()
@@ -288,7 +293,7 @@ class Article
     /**
      * @return mixed
      */
-    public function getStatus() : ?array
+    public function getStatus(): ?array
     {
         return $this->status;
     }
@@ -303,4 +308,22 @@ class Article
         return $this;
     }
 
+
+    /**
+     * @return null|string
+     */
+    public function getSource(): ?string
+    {
+        return $this->source;
+    }
+
+    /**
+     * @param string $source
+     * @return Article
+     */
+    public function setSource(string $source): Article
+    {
+        $this->source = $source;
+        return $this;
+    }
 }

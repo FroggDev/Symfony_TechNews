@@ -149,7 +149,8 @@ class YamlSource extends ArticleAbstractSource
             ->setCategory($categories)
             ->setSpecial($tmpArticle['special'])
             ->setSpotlight($tmpArticle['spotlight'])
-            ->setDateCreation($date);
+            ->setDateCreation($date)
+            ->setSource("YAML");
 
         return $article;
     }

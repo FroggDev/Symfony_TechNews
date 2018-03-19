@@ -20,18 +20,32 @@
                 <a href="{{ path('security_logout') }}">{{ 'user.logout' | trans }}</a>
             </li>
             {% if is_granted('ROLE_AUTHOR') or is_granted('ROLE_ADMIN') %}
-                <li class="list-group-item">
-                    <a href="{{ path('edit_article') }}">{% trans %}user.article.create{% endtrans %}</a>
-                </li>
-                <li class="list-group-item">
-                    <a href="{{ path('author_articles_pending') }}">{% trans %}user.article.pending{% endtrans %}</a> <span class="badge">{{ pendingArticles() }}</span>
-                </li>
-                <li class="list-group-item">
-                    <a href="{{ path('author_articles_published') }}">{% trans %}user.article.published{% endtrans %}</a><span class="badge">{{ publishedArticles() }}</span>
-                </li>
-
+            <li class="list-group-item">
+                <a href="{{ path('edit_article') }}">{% trans %}user.article.create{% endtrans %}</a>
+            </li>
+            <li class="list-group-item">
+                <a href="{{ path('author_articles_pending') }}">{% trans %}user.article.pending{% endtrans %}</a> <span class="badge">{{ pendingArticles() }}</span>
+            </li>
+            <li class="list-group-item">
+                <a href="{{ path('author_articles_published') }}">{% trans %}user.article.published{% endtrans %}</a><span class="badge">{{ publishedArticles() }}</span>
+            </li>
             {% endif %}
-        </ul>
+       </ul>
+
+       {# ARTICLE CONTROL #}
+       {% if article is defined and article and article.source==null and ( article.author.id==app.user.id or is_granted('ROLE_ADMIN') ) %}
+       <ul class="list-group">
+            <li class="list-group-item">
+                <a href="{{ path('edit_article',{'id':article.id}) }}">{% trans %}user.article.edit{% endtrans %}</a>
+            </li>
+           {% if is_granted('ROLE_ADMIN') %}
+           <li class="list-group-item">
+               <a href="{{ path('delete_article',{'id':article.id}) }}">{% trans %}user.article.delete{% endtrans %}</a>
+           </li>
+           {% endif %}
+       </ul>
+       {% endif %}
+
     {% else %}
         <li class="list-group-item"><a href="{{ path('security_connexion', { 'go' :  getUri() }) }}">{% trans %}user.login{% endtrans %}</a></li>
         <li class="list-group-item"><a href="{{ path('security_register') }}">{% trans %}user.register{% endtrans %}</a></li>
