@@ -6,8 +6,12 @@ use App\Common\Traits\Html\ATagGeneratorTrait;
 use App\Common\Traits\Html\ImgTagGeneratorTrait;
 use App\Common\Traits\String\MaxLengthTrait;
 use App\Entity\Article;
+use App\Entity\Author;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Asset\Packages;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Class ArticleAppRuntime
@@ -30,8 +34,14 @@ class ArticleAppRuntime
      * @var Packages
      */
     public $asset;
-
-
+    /**
+     * @var Packages
+     */
+    private $eManager;
+    /**
+     * @var Author
+     */
+    private $author;
     /**
      * AppRuntime constructor.
      * @param RouterInterface $router
@@ -41,10 +51,12 @@ class ArticleAppRuntime
      * @contributor  Sandy Pierre <sandy.pierre97@gmail.com>
      * Who found how to call the assets
      */
-    public function __construct(RouterInterface $router, Packages $asset)
+    public function __construct(RouterInterface $router, Packages $asset, EntityManagerInterface $eManager,TokenStorageInterface $token)
     {
         $this->router = $router;
         $this->asset = $asset;
+        $this->eManager = $eManager;
+        $this->author = $token->getToken()->getUser();
     }
 
     /**
@@ -100,4 +112,26 @@ class ArticleAppRuntime
             ]
         );
     }
+
+
+    /**
+     * @return array
+     */
+    public function pendingArticles()
+    {
+        return $this->eManager
+            ->getRepository(Article::class)
+            ->countAuthorArticlesByStatus($this->author->getId(),'review');
+    }
+
+    /**
+     * @return array
+     */
+    public function publishedArticles()
+    {
+        return $this->eManager
+            ->getRepository(Article::class)
+            ->countAuthorArticlesByStatus($this->author->getId(),'published');
+    }
+
 }

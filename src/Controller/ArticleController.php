@@ -1,25 +1,21 @@
 <?php
+
 namespace App\Controller;
 
+use App\Common\Traits\Database\DatabaseTrait;
 use App\Entity\Article;
 use App\Entity\Author;
 use App\Exception\DuplicateCatalogDataException;
 use App\Form\ArticleType;
 use App\Service\Article\ArticleCatalog;
-use App\SiteConfig;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\Loader\XliffFileLoader;
-use Symfony\Component\Translation\Loader\YamlFileLoader;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\VarDumper\VarDumper;
-
-
-use Symfony\Component\Translation\Translator;
-use Symfony\Component\Translation\Loader\ArrayLoader;
+use Symfony\Component\Workflow\Exception\LogicException;
+use Symfony\Component\Workflow\Registry;
 
 /**
  * Class ArticleController
@@ -27,6 +23,9 @@ use Symfony\Component\Translation\Loader\ArrayLoader;
  */
 class ArticleController extends Controller
 {
+
+    use DatabaseTrait;
+
     /**
      * @Route(
      *      "/{_locale}/article/{category}/{slug}_{id}.html",
@@ -130,20 +129,25 @@ class ArticleController extends Controller
 
     /**
      * @route(
-     *     "/{_locale}/author/addArticle.html",
-     *     name="add_article"
+     *     "/{_locale}/author/editArticle/{id}.html",
+     *     name="edit_article",
+     *     defaults={"id"="0"}
      * )
      *
      * @param Request $request
+     * @param string $id
+     * @param Registry $workflows
      * @return Response
      *
-     * @see security.yaml @Security("has_role('ROLE_AUTEUR')")
+     * @see security.yaml @Security("has_role('ROLE_AUTHOR')")
      */
-    public function addArticle(Request $request): Response
+    public function modArticle(Request $request,string $id,  Registry $workflows): Response
     {
-
-        # init new article object
-        $article = new Article();
+        //check if box exist
+        $article = $this
+            ->getDoctrine()
+            ->getRepository(Article::class)
+            ->findOneBy(['id' => $id]);
 
         # get an author from user logged in
         $author = $this
@@ -151,91 +155,22 @@ class ArticleController extends Controller
             ->getRepository(Author::class)
             ->find($this->getUser()->getId());
 
-        # set author to the article
-        $article->setAuthor($author);
-
-        # https://symfony.com/doc/current/reference/forms/types.html
-        $form = $this->createForm(ArticleType::class, $article);
-
-        # Form posted data management
-        $form->handleRequest($request);
-
-        # Check the form (order is important)
-        if ($form->isSubmitted() && $form->isValid()) {
-            # get datas
-            $article = $form->getData();
-
-            # get the image file
-            $featuredImage = $article->getFeaturedImage();
-
-            # Only if image exist
-            if ($featuredImage) {
-                # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                # get file name DO NOT FORGET TO ENABLE extension=php_fileinfo.dll
-                # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                $fileName = $article->getTitleSlugified() . '.' . $featuredImage->guessExtension();
-
-                # move uploaded file
-                $featuredImage->move(
-                    $this->getParameter('app.articles.assets.dir'),
-                    $fileName
-                );
-
-                # update image name
-                $article->setFeaturedImage($fileName);
+        if(!$article){
+            $article = new Article();
+            $article->setAuthor($author);
+        }else{
+            # check article author
+            #TODO ADD ADMIN AND CHECK AUTH
+            /*
+            if ($article->getAuthor()->getId() != $author->getId()) {
+                return $this->redirectToRoute('index', [], Response::HTTP_MOVED_PERMANENTLY);
             }
-
-            #set slugified title
-            $article->setManualyTitleSlugified();
-
-            # insert Into database
-            $eManager = $this->getDoctrine()->getManager();
-            $eManager->persist($article);
-            $eManager->flush();
-
-            # redirect on the created article
-            return $this->redirectToRoute(
-                'index_article',
-                [
-                    'category' => $article->getCategory()->getLabelSlugified(),
-                    'slug' => $article->getTitleSlugified(),
-                    'id' => $article->getId()
-                ]
-            );
+            */
+            $defaultImage = $article->getFeaturedImage();
         }
 
-        return $this->render('article/addArticle.html.twig', array(
-            'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * @route(
-     *     "/{_locale}/author/modArticle/{slug}_{id}.html",
-     *     name="mod_article"
-     * )
-     *
-     * @param Article $article
-     * @param Request $request
-     * @param string $slug
-     * @param string $id
-     * @return Response
-     *
-     * @see security.yaml @Security("has_role('ROLE_AUTEUR')")
-     */
-    public function modArticle(Article $article, Request $request, string $slug, string $id): Response
-    {
-        # check if article exist
-        if (!$article) {
-            return $this->redirectToRoute('index', [], Response::HTTP_MOVED_PERMANENTLY);
-        }
-
-        # check article author
-        if ($article->getAuthor()->getId()!=3) {
-            return $this->redirectToRoute('index', [], Response::HTTP_MOVED_PERMANENTLY);
-        }
-
-        $defaultImage = $article->getFeaturedImage();
+        # get workflow
+        $workflow = $workflows->get($article);
 
         # https://symfony.com/doc/current/reference/forms/types.html
         $form = $this->createForm(ArticleType::class, $article);
@@ -247,6 +182,23 @@ class ArticleController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             # get datas
             $article = $form->getData();
+
+            # working with the work flow
+            # a:1:{s:7:"publish";i:1;}
+            # a:1:{s:6:"review";i:1;}
+            try {
+                $workflow->apply($article, 'to_review');
+            } catch (LogicException $exception) {
+                # not allowed transition
+                $this->addFlash(
+                    'error',
+                    'An error occured in the workflow transition' . $exception->getMessage()
+                );
+                # redirect on the created article
+                return $this->redirectToRoute(
+                    'edit_article'
+                );
+            };
 
             # get the image file
             $featuredImage = $article->getFeaturedImage();
@@ -268,16 +220,16 @@ class ArticleController extends Controller
                 $article->setFeaturedImage($fileName);
             } else {
                 # restore original image if not modified
-                $article->setFeaturedImage($defaultImage);
+                if(isset($defaultImage)){
+                    $article->setFeaturedImage($defaultImage);
+                }
             }
 
             #set slugified title
             $article->setManualyTitleSlugified();
 
             # insert Into database
-            $eManager = $this->getDoctrine()->getManager();
-            $eManager->persist($article);
-            $eManager->flush();
+            $this->save($article);
 
             # redirect on the created article
             return $this->redirectToRoute(
@@ -290,8 +242,61 @@ class ArticleController extends Controller
             );
         }
 
-        return $this->render('form/article/addArticle.html.twig', array(
+        return $this->render('article/addArticle.html.twig', array(
             'form' => $form->createView(),
         ));
     }
+
+    /**
+     * Display author articles
+     * @security("has_role('ROLE_AUTHOR')")
+     * @route(
+     *     "/{_locale}/author/my-articles.html",
+     *     name="author_articles_published"
+     * )
+     */
+    public function authorArticles()
+    {
+        #get author
+        $author = $this->getUser();
+
+        #get artciles
+        $articles = $this->getDoctrine()->getRepository(Article::class)
+            ->findAuthorArticlesByStatus($author->getId(), 'published');
+
+        #display
+        return $this->render('index/author.html.twig', array(
+            'title' => 'Article published',
+            'articles' => $articles,
+            'author' => $author
+        ));
+
+    }
+
+    /**
+     * Display author articles
+     * @security("has_role('ROLE_AUTHOR')")
+     * @route(
+     *     "/{_locale}/author/my-pending-articles.html",
+     *     name="author_articles_pending"
+     * )
+     */
+    public function authorArticlesPending()
+    {
+        #get author
+        $author = $this->getUser();
+
+        #get artciles
+        $articles = $this->getDoctrine()->getRepository(Article::class)
+            ->findAuthorArticlesByStatus($author->getId(), 'review');
+
+        #display
+        return $this->render('index/author.html.twig', array(
+            'title' => 'Article pending',
+            'articles' => $articles,
+            'author' => $author
+        ));
+
+    }
+
 }

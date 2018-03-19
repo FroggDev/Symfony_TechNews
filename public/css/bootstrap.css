@@ -1372,6 +1372,15 @@ a.text-danger:hover,
 a.text-danger:focus {
   color: #843534;
 }
+
+.text-error {
+  color: #a94442;
+}
+a.text-error:hover,
+a.text-error:focus {
+  color: #843534;
+}
+
 .bg-primary {
   color: #fff;
   background-color: #337ab7;
@@ -1394,6 +1403,13 @@ a.bg-info:hover,
 a.bg-info:focus {
   background-color: #afd9ee;
 }
+.bg-notice {
+  background-color: #d9edf7;
+}
+a.bg-notice:hover,
+a.bg-notice:focus {
+  background-color: #afd9ee;
+}
 .bg-warning {
   background-color: #fcf8e3;
 }
@@ -1408,6 +1424,15 @@ a.bg-danger:hover,
 a.bg-danger:focus {
   background-color: #e4b9b9;
 }
+
+.bg-error {
+  background-color: #f2dede;
+}
+a.bg-error:hover,
+a.bg-error:focus {
+  background-color: #e4b9b9;
+}
+
 .page-header {
   padding-bottom: 9px;
   margin: 40px 0 20px;
@@ -5124,6 +5149,20 @@ a.thumbnail.active {
 .alert-info .alert-link {
   color: #245269;
 }
+
+.alert-notice {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+.alert-notice hr {
+    border-top-color: #a6e1ec;
+}
+.alert-notice .alert-link {
+    color: #245269;
+}
+
+
 .alert-warning {
   color: #8a6d3b;
   background-color: #fcf8e3;
@@ -5146,6 +5185,21 @@ a.thumbnail.active {
 .alert-danger .alert-link {
   color: #843534;
 }
+
+
+
+.alert-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+.alert-error hr {
+    border-top-color: #e4b9c0;
+}
+.alert-error .alert-link {
+    color: #843534;
+}
+
 @-webkit-keyframes progress-bar-stripes {
   from {
     background-position: 40px 0;

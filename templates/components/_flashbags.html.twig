@@ -1,0 +1,10 @@
+{% for key,flashes in app.flashes %}
+    {% for flash in flashes %}
+    <div class="flash-notice">
+        <div class="alert alert-{{ key }}">
+            <p class="text-center"><i class="fa fa-{{ key }} fa-2x" aria-hidden="true"></i></p>
+            <p class="text-center">{{ flash | raw }}</p>
+        </div>
+    {% endfor %}
+    </div>
+{% endfor %}

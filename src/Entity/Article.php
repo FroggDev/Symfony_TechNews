@@ -68,6 +68,12 @@ class Article
     private $author;
 
     /**
+     * Workflow status
+     * @ORM\Column(type="array")
+     */
+    private $status;
+
+    /**
      * Article constructor.
      */
     public function __construct()
@@ -75,7 +81,6 @@ class Article
         # initialize date creation on Entity creation
         $this->dateCreation = new \DateTime();
     }
-
 
     /**
      * @return int
@@ -279,4 +284,23 @@ class Article
         $this->titleSlugified = $this->slugify($this->title);
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus() : ?array
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     * @return Article
+     */
+    public function setStatus(array $status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
 }

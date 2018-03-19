@@ -138,6 +138,12 @@ class Author implements AdvancedUserInterface
 
         # Initialize a news array collection
         $this->articles = new ArrayCollection();
+
+        # Set default role, Symfony automatically serialize it
+        $this->setRoles('ROLE_MEMBER');
+
+        # set account as inactive by default
+        $this->setInactive();
     }
 
 

@@ -9,7 +9,7 @@
         <h4 class="text-center">
             {% if is_granted('ROLE_ADMIN') %}
                 {% trans %}user.is.admin{% endtrans %}
-            {% elseif is_granted('ROLE_AUTEUR') %}
+            {% elseif is_granted('ROLE_AUTHOR') %}
                 {% trans %}user.is.author{% endtrans %}
             {% else %}
                 {% trans %}user.is.member{% endtrans %}
@@ -19,10 +19,17 @@
             <li class="list-group-item">
                 <a href="{{ path('security_logout') }}">{{ 'user.logout' | trans }}</a>
             </li>
-            {% if is_granted('ROLE_AUTEUR') or is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_AUTHOR') or is_granted('ROLE_ADMIN') %}
                 <li class="list-group-item">
-                    <a href="{{ path('add_article') }}">{% trans %}user.article.create{% endtrans %}</a>
+                    <a href="{{ path('edit_article') }}">{% trans %}user.article.create{% endtrans %}</a>
                 </li>
+                <li class="list-group-item">
+                    <a href="{{ path('author_articles_pending') }}">{% trans %}user.article.pending{% endtrans %}</a> <span class="badge">{{ pendingArticles() }}</span>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('author_articles_published') }}">{% trans %}user.article.published{% endtrans %}</a><span class="badge">{{ publishedArticles() }}</span>
+                </li>
+
             {% endif %}
         </ul>
     {% else %}

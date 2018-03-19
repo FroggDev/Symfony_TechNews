@@ -1,0 +1,54 @@
+# config/packages/workflow.yaml
+framework:
+    workflows:
+        article_publishing:
+            type: 'workflow' # or 'state_machine'
+            marking_store:
+                type: 'multiple_state' # or 'single_state'
+                arguments:
+                    - 'status'
+            supports:
+                - App\Entity\Article
+            # default status
+            initial_place: draft
+            places:
+                - draft
+                - review #save du draft
+                - editor #redacteur en chef (validation)
+                - corrector #check words
+                - corrector_ok #check words (validation)
+                - publisher #publication
+                - publisher_ok #publication (validation)
+                - published
+                - refused
+            transitions:
+                to_review:
+                    from: draft
+                    to:   review
+                to_approval:
+                    from: review
+                    to:   editor
+                editor_success:
+                    from: editor
+                    to:   [corrector, publisher]
+                editor_fail:
+                    from: editor
+                    to:   review
+                editor_refuse:
+                    from: editor
+                    to:   refused
+                corrector_success:
+                    from: corrector
+                    to:   corrector_ok
+                corrector_refuse:
+                    from: corrector
+                    to:   editor
+                publisher_success:
+                    from: publisher
+                    to:   publisher_ok
+                publisher_refuse:
+                    from: publisher
+                    to:   editor
+                publish:
+                    from: [publisher_ok, corrector_ok]
+                    to:   published

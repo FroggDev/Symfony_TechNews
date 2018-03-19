@@ -1,7 +1,7 @@
 {% extends "layout.html.twig" %}
 
-{% set active = 'addArticle' %}
-{% block page_title 'Add an article' %}
+{% set active = 'editArticle' %}
+{% block page_title 'Edit an article' %}
 
 {% block css %}
     {{ parent() }}
@@ -33,20 +33,33 @@
 
 {% block content %}
 
-    {#% form_theme form 'bootstrap_4_layout.html.twig' %#}
+    <div class="row">
 
-    {#% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %#}
+        <div class="col-xs-10 col-xs-offset-1">
+            <h3>Edit an article</h3>
 
-    {#% form_theme form 'foundation_5_layout.html.twig' %#}
+            {#% form_theme form 'bootstrap_4_layout.html.twig' %#}
 
-    {% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
-    {{ form(form) }}
+            {#% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %#}
 
-    {# Display the Form #}
-    {#{ form(form) }#}
-    {# SAME AS#}
-    {#{ form_start(form) }#}
-    {#{ form_widget(form) }#}
-    {#{ form_end(form) }#}
+            {#% form_theme form 'foundation_5_layout.html.twig' %#}
+
+            {% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
+
+            {# Flash bags #}
+            {% include 'components/_flashbags.html.twig' %}
+
+            {{ form(form) }}
+
+            {# Display the Form #}
+            {#{ form(form) }#}
+            {# SAME AS#}
+            {#{ form_start(form) }#}
+            {#{ form_widget(form) }#}
+            {#{ form_end(form) }#}
+
+        </div>
+
+    </div>
 
 {% endblock %}

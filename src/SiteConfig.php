@@ -7,6 +7,18 @@ namespace App;
  */
 class SiteConfig
 {
+    ##########
+    # GLOBAL #
+    ##########
+
+    const SITENAME='TechNews';
+
+    ############
+    # REGISTER #
+    ############
+
+    const SECURITYMAIL='technews@frogg.fr';
+
     ###########
     # ARTICLE #
     ###########

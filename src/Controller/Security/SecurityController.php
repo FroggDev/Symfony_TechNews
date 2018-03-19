@@ -3,11 +3,12 @@
 namespace App\Controller\Security;
 
 use App\Common\Traits\Comm\MailerTrait;
+use App\Common\Traits\Database\DatabaseTrait;
 use App\Entity\Author;
 use App\Form\AuthorPasswordType;
 use App\Form\AuthorRecoverType;
 use App\Form\AuthorType;
-use App\Mail\AuthorCreationMail;
+use App\SiteConfig;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,13 +24,15 @@ class SecurityController extends Controller
 
     use MailerTrait;
 
+    use DatabaseTrait;
+
     /**
      * SecurityController constructor.
      * @param \Swift_Mailer $mailer
      */
     public function __construct(\Swift_Mailer $mailer)
     {
-        $this->mailer=$mailer;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -49,10 +52,17 @@ class SecurityController extends Controller
         # Dernier email saisie par l'utilisateur.
         $lastEmail = $authenticationUtils->getLastUsername();
 
+        # add error if exist
+        if ($error) {
+            $this->addFlash(
+                'error',
+                $error->getMessage()
+            );
+        }
+
         # Affichage du Formulaire
         return $this->render('security/login.html.twig', array(
-            'last_email' => $lastEmail,
-            'error' => $error
+            'last_email' => $lastEmail
         ));
     }
 
@@ -73,9 +83,6 @@ class SecurityController extends Controller
         # New user registration
         $author = new Author();
 
-        # Symfony automatically serialize it
-        $author->setRoles('ROLE_MEMBER');
-
         # create the user form
         $form = $this->createForm(AuthorType::class, $author);
 
@@ -84,39 +91,32 @@ class SecurityController extends Controller
 
         # check form datas
         if ($form->isSubmitted() && $form->isValid()) {
-            # Check password verification
-            /*if ($author->getPassword() != $author->getPasswordCheck()) {
-                # TODO : email de validation
-                //$form->get('passwordCheck')->addError(new FormError('password does not match'));
-                //return $this->redirectToRoute('security_connexion', ['register' => 'success']);
-            }*/
-
-            # Check firstname-lastname
-            /*
-            if ($author->getPassword() != $author->getPasswordCheck()) {
-                # TODO : firstname-lastname
-                if first-name-lastname slugified exist then
-                    add a number
-            }
-            */
-
             # password encryption
             $password = $passwordEncoder->encodePassword($author, $author->getPassword());
             $author
                 ->setPassword($password)
-                ->setInactive()
                 ->setToken();
 
             # insert into database
-            $eManager = $this->getDoctrine()->getManager();
-            $eManager->persist($author);
-            $eManager->flush();
+            $this->save($author);
 
-             # send the mail
-            $this->send('technews@frogg.fr', $author->getEmail(), 'mail/registration.html.twig', 'TechNews - Validation mail', $author);
+            # send the mail
+            $this->send(
+                SiteConfig::SECURITYMAIL,
+                $author->getEmail(),
+                'mail/registration.html.twig',
+                SiteConfig::SITENAME . ' - Validation mail',
+                $author
+            );
 
             # redirect user
-            return $this->redirectToRoute('security_connexion', ['register' => 'success']);
+            $this->addFlash(
+                'success',
+                'Congratulation your account has been created !<br>An email has been sent to validate your account registration.'
+            );
+
+            # redirect user
+            return $this->redirectToRoute('security_connexion');
         }
 
         # Display form view
@@ -137,50 +137,34 @@ class SecurityController extends Controller
      */
     public function registerValidation(Request $request)
     {
-        # get request infos
-        $email = $request->query->get('email');
-        $token = $request->query->get('token');
-
         # getUserFromEmail
         $reposirotyAuthor = $this->getDoctrine()->getRepository(Author::class);
         $author = $reposirotyAuthor->findOneBy(
             [
-                'email' => $email,
-                'token' => $token
+                'email' => $request->query->get('email'),
+                'token' => $request->query->get('token')
             ]
         );
 
-        # author not found
-        if (!$author) {
-            return $this->redirectToRoute('security_connexion', ['register' => 'notfound']);
+        # check if datas are valid
+        if ($this->checkAccountStatus($author, ['checkAlreadyValidated'])) {
+            # remove token and enable account
+            $author
+                ->removeToken()
+                ->setActive();
+
+            # save into database
+            $this->save($author);
+
+            # redirect user
+            $this->addFlash(
+                'success',
+                'Your account  has been validated !<br>You can now login to the application.'
+            );
         }
 
-        # account already registered
-        if ($author->isEnabled()) {
-            return $this->redirectToRoute('security_connexion', ['register' => 'actived']);
-        }
-
-        # checkif author is banned
-        if ($author->isBanned()) {
-            return $this->redirectToRoute('security_connexion', ['register' => 'banned']);
-        }
-
-        # checkif author is banned
-        if ($author->isClosed()) {
-            return $this->redirectToRoute('security_connexion', ['register' => 'closed']);
-        }
-
-        # remove token and enable account
-        $author->removeToken()
-            ->setActive();
-
-        # update database
-        $eManager = $this->getDoctrine()->getManager();
-        $eManager->persist($author);
-        $eManager->flush();
-
-        # redirect user
-        return $this->redirectToRoute('security_connexion', ['register' => 'validated']);
+        # redirect page
+        return $this->redirectToRoute('security_connexion');
     }
 
 
@@ -217,24 +201,31 @@ class SecurityController extends Controller
             $author = $repositoryArticle->findOneBy(['email' => $email]);
 
             # author not found
-            if (!$author) {
-                # redirect user
-                return $this->redirectToRoute('security_recover', ['register' => 'notfound', 'last_email' => $email]);
+            if (!$this->checkIfExist($author)) {
+                return $this->redirectToRoute('security_recover', ['last_email' => $email]);
             }
 
             # create a token
             $author->setToken();
 
-            # insert into database
-            $eManager = $this->getDoctrine()->getManager();
-            $eManager->persist($author);
-            $eManager->flush();
+            # save into database
+            $this->save($author);
 
             # send the mail
-            $this->send('technews@frogg.fr', $author->getEmail(), 'mail/recover.html.twig', 'TechNews - Password recovery', $author);
+            $this->send(
+                SiteConfig::SECURITYMAIL,
+                $author->getEmail(),
+                'mail/recover.html.twig',
+                SiteConfig::SITENAME . ' - Password recovery',
+                $author
+            );
 
+            $this->addFlash(
+                'success',
+                'An email has been sent to your mailbox'
+            );
             # redirect user
-            return $this->redirectToRoute('security_connexion', ['register' => 'recovered']);
+            return $this->redirectToRoute('security_connexion');
         }
 
         # Display form view
@@ -256,39 +247,19 @@ class SecurityController extends Controller
      */
     public function recoverValidation(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        # get request infos
-        $email = $request->query->get('email');
-        $token = $request->query->get('token');
-
         # getUserFromEmail
         $repositoryArticle = $this->getDoctrine()->getRepository(Author::class);
         $author = $repositoryArticle->findOneBy(
             [
-                'email' => $email,
-                'token' => $token
+                'email' => $request->query->get('email'),
+                'token' => $request->query->get('token')
             ]
         );
 
-        # author not found
-        if (!$author) {
-            return $this->redirectToRoute('security_connexion', ['register' => 'notfound']);
+        # check if request is valid
+        if (!$this->checkAccountStatus($author, ['checkIfTokenExpired'])) {
+            return $this->redirectToRoute('security_connexion');
         }
-
-        # checkif token has expired
-        if ($author->isTokenExpired()) {
-            return $this->redirectToRoute('security_connexion', ['register' => 'expired']);
-        }
-
-        # checkif author is banned
-        if ($author->isBanned()) {
-            return $this->redirectToRoute('security_connexion', ['register' => 'banned']);
-        }
-
-        # checkif author is banned
-        if ($author->isClosed()) {
-            return $this->redirectToRoute('security_connexion', ['register' => 'closed']);
-        }
-
 
         # create the user form
         $form = $this->createForm(AuthorPasswordType::class, $author);
@@ -307,18 +278,126 @@ class SecurityController extends Controller
                 ->removeToken()
                 ->setActive();
 
-            # update database
-            $eManager = $this->getDoctrine()->getManager();
-            $eManager->persist($author);
-            $eManager->flush();
+            # save into database
+            $this->save($author);
+
+            # Add message
+            $this->addFlash(
+                'success',
+                'Password has been changed !<br>You can now login to the application'
+            );
 
             # redirect user
-            return $this->redirectToRoute('security_connexion', ['register' => 'passechanged']);
+            return $this->redirectToRoute('security_connexion');
         }
+
+        # Add message
+        $this->addFlash(
+            'success',
+            'You can change now your password'
+        );
 
         # Display form view
         return $this->render('security/changepassword.html.twig', [
             'form' => $form->createView()
         ]);
     }
+
+
+    /**
+     * @param Author $author
+     * @param array $extraCheck
+     * @return bool
+     */
+    private function checkAccountStatus(Author $author, array $extraCheck = []): bool
+    {
+        # author not found
+        if (!$this->checkIfExist($author)) {
+            return false;
+        }
+
+        # checkif author is banned
+        if ($author->isBanned()) {
+            $this->addFlash(
+                'error',
+                'This account is banned.'
+            );
+            return false;
+        }
+
+        # checkif author is closed
+        if ($author->isClosed()) {
+            $this->addFlash(
+                'error',
+                'This account has been closed'
+            );
+            return false;
+        }
+
+        # Extra custom check
+        foreach ($extraCheck as $check) {
+            if (!$this->$check($author)) {
+                return false;
+            }
+        }
+
+        # else it is ok
+        return true;
+    }
+
+    /**
+     * @param Author $author
+     * @return bool
+     */
+    private function checkIfExist(Author $author): bool
+    {
+        #check if author exist
+        if (!$author) {
+            $this->addFlash(
+                'error',
+                'Email not found.'
+            );
+            return false;
+        }
+
+        # else it is ok
+        return true;
+    }
+
+    /**
+     * @param Author $author
+     * @return bool
+     */
+    private function checkAlreadyValidated(Author $author): bool
+    {
+        # checkif account already registered
+        if ($author->isEnabled()) {
+            $this->addFlash(
+                'notice',
+                'Account is already activated.'
+            );
+            return false;
+        }
+        # else it is ok
+        return true;
+    }
+
+    /**
+     * @param Author $author
+     * @return bool
+     */
+    private function checkIfTokenExpired(Author $author): bool
+    {
+        # checkif account already registered
+        if ($author->isTokenExpired()) {
+            $this->addFlash(
+                'error',
+                'The request for password recovery has expired.'
+            );
+            return false;
+        }
+        # else it is ok
+        return true;
+    }
+
 }

@@ -3,7 +3,9 @@ namespace App\EventSubscriber;
 
 #use Doctrine\ORM\EntityManagerInterface;
 #use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use App\Entity\Article;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 /**
@@ -16,13 +18,16 @@ class LoginSubscriber
 
     private $eManager;
 
+    private $session;
+
     /**
      * LoginSubscriber constructor.
      * @param EntityManagerInterface $eManager
      */
-    public function __construct(EntityManagerInterface $eManager)
+    public function __construct(EntityManagerInterface $eManager,SessionInterface $session)
     {
         $this->eManager = $eManager;
+        $this->session = $session;
     }
 
     /**
@@ -39,6 +44,8 @@ class LoginSubscriber
         # Persist the data to database. (Only if not exist in database)
         # $this->eManager->persist($author);
         $this->eManager->flush();
+
+
     }
 
 }

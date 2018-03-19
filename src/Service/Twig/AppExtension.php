@@ -46,8 +46,13 @@ class AppExtension extends \Twig_Extension
     public function getFunctions(): array
     {
         return [
+            # Generics
             new \Twig_Function('getUri', [AppRuntime::class, 'getUri']),
             new \Twig_Function('isNewsletterModal', [AppRuntime::class, 'isNewsletterModal']),
+            new \Twig_Function('displayFlashBags', [AppRuntime::class, 'displayFlashBags']),
+            # Article flag
+            new \Twig_Function('pendingArticles', [ArticleAppRuntime::class, 'pendingArticles']),
+            new \Twig_Function('publishedArticles', [ArticleAppRuntime::class, 'publishedArticles']),
             # Links
             new \Twig_Function('articleLink', [ArticleAppRuntime::class, 'articleLink']),
             new \Twig_Function('articleImage', [ArticleAppRuntime::class, 'articleImage']),

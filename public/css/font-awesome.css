@@ -1191,6 +1191,18 @@
 .fa-thumbs-up:before {
   content: "\f164";
 }
+
+.fa-success:before {
+  content: "\f164";
+}
+.fa-error:before {
+  content: "\f165";
+}
+
+.fa-notice:before {
+  content: "\f164";
+}
+
 .fa-thumbs-down:before {
   content: "\f165";
 }

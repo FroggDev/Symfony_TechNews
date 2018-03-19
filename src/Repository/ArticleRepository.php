@@ -114,4 +114,51 @@ class ArticleRepository extends ServiceEntityRepository
             return 0;
         }
     }
+
+
+    /**
+     * @return array
+     */
+    public function findAuthorArticlesByStatus(int $id,string $status)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.author = :id')->setParameter('id',$id)
+            ->andWhere('a.status LIKE :status')->setParameter('status' , "%$status%")
+            ->orderBy('a.dateCreation', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return array
+     */
+    public function findArticlesByStatus(string $status)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.status LIKE :status')->setParameter('status' , "%$status%")
+            ->orderBy('a.dateCreation', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return array
+     */
+    public function countAuthorArticlesByStatus(int $id,string $status)
+    {
+        try{
+            return $this->createQueryBuilder('a')
+                ->select('COUNT(a)')
+                ->where('a.author = :id')->setParameter('id',$id)
+                ->andWhere('a.status LIKE :status')->setParameter('status' , "%$status%")
+                ->getQuery()
+                ->getSingleScalarResult();
+        }
+        catch(NonUniqueResultException $e){
+            return 0;
+        }
+
+    }
+
+
 }
