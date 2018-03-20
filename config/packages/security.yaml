@@ -49,17 +49,14 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # require ROLE_ADMIN for /admin
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        # require ROLE_ADMIN for /admin
-        - { path: ^/author, roles: ROLE_AUTHOR }
-        # require ROLE_MEMBRE for /member
-        - { path: ^/member, roles: ROLE_MEMBER }
+        # require ROLES for /admin
+        - { path: ^/admin, roles: [ ROLE_ADMIN,ROLE_AUTHOR,ROLE_EDITOR ] }
 
     role_hierarchy:
-        ROLE_AUTEUR: ROLE_MEMBER
+        ROLE_AUTHOR: ROLE_MEMBER
+        ROLE_EDITOR: ROLE_AUTHOR
         # https://symfony.com/doc/current/security/impersonating_user.html
-        ROLE_ADMIN: [ROLE_AUTHOR, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_ADMIN: [ROLE_AUTHOR,ROLE_EDITOR, ROLE_ALLOWED_TO_SWITCH]
 
     # Information to encode password
     # ##############################

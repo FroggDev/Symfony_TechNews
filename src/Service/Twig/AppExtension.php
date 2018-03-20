@@ -53,6 +53,7 @@ class AppExtension extends \Twig_Extension
             # Article flag
             new \Twig_Function('pendingArticles', [ArticleAppRuntime::class, 'pendingArticles']),
             new \Twig_Function('publishedArticles', [ArticleAppRuntime::class, 'publishedArticles']),
+            new \Twig_Function('approvalArticles', [ArticleAppRuntime::class, 'approvalArticles']),
             # Links
             new \Twig_Function('articleLink', [ArticleAppRuntime::class, 'articleLink']),
             new \Twig_Function('articleImage', [ArticleAppRuntime::class, 'articleImage']),

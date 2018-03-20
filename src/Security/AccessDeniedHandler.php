@@ -22,6 +22,6 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
      */
     public function handle(Request $request, AccessDeniedException $accessDeniedException) : Response
     {
-        return new Response("THIS ERROR HAS BEEN CATCHED BY THE HANDLER !");
+        return new Response("THIS ERROR HAS BEEN CATCHED BY THE HANDLER (ACCESS DENIED) !");
     }
 }

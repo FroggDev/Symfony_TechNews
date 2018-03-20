@@ -9,6 +9,8 @@
         <h4 class="text-center">
             {% if is_granted('ROLE_ADMIN') %}
                 {% trans %}user.is.admin{% endtrans %}
+            {% elseif is_granted('ROLE_EDITOR') %}
+                {% trans %}user.is.editor{% endtrans %}
             {% elseif is_granted('ROLE_AUTHOR') %}
                 {% trans %}user.is.author{% endtrans %}
             {% else %}
@@ -19,7 +21,7 @@
             <li class="list-group-item">
                 <a href="{{ path('security_logout') }}">{{ 'user.logout' | trans }}</a>
             </li>
-            {% if is_granted('ROLE_AUTHOR') or is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_AUTHOR') %}
             <li class="list-group-item">
                 <a href="{{ path('edit_article') }}">{% trans %}user.article.create{% endtrans %}</a>
             </li>
@@ -29,6 +31,11 @@
             <li class="list-group-item">
                 <a href="{{ path('author_articles_published') }}">{% trans %}user.article.published{% endtrans %}</a><span class="badge">{{ publishedArticles() }}</span>
             </li>
+            {% endif %}
+            {% if is_granted('ROLE_AUTHOR') %}
+                <li class="list-group-item">
+                    <a href="{{ path('author_articles_approval') }}">{% trans %}user.article.approval{% endtrans %}</a><span class="badge">{{ approvalArticles() }}</span>
+                </li>
             {% endif %}
        </ul>
 

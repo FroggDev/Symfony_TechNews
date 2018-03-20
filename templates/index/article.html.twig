@@ -11,6 +11,10 @@
 <div class="row">
     <!--colleft-->
     <div class="col-md-8 col-sm-12">
+
+        {# Flash bags #}
+        {% include 'components/_flashbags.html.twig' %}
+
         <!--post-detail-->
         <article class="post-detail">
             <h1>{{ article.title }}</h1>
@@ -23,6 +27,8 @@
             {{ article.content | raw }}
 
             <h5 class="text-right font-heading"><strong>{{ article.author.lastname }} {{ article.author.firstname }}</strong> </h5>
+
+            {% include 'components/_btn_approval.html.twig' %}
 
         </article>
         <!--social-detail-->

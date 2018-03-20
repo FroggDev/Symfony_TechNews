@@ -134,4 +134,14 @@ class ArticleAppRuntime
             ->countAuthorArticlesByStatus($this->author->getId(),'published');
     }
 
+    /**
+     * @return array
+     */
+    public function approvalArticles()
+    {
+        return $this->eManager
+            ->getRepository(Article::class)
+            ->countArticlesByStatus('editor');
+    }
+
 }

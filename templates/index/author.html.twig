@@ -9,6 +9,9 @@
 
     <div class="row">
 
+        {# Flash bags #}
+        {% include 'components/_flashbags.html.twig' %}
+
         <!--colleft-->
         <div class="col-md-8 col-sm-12">
 
@@ -40,6 +43,9 @@
                             {{  article.content |  maxLen(250) | raw }}
                         </div>
                     </div>
+
+                    {% include 'components/_btn_approval.html.twig' %}
+
                     {% endfor %}
                 </article>
             </div>

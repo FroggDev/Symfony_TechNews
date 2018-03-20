@@ -161,5 +161,22 @@ class ArticleRepository extends ServiceEntityRepository
 
     }
 
+    /**
+     * @return array
+     */
+    public function countArticlesByStatus(string $status)
+    {
+        try{
+            return $this->createQueryBuilder('a')
+                ->select('COUNT(a)')
+                ->where('a.status LIKE :status')->setParameter('status' , "%$status%")
+                ->getQuery()
+                ->getSingleScalarResult();
+        }
+        catch(NonUniqueResultException $e){
+            return 0;
+        }
+
+    }
 
 }

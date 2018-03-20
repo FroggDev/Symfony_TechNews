@@ -142,10 +142,10 @@ class ArticleController extends Controller
      *
      * @see security.yaml @Security("has_role('ROLE_AUTHOR')")
      */
-    public function editArticle(Request $request,string $id,  Registry $workflows): Response
+    public function editArticle(Request $request, string $id, Registry $workflows): Response
     {
         # check if create or mod
-        $isNewArticle=true;
+        $isNewArticle = true;
 
         //check if box exist
         $article = $this
@@ -159,16 +159,16 @@ class ArticleController extends Controller
             ->getRepository(Author::class)
             ->find($this->getUser()->getId());
 
-        if(!$article){
+        if (!$article) {
             $article = new Article();
             $article->setAuthor($author);
-        }else{
+        } else {
             $isNewArticle = false;
             # check article author
-            if ($article->getAuthor()->getId() != $this->getUser()->getId() && $this->getUser()->hasRole("ROLE_ADMIN") ) {
+            if ($article->getAuthor()->getId() != $this->getUser()->getId() && $this->getUser()->hasRole("ROLE_ADMIN")) {
                 # not allowed edition
                 $this->addFlash('error', 'You can\'t edit this article');
-                return $this->redirectToRoute('edit_article',['id' => $id]);
+                return $this->redirectToRoute('edit_article', ['id' => $id]);
             }
         }
         # get default image to restore it back if not modified
@@ -192,14 +192,14 @@ class ArticleController extends Controller
             #==========================
             # a:1:{s:7:"publish";i:1;}
             # a:1:{s:6:"review";i:1;}
-            if($isNewArticle) {
+            if ($isNewArticle) {
                 try {
                     $workflow->apply($article, 'to_review');
                 } catch (LogicException $exception) {
                     # not allowed transition
                     $this->addFlash('error', 'An error occured in the workflow transition' . $exception->getMessage());
                     # redirect on the created article
-                    return $this->redirectToRoute('edit_article',['id' => $id]);
+                    return $this->redirectToRoute('edit_article', ['id' => $id]);
                 };
             }
             # get the image file
@@ -267,13 +267,13 @@ class ArticleController extends Controller
 
 
         # get number of elenmts
-        $countArticle =count($articles);
+        $countArticle = count($articles);
 
         # get only wanted articles
-        $articles = array_slice($articles, ($currentPage-1) * SiteConfig::NBARTICLEPERPAGE, SiteConfig::NBARTICLEPERPAGE);
+        $articles = array_slice($articles, ($currentPage - 1) * SiteConfig::NBARTICLEPERPAGE, SiteConfig::NBARTICLEPERPAGE);
 
         # number of pagination
-        $countPagination =  ceil($countArticle / SiteConfig::NBARTICLEPERPAGE);
+        $countPagination = ceil($countArticle / SiteConfig::NBARTICLEPERPAGE);
 
         #display
         return $this->render('index/author.html.twig', array(
@@ -305,17 +305,53 @@ class ArticleController extends Controller
 
 
         # get number of elenmts
-        $countArticle =count($articles);
+        $countArticle = count($articles);
 
         # get only wanted articles
-        $articles = array_slice($articles, ($currentPage-1) * SiteConfig::NBARTICLEPERPAGE, SiteConfig::NBARTICLEPERPAGE);
+        $articles = array_slice($articles, ($currentPage - 1) * SiteConfig::NBARTICLEPERPAGE, SiteConfig::NBARTICLEPERPAGE);
 
         # number of pagination
-        $countPagination =  ceil($countArticle / SiteConfig::NBARTICLEPERPAGE);
+        $countPagination = ceil($countArticle / SiteConfig::NBARTICLEPERPAGE);
 
         #display
         return $this->render('index/author.html.twig', array(
-             'articles' => $articles,
+            'articles' => $articles,
+            'author' => $author,
+            'currentPage' => 1,
+            'countPagination' => $countPagination
+        ));
+    }
+
+    /**
+     * Display author articles
+     * @security("has_role('ROLE_AUTHOR')")
+     * @route(
+     *     "/{_locale}/author/my-approval-articles/{currentPage}.html",
+     *     name="author_articles_approval",
+     *     defaults={"currentPage" : 1}
+     * )
+     */
+    public function authorArticlesApproval(string $currentPage)
+    {
+        #get author
+        $author = $this->getUser();
+
+        #get artciles
+        $articles = $this->getDoctrine()->getRepository(Article::class)
+            ->findArticlesByStatus('editor');
+
+        # get number of elenmts
+        $countArticle = count($articles);
+
+        # get only wanted articles
+        $articles = array_slice($articles, ($currentPage - 1) * SiteConfig::NBARTICLEPERPAGE, SiteConfig::NBARTICLEPERPAGE);
+
+        # number of pagination
+        $countPagination = ceil($countArticle / SiteConfig::NBARTICLEPERPAGE);
+
+        #display
+        return $this->render('index/author.html.twig', array(
+            'articles' => $articles,
             'author' => $author,
             'currentPage' => 1,
             'countPagination' => $countPagination
@@ -336,5 +372,58 @@ class ArticleController extends Controller
          * @TODO : manage this
          */
     }
+
+
+    /**
+     * @Route(
+     *     "/{_locale}/admin/workflow/{action}/{id}.html",
+     *      name="workflow_action"
+     * )
+     * @param Request $request
+     * @return Response
+     */
+    public function workflowAction(string $action, String $id, Registry $workflows, Request $request): Response
+    {
+        # check if box exist
+        $article = $this
+            ->getDoctrine()
+            ->getRepository(Article::class)
+            ->findOneBy(['id' => $id]);
+
+        if (!$article) {
+            # not allowed transition
+            $this->addFlash('error', 'Article not found');
+        }
+
+        $workflow = $workflows->get($article);
+
+        # Do the action
+        # -------------
+        if ($workflow->can($article, $action)) {
+            try {
+                $workflow->apply($article, $action);
+
+                # insert Into database
+                $this->save($article);
+
+                # not allowed transition
+                $this->addFlash('success', 'Article has been sent to the editor !');
+
+            } catch (LogicException $exception) {
+                # not allowed transition
+                $this->addFlash('error', 'An error occured in the workflow transition' . $exception->getMessage());
+            }
+        } else {
+            # not allowed transition
+            $this->addFlash('error', 'cannot ');
+        }
+
+        # get the redirect
+        $redirect = $request->get('redirect') ?? 'index';
+
+        # redirect
+        return $this->redirectToRoute($redirect);
+    }
+
 
 }

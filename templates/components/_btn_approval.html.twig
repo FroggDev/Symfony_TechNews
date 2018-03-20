@@ -1,0 +1,13 @@
+{% if(is_granted('ROLE_AUTHOR') and article.author.id==app.user.id ) or is_granted('ROLE_ADMIN')  %}
+    {% if workflow_can(article,'to_approval') %}
+        <a class="btn btn-primary" href="{{
+        url('workflow_action',
+            {
+                'id' : article.id,
+                'action': 'to_approval',
+                'redirect' : app.request.get('_route')
+            }
+        )
+        }}">Envoyer au redacteur en chef</a>
+    {% endif %}
+{% endif %}

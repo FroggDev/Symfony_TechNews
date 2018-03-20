@@ -34,6 +34,9 @@ framework:
 
 
      # Defaulkt locale to display
-    default_locale: en
-    translator:
-            fallbacks: ['en']
+    #default_locale: '%locale%'
+    # #############################################################
+    # IMPORTANT OR PACKAGES MESSAGES WILL NOT BE TRANSLATED !!!!
+    # #############################################################
+    #translator:
+    #        fallbacks: ['%locale%']
