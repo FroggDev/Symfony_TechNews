@@ -82,3 +82,7 @@ php bin/console debug:router
 
 # CHARGER LE CACHE
 php bin/console cache:warmup
+
+# TRADUCTION
+php bin/console translation:update fr --dump-messages
+php bin/console debug:translation fr

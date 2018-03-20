@@ -8,10 +8,24 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 
 /*
  * Command :
+ * ---------
  * php bin/console app:userManagerComplex
+ *
+ *
+ * require Constant :
+ * ------------------
+ * SiteConfig::USERENTITY
+ *
+ *
+ * require to inject role_hierarchy in services.yaml :
+ * ---------------------------------------------------
+ *
+ * Symfony\Component\Security\Core\Role\RoleHierarchyInterface: '@security.role_hierarchy'
+ *
  *
  *
  *
@@ -34,6 +48,19 @@ $io->table(
     )
 );
 $io->choice('Select the queue to analyze', array('queue1', 'queue2', 'queue3'), 'queue1');
+$io->ask('Select an information');
+$io->listing(array(
+    'Element #1 Lorem ipsum dolor sit amet',
+    'Element #2 Lorem ipsum dolor sit amet',
+    'Element #3 Lorem ipsum dolor sit amet',
+));
+$io->askHidden('What is your password?');
+
+$io->progressStart();
+$io->progressStart(100);
+$io->progressAdvance();
+$io->progressAdvance(10);
+$io->progressFinish();
 */
 
 
@@ -43,18 +70,37 @@ $io->choice('Select the queue to analyze', array('queue1', 'queue2', 'queue3'), 
  */
 class UserManagerComplex extends Command
 {
+    /** @var EntityManagerInterface */
     private $eManager;
+
+    /** @var SymfonyStyle */
     private $output;
+
+    /** @var RoleHierarchyInterface */
+    private $rolesHierarchy;
+
+    /** @var array  */
+    private $roles;
 
     /**
      * UserRoleManager constructor.
      * @param null|string $name
      * @param EntityManagerInterface $eManager
+     * @param RoleHierarchyInterface $rolesHierarchy
      */
-    public function __construct(?string $name = null, EntityManagerInterface $eManager)
+    public function __construct(?string $name = null, EntityManagerInterface $eManager, RoleHierarchyInterface $rolesHierarchy)
     {
+        # parent constructor
         parent::__construct($name);
+
+        # get doctrine entity manager
         $this->eManager = $eManager;
+
+        # get role manager
+        $this->rolesHierarchy = $rolesHierarchy;
+
+        # get all available roles
+        $this->roles = $this->getAvailableRoles();
     }
 
     /**
@@ -101,9 +147,9 @@ class UserManagerComplex extends Command
                 'Select an action',
                 [
                     'Display user list',
-                    'Enable user account (requier user id)',
-                    'Add user role (requier user id)',
-                    'Remove user role (requier user id)',
+                    'Enable user account (require user id)',
+                    'Add user role (require user id)',
+                    'Remove user role (require user id)',
                     'Exit'
                 ],
                 'Display user list'
@@ -114,13 +160,13 @@ class UserManagerComplex extends Command
                 case 'Display user list':
                     $this->displayUserList();
                     break;
-                case 'Enable user account (requier user id)':
+                case 'Enable user account (require user id)':
                     $this->enableUser();
                     break;
-                case 'Add user role (requier user id)':
+                case 'Add user role (require user id)':
                     $this->addUserRole();
                     break;
-                case 'Remove user role (requier user id)':
+                case 'Remove user role (require user id)':
                     $this->removeUserRole();
                     break;
                 case 'Exit':
@@ -151,7 +197,7 @@ class UserManagerComplex extends Command
                 $user->getId(),
                 $user->getEmail(),
                 $user->isEnabled(),
-                join("+", $user->getRoles())
+                join("+",$user->getRoles()??[])
             ];
         }
 
@@ -164,8 +210,10 @@ class UserManagerComplex extends Command
      */
     private function enableUser(): void
     {
+        # get usserid from input
         $user = $this->getUserId();
 
+        # if user not found exit
         if (!$user) {
             return;
         }
@@ -184,17 +232,21 @@ class UserManagerComplex extends Command
      */
     private function addUserRole(): void
     {
-
+        # get usserid from input
         $user = $this->getUserId();
 
+        # if user not found exit
         if (!$user) {
             return;
         }
 
         # Add options
-        $userRolesDisplay = array_diff(SiteConfig::USERROLES, $user->getRoles());
+        $userRolesDisplay = array_diff($this->roles, $user->getRoles());
         $userRolesDisplay[] = "Cancel";
         $userRolesDisplay[] = "Exit";
+
+        # recalculate array keys
+        $userRolesDisplay = array_values($userRolesDisplay);
 
         # Check if can add role
         if (count($userRolesDisplay) == 2) {
@@ -242,8 +294,10 @@ class UserManagerComplex extends Command
      */
     private function removeUserRole(): void
     {
+        # get usserid from input
         $user = $this->getUserId();
 
+        # if user not found exit
         if (!$user) {
             return;
         }
@@ -284,6 +338,9 @@ class UserManagerComplex extends Command
         $this->output->success("The role '$input' has been removed from user with id '" . $user->getId() . "'");
     }
 
+    /**
+     * @return null|object
+     */
     private function getUserId()
     {
         #Ask for user select
@@ -300,5 +357,28 @@ class UserManagerComplex extends Command
         }
 
         return $user;
+    }
+
+    /**
+     * @return array
+     */
+    private function getAvailableRoles(): array
+    {
+        # init roles
+        $roles = [];
+
+        # parse all available roles
+        array_walk_recursive(
+            $this->rolesHierarchy,
+            function ($val,$key) use (&$roles) {
+                //$roles[] = $key;
+                $roles[] = $val;
+
+                echo $key." - " . $val."\n";
+
+            });
+
+        # set roles
+        return array_unique($roles);
     }
 }

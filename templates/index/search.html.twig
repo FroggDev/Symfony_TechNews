@@ -26,7 +26,7 @@
             <div class="list-news-cate">
                 <article class="news-cate-item">
                      {% for article in articles  %}
-                        <div class="row">
+                     <div class="row">
                         <div class="col-md-5 col-sm-5 col-xs-12">
                             {{ articleImage(article) | raw }}
                         </div>
@@ -39,7 +39,8 @@
                             </div>
                             {{  article.content |  maxLen(250) | raw }}
                         </div>
-                    </div>
+                     </div>
+                     {% endfor %}
                 </article>
             </div>
 

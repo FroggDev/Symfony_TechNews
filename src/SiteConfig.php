@@ -39,15 +39,6 @@ class SiteConfig
      */
     const USERENTITY = "\App\Entity\Author";
 
-    /**
-     * list of available roles
-     * @const array
-     */
-    const USERROLES = ['ROLE_AUTHOR','ROLE_EDITOR','ROLE_CORRECTOR','ROLE_PUBLISHER','ROLE_ADMIN'];
-    /**
-     * TODO : IS POSSIBLE TO GET THIS FROM SYMFONY ????
-     */
-
     ###########
     # ARTICLE #
     ###########

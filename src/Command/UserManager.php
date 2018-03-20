@@ -34,6 +34,19 @@ $io->table(
     )
 );
 $io->choice('Select the queue to analyze', array('queue1', 'queue2', 'queue3'), 'queue1');
+$io->ask('Select an information');
+$io->listing(array(
+    'Element #1 Lorem ipsum dolor sit amet',
+    'Element #2 Lorem ipsum dolor sit amet',
+    'Element #3 Lorem ipsum dolor sit amet',
+));
+$io->askHidden('What is your password?');
+
+$io->progressStart();
+$io->progressStart(100);
+$io->progressAdvance();
+$io->progressAdvance(10);
+$io->progressFinish();
 */
 
 
@@ -88,6 +101,15 @@ class UserManager extends Command
         # DISPLAY TITLE
         $this->output->title("Welcome to User Role Manager");
 
+        # Do a progress bar for fun
+        $this->output->note("Loading datas...");
+        $this->output->progressStart(100);
+        for($i=0;$i<10;$i++){
+            $this->output->progressAdvance(10);
+            sleep(1);
+        }
+        $this->output->progressFinish();
+
         # DISPLAY MAIN MENU
         $this->displayMainMenu();
     }
@@ -141,7 +163,7 @@ class UserManager extends Command
             $display[] = [
                 $user->getId(),
                 $user->getEmail(),
-                join("+", $user->getRoles())
+                join("+", $user->getRoles()??[])
             ];
         }
 
@@ -159,7 +181,7 @@ class UserManager extends Command
         ############################
 
         #Ask for user select
-        $input = $this->output->ask('Select an id user :');
+        $input = $this->output->ask('Select an id :');
 
         #get user in doctrine
         $user = $this->eManager->getRepository(Author::class)->find($input);

@@ -1,3 +1,4 @@
+
 {% extends "layout.html.twig" %}
 
 {% block page_title author.firstname~' '~author.lastname %}
@@ -9,11 +10,11 @@
 
     <div class="row">
 
-        {# Flash bags #}
-        {% include 'components/_flashbags.html.twig' %}
-
         <!--colleft-->
         <div class="col-md-8 col-sm-12">
+
+            {# Flash bags #}
+            {% include 'components/_flashbags.html.twig' %}
 
             {% if articles is  empty %}
                 <div class="alert alert-danger">
