@@ -162,7 +162,7 @@ class UserManager extends Command
         $input = $this->output->ask('Select an id user :');
 
         #get user in doctrine
-        $user = $this->eManager->getRepository(Author::class)->findOneBy(['id' => $input]);
+        $user = $this->eManager->getRepository(Author::class)->find($input);
 
         #check if found user
         if (!$user) {

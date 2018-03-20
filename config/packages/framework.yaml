@@ -32,11 +32,7 @@ framework:
     # Add CSRF protection
     csrf_protection: ~
 
-
-     # Defaulkt locale to display
-    #default_locale: '%locale%'
     # #############################################################
     # IMPORTANT OR PACKAGES MESSAGES WILL NOT BE TRANSLATED !!!!
     # #############################################################
-    #translator:
-    #        fallbacks: ['%locale%']
+    #translator: { fallbacks: ['%locale%'] }

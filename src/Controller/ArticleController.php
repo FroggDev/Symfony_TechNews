@@ -11,10 +11,10 @@ use App\Service\Article\ArticleCatalog;
 use App\SiteConfig;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Component\Workflow\Exception\LogicException;
 use Symfony\Component\Workflow\Registry;
 
@@ -130,7 +130,7 @@ class ArticleController extends Controller
 
     /**
      * @route(
-     *     "/{_locale}/author/editArticle/{id}.html",
+     *     "/{_locale}/edition/editArticle/{id}.html",
      *     name="edit_article",
      *     defaults={"id"="0"}
      * )
@@ -142,7 +142,7 @@ class ArticleController extends Controller
      *
      * @see security.yaml @Security("has_role('ROLE_AUTHOR')")
      */
-    public function editArticle(Request $request, string $id, Registry $workflows): Response
+    public function editArticle(Request $request, string $id, Registry $workflows,Packages $asset): Response
     {
         # check if create or mod
         $isNewArticle = true;
@@ -165,10 +165,10 @@ class ArticleController extends Controller
         } else {
             $isNewArticle = false;
             # check article author
-            if ($article->getAuthor()->getId() != $this->getUser()->getId() && $this->getUser()->hasRole("ROLE_ADMIN")) {
+            if ($article->getAuthor()->getId() != $this->getUser()->getId() && !$this->getUser()->hasRole("ROLE_ADMIN")) {
                 # not allowed edition
                 $this->addFlash('error', 'You can\'t edit this article');
-                return $this->redirectToRoute('edit_article', ['id' => $id]);
+                return $this->redirectToRoute('index_article', ['id' => $id,'slug' =>$article->getTitleSlugified()]);
             }
         }
         # get default image to restore it back if not modified
@@ -178,7 +178,7 @@ class ArticleController extends Controller
         $workflow = $workflows->get($article);
 
         # https://symfony.com/doc/current/reference/forms/types.html
-        $form = $this->createForm(ArticleType::class, $article);
+        $form = $this->createForm(ArticleType::class, $article,['image_url' => $asset->getUrl('images/product/' . $defaultImage) ]);
 
         # Form posted data management
         $form->handleRequest($request);
@@ -251,7 +251,7 @@ class ArticleController extends Controller
      * Display author articles
      * @security("has_role('ROLE_AUTHOR')")
      * @route(
-     *     "/{_locale}/author/my-articles/{currentPage}.html",
+     *     "/{_locale}/edition/my-articles/{currentPage}.html",
      *     name="author_articles_published",
      *     defaults={"currentPage" : 1}
      * )
@@ -289,7 +289,7 @@ class ArticleController extends Controller
      * Display author articles
      * @security("has_role('ROLE_AUTHOR')")
      * @route(
-     *     "/{_locale}/author/my-pending-articles/{currentPage}.html",
+     *     "/{_locale}/edition/my-pending-articles/{currentPage}.html",
      *     name="author_articles_pending",
      *     defaults={"currentPage" : 1}
      * )
@@ -324,14 +324,14 @@ class ArticleController extends Controller
 
     /**
      * Display author articles
-     * @security("has_role('ROLE_AUTHOR')")
+     * #@security("has_role('ROLE_EDITOR')")
      * @route(
-     *     "/{_locale}/author/my-approval-articles/{currentPage}.html",
+     *     "/{_locale}/edition/my-approval-articles/{currentPage}.html",
      *     name="author_articles_approval",
      *     defaults={"currentPage" : 1}
      * )
      */
-    public function authorArticlesApproval(string $currentPage)
+    public function articlesApproval(string $currentPage)
     {
         #get author
         $author = $this->getUser();
@@ -360,6 +360,80 @@ class ArticleController extends Controller
 
     /**
      * Display author articles
+     * #@security("has_role('ROLE_CORRECTOR')")
+     * @route(
+     *     "/{_locale}/edition/my-corrector-articles/{currentPage}.html",
+     *     name="author_articles_corrector",
+     *     defaults={"currentPage" : 1}
+     * )
+     */
+    public function articlesCorrector(string $currentPage)
+    {
+        #get author
+        $author = $this->getUser();
+
+        #get artciles
+        $articles = $this->getDoctrine()->getRepository(Article::class)
+            ->findArticlesByStatus('corrector');
+
+        # get number of elenmts
+        $countArticle = count($articles);
+
+        # get only wanted articles
+        $articles = array_slice($articles, ($currentPage - 1) * SiteConfig::NBARTICLEPERPAGE, SiteConfig::NBARTICLEPERPAGE);
+
+        # number of pagination
+        $countPagination = ceil($countArticle / SiteConfig::NBARTICLEPERPAGE);
+
+        #display
+        return $this->render('index/author.html.twig', array(
+            'articles' => $articles,
+            'author' => $author,
+            'currentPage' => 1,
+            'countPagination' => $countPagination
+        ));
+    }
+
+    /**
+     * Display author articles
+     * #@security("has_role('ROLE_PUBLISHER')")
+     * @route(
+     *     "/{_locale}/edition/my-publisher-articles/{currentPage}.html",
+     *     name="author_articles_publisher",
+     *     defaults={"currentPage" : 1}
+     * )
+     */
+    public function articlesPublisher(string $currentPage)
+    {
+        #get author
+        $author = $this->getUser();
+
+        #get artciles
+        $articles = $this->getDoctrine()->getRepository(Article::class)
+            ->findArticlesByStatus('publisher');
+
+        # get number of elenmts
+        $countArticle = count($articles);
+
+        # get only wanted articles
+        $articles = array_slice($articles, ($currentPage - 1) * SiteConfig::NBARTICLEPERPAGE, SiteConfig::NBARTICLEPERPAGE);
+
+        # number of pagination
+        $countPagination = ceil($countArticle / SiteConfig::NBARTICLEPERPAGE);
+
+        #display
+        return $this->render('index/author.html.twig', array(
+            'articles' => $articles,
+            'author' => $author,
+            'currentPage' => 1,
+            'countPagination' => $countPagination
+        ));
+    }
+
+
+
+    /**
+     * Display author articles
      * @security("has_role('ROLE_ADMIN')")
      * @route(
      *     "/{_locale}/admin/delete-article/{id}.html",
@@ -376,7 +450,7 @@ class ArticleController extends Controller
 
     /**
      * @Route(
-     *     "/{_locale}/admin/workflow/{action}/{id}.html",
+     *     "/{_locale}/edition/workflow/{action}/{id}.html",
      *      name="workflow_action"
      * )
      * @param Request $request
@@ -401,6 +475,7 @@ class ArticleController extends Controller
         # -------------
         if ($workflow->can($article, $action)) {
             try {
+                # apply transition
                 $workflow->apply($article, $action);
 
                 # insert Into database
@@ -416,6 +491,13 @@ class ArticleController extends Controller
         } else {
             # not allowed transition
             $this->addFlash('error', 'cannot ');
+        }
+
+        # Check if article can be published
+        if($workflow->can($article , 'publish')){
+            $workflow->apply($article,"publish");
+            # insert Into database
+            $this->save($article);
         }
 
         # get the redirect

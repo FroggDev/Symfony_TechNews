@@ -1,0 +1,35 @@
+{% if(is_granted('ROLE_EDITOR')) %}
+    {% if workflow_can(article,'editor_success') %}
+        <a class="btn btn-primary" href="{{
+        url('workflow_action',
+            {
+                'id' : article.id,
+                'action': 'editor_success',
+                'redirect' : app.request.get('_route')
+            }
+        )
+        }}">Approuver la demande</a>
+    {% endif %}
+    {% if workflow_can(article,'editor_fail') %}
+        <a class="btn btn-warning" href="{{
+        url('workflow_action',
+            {
+                'id' : article.id,
+                'action': 'editor_fail',
+                'redirect' : app.request.get('_route')
+            }
+        )
+        }}">Renvoyer pour révision</a>
+    {% endif %}
+    {% if workflow_can(article,'editor_refuse') %}
+        <a class="btn btn-danger" href="{{
+        url('workflow_action',
+            {
+                'id' : article.id,
+                'action': 'editor_refuse',
+                'redirect' : app.request.get('_route')
+            }
+        )
+        }}">Rejeter l'article</a>
+    {% endif %}
+{% endif %}

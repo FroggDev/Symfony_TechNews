@@ -43,7 +43,10 @@ class SiteConfig
      * list of available roles
      * @const array
      */
-    const USERROLES = ['ROLE_MEMBER','ROLE_AUTHOR','ROLE_ADMIN'];
+    const USERROLES = ['ROLE_AUTHOR','ROLE_EDITOR','ROLE_CORRECTOR','ROLE_PUBLISHER','ROLE_ADMIN'];
+    /**
+     * TODO : IS POSSIBLE TO GET THIS FROM SYMFONY ????
+     */
 
     ###########
     # ARTICLE #

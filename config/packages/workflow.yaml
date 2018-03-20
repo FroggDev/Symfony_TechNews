@@ -16,9 +16,9 @@ framework:
                 - review #save du draft
                 - editor #redacteur en chef (validation)
                 - corrector #check words
-                - corrector_ok #check words (validation)
+                - correction_ok #check words (validation)
                 - publisher #publication
-                - publisher_ok #publication (validation)
+                - publication_ok #publication (validation)
                 - published
                 - refused
             transitions:
@@ -39,16 +39,16 @@ framework:
                     to:   refused
                 corrector_success:
                     from: corrector
-                    to:   corrector_ok
+                    to:   correction_ok
                 corrector_refuse:
                     from: corrector
                     to:   editor
                 publisher_success:
                     from: publisher
-                    to:   publisher_ok
+                    to:   publication_ok
                 publisher_refuse:
                     from: publisher
                     to:   editor
                 publish:
-                    from: [publisher_ok, corrector_ok]
+                    from: [publication_ok, correction_ok]
                     to:   published

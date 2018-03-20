@@ -29,7 +29,7 @@
                     </div>
                 </div>
 
-                 <input type="hidden" name="_target_path"/>
+                 <input {% if app.request.query.get('go') is defined %}value="{{ app.request.query.get('go') }}"{% endif %} type="hidden" name="_target_path"/>
                  <input type="submit" class="btn btn-block btn-primary"/>
 
                 <div class="form-group">

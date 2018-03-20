@@ -9,6 +9,10 @@
         <h4 class="text-center">
             {% if is_granted('ROLE_ADMIN') %}
                 {% trans %}user.is.admin{% endtrans %}
+            {% elseif is_granted('ROLE_PUBLISHER') %}
+                {% trans %}user.is.publisher{% endtrans %}
+            {% elseif is_granted('ROLE_CORRECTOR') %}
+                {% trans %}user.is.corrector{% endtrans %}
             {% elseif is_granted('ROLE_EDITOR') %}
                 {% trans %}user.is.editor{% endtrans %}
             {% elseif is_granted('ROLE_AUTHOR') %}
@@ -32,15 +36,25 @@
                 <a href="{{ path('author_articles_published') }}">{% trans %}user.article.published{% endtrans %}</a><span class="badge">{{ publishedArticles() }}</span>
             </li>
             {% endif %}
-            {% if is_granted('ROLE_AUTHOR') %}
+            {% if is_granted('ROLE_EDITOR') %}
                 <li class="list-group-item">
                     <a href="{{ path('author_articles_approval') }}">{% trans %}user.article.approval{% endtrans %}</a><span class="badge">{{ approvalArticles() }}</span>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_CORRECTOR') %}
+                <li class="list-group-item">
+                    <a href="{{ path('author_articles_corrector') }}">{% trans %}user.article.corrector{% endtrans %}</a><span class="badge">{{ correctorArticles() }}</span>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_PUBLISHER') %}
+                <li class="list-group-item">
+                    <a href="{{ path('author_articles_publisher') }}">{% trans %}user.article.publisher{% endtrans %}</a><span class="badge">{{ publisherArticles() }}</span>
                 </li>
             {% endif %}
        </ul>
 
        {# ARTICLE CONTROL #}
-       {% if article is defined and article and article.source==null and ( article.author.id==app.user.id or is_granted('ROLE_ADMIN') ) %}
+       {% if article is defined and article and article.source==null and ( article.author.id==app.user.id or is_granted('ROLE_EDITOR') ) %}
        <ul class="list-group">
             <li class="list-group-item">
                 <a href="{{ path('edit_article',{'id':article.id}) }}">{% trans %}user.article.edit{% endtrans %}</a>

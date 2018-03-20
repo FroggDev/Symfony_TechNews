@@ -80,7 +80,6 @@ class UserManagerComplex extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-
         # INIT STYLES
         $this->output = new SymfonyStyle($input, $output);
 
@@ -238,7 +237,6 @@ class UserManagerComplex extends Command
         }
     }
 
-
     /**
      * @return void
      */
@@ -292,11 +290,12 @@ class UserManagerComplex extends Command
         $input = $this->output->ask('Select an id user');
 
         $entity = SiteConfig::USERENTITY;
-        $user = $this->eManager->getRepository(get_class(new $entity))->findOneBy(['id' => $input]);
+        $user = $this->eManager->getRepository(get_class(new $entity))->find($input);
 
         if (!$user) {
             # ERROR COLOR
-            $this->output->writeln("<error>User id '$input' not found !</error>");
+            #$this->output->writeln("<error>User id '$input' not found !</error>");
+            $this->output->error("User id '$input' not found !");
             return null;
         }
 

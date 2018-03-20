@@ -9,7 +9,6 @@ use App\Entity\Article;
 use App\Entity\Author;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Asset\Packages;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -143,5 +142,28 @@ class ArticleAppRuntime
             ->getRepository(Article::class)
             ->countArticlesByStatus('editor');
     }
+
+    /**
+     * @return array
+     */
+    public function correctorArticles()
+    {
+        return $this->eManager
+            ->getRepository(Article::class)
+            ->countArticlesByStatus('corrector');
+    }
+
+    /**
+     * @return array
+     */
+    public function publisherArticles()
+    {
+        return $this->eManager
+            ->getRepository(Article::class)
+            ->countArticlesByStatus('publisher');
+    }
+
+
+
 
 }

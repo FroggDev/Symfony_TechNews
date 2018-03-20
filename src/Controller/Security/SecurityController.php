@@ -57,7 +57,7 @@ class SecurityController extends Controller
         # add error if exist
         if ($error) {
             $this->addFlash(
-                'error', $translator->trans($error->getMessageKey())
+                'error', $translator->trans($error->getMessage())
             );
         }
 

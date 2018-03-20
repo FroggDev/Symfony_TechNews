@@ -50,19 +50,19 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # require ROLES for /admin
-        - { path: ^/admin, roles: [ ROLE_ADMIN,ROLE_AUTHOR,ROLE_EDITOR ] }
+        - { path: /edition/, roles: [ ROLE_AUTHOR ] }
+        - { path: /admin/, roles: [ ROLE_ADMIN ] }
 
     role_hierarchy:
         ROLE_AUTHOR: ROLE_MEMBER
-        ROLE_EDITOR: ROLE_AUTHOR
+        ROLE_CORRECTOR: ROLE_AUTHOR
+        ROLE_EDITOR: ROLE_CORRECTOR
+        ROLE_PUBLISHER: ROLE_EDITOR
         # https://symfony.com/doc/current/security/impersonating_user.html
-        ROLE_ADMIN: [ROLE_AUTHOR,ROLE_EDITOR, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_ADMIN: [ROLE_AUTHOR,ROLE_EDITOR,ROLE_CORRECTOR,ROLE_PUBLISHER,ROLE_ALLOWED_TO_SWITCH]
 
     # Information to encode password
     # ##############################
     # Password encode
     encoders:
         App\Entity\Author: bcrypt
-
-
-

@@ -1,0 +1,24 @@
+{% if(is_granted('ROLE_PUBLISHER')) and app.request.get('_route')=='author_articles_publisher' %}
+    {% if workflow_can(article,'publisher_success') %}
+        <a class="btn btn-primary" href="{{
+        url('workflow_action',
+            {
+                'id' : article.id,
+                'action': 'publisher_success',
+                'redirect' : app.request.get('_route')
+            }
+        )
+        }}">Valider la publication</a>
+    {% endif %}
+    {% if workflow_can(article,'publisher_refuse') %}
+        <a class="btn btn-danger" href="{{
+        url('workflow_action',
+            {
+                'id' : article.id,
+                'action': 'publisher_refuse',
+                'redirect' : app.request.get('_route')
+            }
+        )
+        }}">Publication refusée</a>
+    {% endif %}
+{% endif %}

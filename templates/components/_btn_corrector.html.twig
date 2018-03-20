@@ -1,0 +1,24 @@
+{% if(is_granted('ROLE_CORRECTOR')) and app.request.get('_route')=='author_articles_corrector' %}
+    {% if workflow_can(article,'corrector_success') %}
+        <a class="btn btn-primary" href="{{
+        url('workflow_action',
+            {
+                'id' : article.id,
+                'action': 'corrector_success',
+                'redirect' : app.request.get('_route')
+            }
+        )
+        }}">Valider la correction</a>
+    {% endif %}
+    {% if workflow_can(article,'corrector_refuse') %}
+        <a class="btn btn-danger" href="{{
+        url('workflow_action',
+            {
+                'id' : article.id,
+                'action': 'corrector_refuse',
+                'redirect' : app.request.get('_route')
+            }
+        )
+        }}">Probleme de correction</a>
+    {% endif %}
+{% endif %}

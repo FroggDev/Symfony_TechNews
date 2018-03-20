@@ -14,8 +14,15 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class ArticleType
+ * @package App\Form
+ */
 class ArticleType extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
@@ -60,6 +67,7 @@ class ArticleType extends AbstractType
                     'required' => false,
                     'attr' => [
                         'class' => 'dropify',
+                        'data-default-file' => $options['image_url'],
                         'data-allowed-file-extensions' => 'gif jpg jpeg png',
                         'data-max-file-size-preview' => '300K'
                     ]
@@ -90,6 +98,7 @@ class ArticleType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Article::class,
+            'image_url' => null
         ]);
     }
 }

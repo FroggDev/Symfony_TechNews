@@ -54,6 +54,8 @@ class AppExtension extends \Twig_Extension
             new \Twig_Function('pendingArticles', [ArticleAppRuntime::class, 'pendingArticles']),
             new \Twig_Function('publishedArticles', [ArticleAppRuntime::class, 'publishedArticles']),
             new \Twig_Function('approvalArticles', [ArticleAppRuntime::class, 'approvalArticles']),
+            new \Twig_Function('correctorArticles', [ArticleAppRuntime::class, 'correctorArticles']),
+            new \Twig_Function('publisherArticles', [ArticleAppRuntime::class, 'publisherArticles']),
             # Links
             new \Twig_Function('articleLink', [ArticleAppRuntime::class, 'articleLink']),
             new \Twig_Function('articleImage', [ArticleAppRuntime::class, 'articleImage']),

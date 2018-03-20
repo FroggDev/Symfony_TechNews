@@ -3,9 +3,7 @@
 namespace App\Service;
 
 use App\Common\Traits\Client\BrowserTrait;
-use App\Controller\LocaleController;
 use App\SiteConfig;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
