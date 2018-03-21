@@ -2,16 +2,33 @@
 
 namespace App\Command;
 
-use App\Entity\Author;
+use App\SiteConfig;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Security\Core\Role\RoleHierarchy;
 
 /*
  * Command :
- * php bin/console app:userManager
+ * ---------
+ * php bin/console app:userManagerComplex
+ *
+ *
+ * require Constant :
+ * ------------------
+ * SiteConfig::USERENTITY
+ *
+ * TODO : Get This dynamically from Security.yaml
+ * security.providers.author_provider.entity.class
+ *
+ *
+ * require to inject role_hierarchy in services.yaml :
+ * ---------------------------------------------------
+ *
+ * Symfony\Component\Security\Core\Role\RoleHierarchyInterface: '@security.role_hierarchy'
+ *
  *
  *
  *
@@ -56,19 +73,50 @@ $io->progressFinish();
  */
 class UserManager extends Command
 {
+    /** @var EntityManagerInterface */
     private $eManager;
 
+    /** @var SymfonyStyle */
     private $output;
+
+    /** @var array  */
+    private $roles;
 
     /**
      * UserRoleManager constructor.
      * @param null|string $name
      * @param EntityManagerInterface $eManager
+     * @param RoleHierarchy $rolesHierarch
      */
-    public function __construct(?string $name = null, EntityManagerInterface $eManager)
+    public function __construct(?string $name = null, EntityManagerInterface $eManager, RoleHierarchy $rolesHierarch)
     {
+        # parent constructor
         parent::__construct($name);
+
+        # get doctrine entity manager
         $this->eManager = $eManager;
+
+        # get all available roles
+        $this->roles = $rolesHierarch->getRoles();
+
+        /* REQUIRE method public getRoles()
+         * in Symfony\Component\Security\Core\Role\RoleHierarchy;
+         *
+        public function getRoles()
+        {
+        $roles = array();
+
+        foreach ($this->map as $role => $hierarchy) {
+            $roles[] = $role;
+
+            foreach ($hierarchy as $role) {
+                $roles[] = $role;
+            }
+        }
+
+        return array_unique($roles);
+        }
+        */
     }
 
     /**
@@ -94,21 +142,11 @@ class UserManager extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-
         # INIT STYLES
         $this->output = new SymfonyStyle($input, $output);
 
         # DISPLAY TITLE
         $this->output->title("Welcome to User Role Manager");
-
-        # Do a progress bar for fun
-        $this->output->note("Loading datas...");
-        $this->output->progressStart(100);
-        for($i=0;$i<10;$i++){
-            $this->output->progressAdvance(10);
-            sleep(1);
-        }
-        $this->output->progressFinish();
 
         # DISPLAY MAIN MENU
         $this->displayMainMenu();
@@ -125,7 +163,9 @@ class UserManager extends Command
                 'Select an action',
                 [
                     'Display user list',
-                    'Add user role (requier user id)',
+                    'Enable user account (require user id)',
+                    'Add user role (require user id)',
+                    'Remove user role (require user id)',
                     'Exit'
                 ],
                 'Display user list'
@@ -136,13 +176,21 @@ class UserManager extends Command
                 case 'Display user list':
                     $this->displayUserList();
                     break;
-
-                case 'Add user role (requier user id)':
+                case 'Enable user account (require user id)':
+                    $this->enableUser();
+                    break;
+                case 'Add user role (require user id)':
                     $this->addUserRole();
                     break;
-
+                case 'Remove user role (require user id)':
+                    $this->removeUserRole();
+                    break;
                 case 'Exit':
                     exit();
+                    break;
+                default:
+                    # ERROR COLOR (Should not be possible as already managed by choice()
+                    $this->output->error("$input is not a valid selection");
                     break;
             }
         }
@@ -156,19 +204,43 @@ class UserManager extends Command
         $display = [];
 
         # GET USER INFOS
-        $userList = $this->eManager->getRepository(Author::class)->findAll();
+        $entity = SiteConfig::USERENTITY;
+        $userList = $this->eManager->getRepository(get_class(new $entity))->findAll();
 
         # PREPARE USERS INFOS
         foreach ($userList as $user) {
             $display[] = [
                 $user->getId(),
                 $user->getEmail(),
-                join("+", $user->getRoles()??[])
+                $user->isEnabled(),
+                join("+",$user->getRoles()??[])
             ];
         }
 
         # DISPLAY USER LIST AS TABLE
-        $this->output->table(['ID', 'EMAIL', 'ROLES'], $display);
+        $this->output->table(['ID', 'EMAIL', 'ACTIVATED', 'ROLES'], $display);
+    }
+
+    /**
+     * @return void
+     */
+    private function enableUser(): void
+    {
+        # get usserid from input
+        $user = $this->getUserId();
+
+        # if user not found exit
+        if (!$user) {
+            return;
+        }
+
+        # set user as active
+        $user->setActive();
+        # save to database
+        $this->eManager->flush();
+
+        # OK COLOR
+        $this->output->success("The user '" . $user->getId() . "' has been activated");
     }
 
     /**
@@ -176,45 +248,130 @@ class UserManager extends Command
      */
     private function addUserRole(): void
     {
-        ############################
-        # STEP 1 : Ask for User ID #
-        ############################
+        # get usserid from input
+        $user = $this->getUserId();
 
-        #Ask for user select
-        $input = $this->output->ask('Select an id :');
-
-        #get user in doctrine
-        $user = $this->eManager->getRepository(Author::class)->find($input);
-
-        #check if found user
+        # if user not found exit
         if (!$user) {
-            # ERROR COLOR
-            //$this->output->writeln("<error>User id '$input' not found !</error>");
-            $this->output->error("User id '$input' not found !");
             return;
         }
 
-        ################################
-        # STEP 2 : Ask for ROLE to Add #
-        ################################
+        # Add options
+        $userRolesDisplay = array_diff($this->roles, $user->getRoles()??[]);
+        $userRolesDisplay[] = "Cancel";
+        $userRolesDisplay[] = "Exit";
+
+        # recalculate array keys
+        $userRolesDisplay = array_values($userRolesDisplay);
+
+        # Check if can add role
+        if (count($userRolesDisplay) == 2) {
+            $this->output->warning("No role can be added from user with id '" . $user->getId());
+            return;
+        }
 
         # Ask user for a choice
-        $input = $this->output->choice(
-            'Select a role to add',
-            ['ROLE_MEMBER','ROLE_AUTHOR','ROLE_ADMIN']
-        );
+        $input = $this->output->choice('Select a role to add', $userRolesDisplay, 'Cancel');
 
-        //POSSIBILITY TO CHECK IF ROLE EXIST BEFORE ADD IT
+        if (!$input == 'Cancel') {
+            return;
+        }
 
-        # update user role
-        $user->setRoles($input);
+        switch ($input) {
+            case "Cancel":
+                return;
+                break;
+            case "Exit":
+                exit();
+                break;
+            default:
+                # role already exist
+                if ($user->hasRole($input)) {
+                    # ERROR COLOR
+                    $this->output->warning("The user already has the role " . $input);
+                    return;
+                }
 
-        # save to database
+                # update user role
+                $user
+                    ->setRoles($input)
+                    ->setActive();
+                # save to database
+                $this->eManager->flush();
+
+                # OK COLOR
+                $this->output->success("The role '$input' has been added to user with id '" . $user->getId() . "'");
+                break;
+        }
+    }
+
+    /**
+     * @return void
+     */
+    private function removeUserRole(): void
+    {
+        # get usserid from input
+        $user = $this->getUserId();
+
+        # if user not found exit
+        if (!$user) {
+            return;
+        }
+
+        $userRoles = $user->getRoles()??[];
+
+        # Add options
+        $userRolesDisplay = $userRoles;
+        $userRolesDisplay[] = "Cancel";
+        $userRolesDisplay[] = "Exit";
+
+        # Check if can remove role
+        if (count($userRolesDisplay) == 2) {
+            $this->output->warning("No role can be removed from user with id '" . $user->getId()."'");
+            return;
+        }
+
+        # Ask user for a choice
+        $input = $this->output->choice('Remove a role from the user ' . $user->getId(), $userRolesDisplay);
+
+        if ($input == "Cancel") {
+            return;
+        }
+
+        if ($input == "Exit") {
+            exit();
+        }
+
+        # update user info
+        if (($key = array_search($input, $userRoles)) !== false) {
+            unset($userRoles[$key]);
+        }
+        $user->setAllRoles($userRoles);
+        # save role to database
         $this->eManager->flush();
 
         # OK COLOR
-        $this->output->success("The role '$input' has been added to user with id '" . $user->getId() . "'");
-
+        $this->output->success("The role '$input' has been removed from user with id '" . $user->getId() . "'");
     }
 
+    /**
+     * @return null|object
+     */
+    private function getUserId()
+    {
+        #Ask for user select
+        $input = $this->output->ask('Select an id user');
+
+        $entity = SiteConfig::USERENTITY;
+        $user = $this->eManager->getRepository(get_class(new $entity))->find($input);
+
+        if (!$user) {
+            # ERROR COLOR
+            #$this->output->writeln("<error>User id '$input' not found !</error>");
+            $this->output->error("User id '$input' not found !");
+            return null;
+        }
+
+        return $user;
+    }
 }
