@@ -8,7 +8,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Security\Core\Role\RoleHierarchy;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
+use Symfony\Component\VarDumper\VarDumper;
 
 /*
  * Command :
@@ -88,7 +90,7 @@ class UserManagerComplex extends Command
      * @param EntityManagerInterface $eManager
      * @param RoleHierarchyInterface $rolesHierarchy
      */
-    public function __construct(?string $name = null, EntityManagerInterface $eManager, RoleHierarchyInterface $rolesHierarchy)
+    public function __construct(?string $name = null, EntityManagerInterface $eManager, RoleHierarchy $rolesHierarchy)
     {
         # parent constructor
         parent::__construct($name);
@@ -367,16 +369,41 @@ class UserManagerComplex extends Command
         # init roles
         $roles = [];
 
+        VarDumper::dump($this->rolesHierarchy->getRolesHierarchy());
+
+        foreach ($this->rolesHierarchy->getRolesHierarchy() as $k => $v){
+            $roles[] = $k;
+        }
+
+        //VarDumper::dump($this->rolesHierarchy->getReachableRoles((array)$this->rolesHierarchy));
+
+        //$tmp = $this->rolesHierarchy;
+
+
         # parse all available roles
+        /*
         array_walk_recursive(
-            $this->rolesHierarchy,
+            $this->rolesHierarchy->getRoles(),
             function ($val,$key) use (&$roles) {
                 //$roles[] = $key;
-                $roles[] = $val;
+                $roles[$key] = $val;
 
                 echo $key." - " . $val."\n";
 
             });
+
+
+        VarDumper::dump("=======>");
+        foreach ($this->rolesHierarchy->getRoles() as $k => $v){
+
+            VarDumper::dump($k);
+            VarDumper::dump($v);
+        }
+        VarDumper::dump("<=======");
+
+        //VarDumper::dump($roles);
+        */
+        exit();
 
         # set roles
         return array_unique($roles);
